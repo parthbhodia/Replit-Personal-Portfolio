@@ -1,7 +1,14 @@
-import React from "react";
-import { createRoot } from "react-dom/client";
-import App from "./App";
-import "./index.css";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { Router } from './App';
+import './index.css';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { queryClient } from './lib/queryClient';
 
-// Match the div id in index.html which is "app" not "root"
-createRoot(document.getElementById("app")!).render(<App />);
+ReactDOM.createRoot(document.getElementById('app')!).render(
+  <React.StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <Router />
+    </QueryClientProvider>
+  </React.StrictMode>
+);

@@ -1,5 +1,7 @@
 <template>
-  <router-view />
+  <div id="vue-app">
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
@@ -7,3 +9,13 @@ export default {
   name: 'App'
 }
 </script>
+
+<style>
+#vue-app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  width: 100%;
+  height: 100%;
+}
+</style>
