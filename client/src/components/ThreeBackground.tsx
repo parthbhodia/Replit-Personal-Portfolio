@@ -2,78 +2,127 @@ import React, { useRef, useEffect } from 'react';
 import * as THREE from 'three';
 
 export default function ThreeBackground() {
-  const mountRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const mousePosition = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+  const isDarkMode = useRef<boolean>(false);
   
   useEffect(() => {
-    // Create scene, camera, and renderer
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    // Initialize Three.js scene
+    if (!containerRef.current) return;
     
+    // Scene setup
+    const scene = new THREE.Scene();
+    
+    // Set up camera
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      1000
+    );
+    camera.position.z = 30;
+    
+    // Renderer
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
+    containerRef.current.appendChild(renderer.domElement);
     
-    // Add renderer to the DOM
-    if (mountRef.current) {
-      mountRef.current.appendChild(renderer.domElement);
-    }
+    // Get initial dark mode
+    isDarkMode.current = document.documentElement.classList.contains('dark');
+    
+    // Particle material color based on theme
+    const getParticleColor = () => {
+      return isDarkMode.current ? 0x22c55e : 0x10b981; // Green shades
+    };
     
     // Create particles
     const particlesGeometry = new THREE.BufferGeometry();
-    const particlesCount = 1500;
+    const particlesCount = 1000;
     
-    const posArray = new Float32Array(particlesCount * 3);
+    // Initialize particle positions
+    const positions = new Float32Array(particlesCount * 3);
+    const scales = new Float32Array(particlesCount);
     
-    // Create random positions for particles
-    for (let i = 0; i < particlesCount * 3; i++) {
-      posArray[i] = (Math.random() - 0.5) * 10;
+    // Generate random positions and scales
+    for (let i = 0; i < particlesCount; i++) {
+      // Random positions across the entire scene
+      positions[i * 3] = (Math.random() - 0.5) * 100; // x
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 100; // y
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 100; // z
+      
+      // Random scales for varied particle sizes
+      scales[i] = Math.random() * 2.0;
     }
     
-    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+    // Set the position attribute
+    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    particlesGeometry.setAttribute('scale', new THREE.BufferAttribute(scales, 1));
     
-    // Create particle material
+    // Particle material
     const particlesMaterial = new THREE.PointsMaterial({
-      size: 0.01,
-      color: 0x4ADE80, // Green color for particles
+      color: getParticleColor(),
+      size: 0.1,
       transparent: true,
-      opacity: 0.5,
-      blending: THREE.AdditiveBlending
+      opacity: 0.8,
+      sizeAttenuation: true
     });
     
     // Create the particle system
-    const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-    scene.add(particlesMesh);
+    const particles = new THREE.Points(particlesGeometry, particlesMaterial);
+    scene.add(particles);
     
-    // Position camera
-    camera.position.z = 4;
-    
-    // Mouse movement effect
-    let mouseX = 0;
-    let mouseY = 0;
-    
-    function onDocumentMouseMove(event: MouseEvent) {
-      mouseX = (event.clientX - window.innerWidth / 2) * 0.0005;
-      mouseY = (event.clientY - window.innerHeight / 2) * 0.0005;
-    }
-    
-    document.addEventListener('mousemove', onDocumentMouseMove);
-    
-    // Animation loop
+    // Animation function
+    let frame = 0;
     const animate = () => {
       requestAnimationFrame(animate);
       
-      // Rotate particles
-      particlesMesh.rotation.y += 0.002;
-      particlesMesh.rotation.x += 0.001;
+      // Rotate the particle system slowly
+      particles.rotation.x += 0.0001;
+      particles.rotation.y += 0.0001;
       
-      // Follow mouse
-      particlesMesh.rotation.y += mouseX * 0.5;
-      particlesMesh.rotation.x += mouseY * 0.5;
+      // Add movement based on mouse position
+      particles.rotation.x += (mousePosition.current.y * 0.00005);
+      particles.rotation.y += (mousePosition.current.x * 0.00005);
+      
+      // Check if theme has changed
+      const currentIsDark = document.documentElement.classList.contains('dark');
+      if (currentIsDark !== isDarkMode.current) {
+        isDarkMode.current = currentIsDark;
+        (particlesMaterial as THREE.PointsMaterial).color.set(getParticleColor());
+      }
+      
+      // Pulsing effect with time
+      frame += 0.01;
+      const positions = particlesGeometry.attributes.position.array as Float32Array;
+      const scales = particlesGeometry.attributes.scale.array as Float32Array;
+      
+      for (let i = 0; i < particlesCount; i++) {
+        const i3 = i * 3;
+        const x = positions[i3];
+        const y = positions[i3 + 1];
+        const z = positions[i3 + 2];
+        
+        // Add slight movement to particles
+        positions[i3] = x + Math.sin(frame + i) * 0.01;
+        positions[i3 + 1] = y + Math.cos(frame + i) * 0.01;
+        
+        // Pulse the particle sizes
+        scales[i] = Math.abs(Math.sin(frame + i) * 1.5) + 0.5;
+      }
+      
+      particlesGeometry.attributes.position.needsUpdate = true;
+      particlesGeometry.attributes.scale.needsUpdate = true;
       
       renderer.render(scene, camera);
     };
     
-    animate();
+    // Handle mouse movement
+    function onDocumentMouseMove(event: MouseEvent) {
+      // Normalize mouse coordinates
+      mousePosition.current.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mousePosition.current.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    }
     
     // Handle window resize
     const handleResize = () => {
@@ -82,27 +131,28 @@ export default function ThreeBackground() {
       renderer.setSize(window.innerWidth, window.innerHeight);
     };
     
-    window.addEventListener('resize', handleResize);
+    // Start animation
+    animate();
     
-    // Clean up
+    // Add event listeners
+    window.addEventListener('resize', handleResize);
+    document.addEventListener('mousemove', onDocumentMouseMove);
+    
+    // Cleanup function
     return () => {
       window.removeEventListener('resize', handleResize);
       document.removeEventListener('mousemove', onDocumentMouseMove);
-      if (mountRef.current) {
-        mountRef.current.removeChild(renderer.domElement);
+      renderer.dispose();
+      if (containerRef.current && containerRef.current.contains(renderer.domElement)) {
+        containerRef.current.removeChild(renderer.domElement);
       }
-      
-      particlesGeometry.dispose();
-      particlesMaterial.dispose();
-      scene.remove(particlesMesh);
     };
   }, []);
   
   return (
     <div 
-      ref={mountRef} 
-      className="fixed top-0 left-0 w-full h-full -z-10"
-      style={{ pointerEvents: 'none' }}
+      ref={containerRef} 
+      className="fixed top-0 left-0 w-full h-full z-0 pointer-events-none opacity-60 dark:opacity-80"
     />
   );
 }

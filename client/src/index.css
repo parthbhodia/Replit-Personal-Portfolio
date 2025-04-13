@@ -9,5 +9,94 @@
 
   body {
     @apply font-sans antialiased bg-background text-foreground;
+    scroll-behavior: smooth;
   }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Custom cursor */
+  body {
+    cursor: none;
+  }
+}
+
+/* Typewriter cursor animation */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.animate-blink {
+  animation: blink 1s infinite;
+}
+
+/* Custom animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes pulse-light {
+  0%, 100% { box-shadow: 0 0 25px 5px rgba(74, 222, 128, 0.2); }
+  50% { box-shadow: 0 0 25px 5px rgba(74, 222, 128, 0.5); }
+}
+
+.animate-pulse-light {
+  animation: pulse-light 3s ease-in-out infinite;
+}
+
+/* Custom cursor */
+.custom-cursor {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: rgba(74, 222, 128, 0.5);
+  mix-blend-mode: difference;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s, background-color 0.2s;
+  z-index: 9999;
+}
+
+.custom-cursor.hover {
+  width: 40px;
+  height: 40px;
+  background-color: rgba(74, 222, 128, 0.3);
+}
+
+/* Smooth scrollbar for Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(74, 222, 128, 0.5) rgba(0, 0, 0, 0.1);
+}
+
+/* Smooth scrollbar for Chrome/Safari/Edge */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(74, 222, 128, 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(74, 222, 128, 0.7);
+}
+
+/* Glass morphism utilities */
+.glass-morphism {
+  @apply bg-white/20 dark:bg-black/20 backdrop-blur-md border border-white/20 dark:border-black/20;
 }
