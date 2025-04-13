@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { format } from 'date-fns';
 import { ChatMessage, FormData } from '../types';
+import ThreeBackground from '../components/ThreeBackground';
+import ThemeToggle from '../components/ThemeToggle';
 
 export default function Home() {
   // Skills data
@@ -180,39 +182,45 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <div className="min-h-screen bg-white dark:bg-black text-gray-900 dark:text-gray-100">
+      {/* Theme Toggle */}
+      <ThemeToggle />
+      
+      {/* Three.js Background */}
+      <ThreeBackground />
+      
       {/* Navigation */}
-      <nav className="bg-white dark:bg-gray-900 sticky top-0 z-50 shadow-md">
+      <nav className="bg-white/90 dark:bg-black/90 backdrop-blur-sm sticky top-0 z-50 shadow-md">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="text-xl font-bold bg-gradient-to-r from-blue-500 to-blue-700 text-transparent bg-clip-text">
+          <div className="text-xl font-bold bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text">
             Alex Chen
           </div>
           <div className="flex space-x-6">
-            <a href="#about" className="font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors">About</a>
-            <a href="#skills" className="font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Skills</a>
-            <a href="#projects" className="font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Projects</a>
-            <a href="#contact" className="font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Contact</a>
+            <a href="#about" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">About</a>
+            <a href="#skills" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">Skills</a>
+            <a href="#projects" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">Projects</a>
+            <a href="#contact" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">Contact</a>
           </div>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section className="py-20">
+      <section className="py-20 relative">
         <div className="container mx-auto px-4 flex flex-col items-center">
-          <div className="w-32 h-32 rounded-full bg-gradient-to-r from-blue-500 to-blue-700 flex items-center justify-center text-4xl text-white mb-8">
+          <div className="w-32 h-32 rounded-full bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 flex items-center justify-center text-4xl text-white mb-8 shadow-lg">
             AC
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-center mb-4">
-            Hi, I'm <span className="bg-gradient-to-r from-blue-500 to-blue-700 text-transparent bg-clip-text">Alex Chen</span>
+            Hi, I'm <span className="bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text">Alex Chen</span>
           </h1>
-          <p className="text-xl md:text-2xl text-center text-gray-600 dark:text-gray-400 max-w-2xl mb-8">
+          <p className="text-xl md:text-2xl text-center text-gray-600 dark:text-gray-300 max-w-2xl mb-8 z-10 backdrop-blur-sm py-2 px-4 rounded-lg bg-white/10 dark:bg-black/10">
             Full Stack Developer specializing in JavaScript, Vue.js, and React
           </p>
-          <div className="flex space-x-4">
-            <a href="#contact" className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+          <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+            <a href="#contact" className="px-6 py-3 bg-green-600 dark:bg-green-500 text-white rounded-md hover:bg-green-700 dark:hover:bg-green-600 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-1">
               Get in Touch
             </a>
-            <a href="#projects" className="px-6 py-3 border border-blue-600 text-blue-600 dark:border-blue-500 dark:text-blue-500 rounded-md hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors">
+            <a href="#projects" className="px-6 py-3 border-2 border-green-600 dark:border-green-500 text-green-600 dark:text-green-500 rounded-md hover:bg-green-600/10 dark:hover:bg-green-500/10 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-1">
               View Projects
             </a>
           </div>
@@ -220,10 +228,12 @@ export default function Home() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-20 bg-gray-50 dark:bg-gray-800">
+      <section id="about" className="py-20 bg-gray-50 dark:bg-gray-900/40 backdrop-blur-sm">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-12 text-center">About Me</h2>
-          <div className="max-w-3xl mx-auto text-gray-700 dark:text-gray-300 space-y-4">
+          <h2 className="text-3xl font-bold mb-12 text-center relative">
+            <span className="bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text">About Me</span>
+          </h2>
+          <div className="max-w-3xl mx-auto text-gray-700 dark:text-gray-300 space-y-4 bg-white/80 dark:bg-black/40 p-6 rounded-lg shadow-md backdrop-blur-sm">
             <p>
               I'm a full stack developer with over 5 years of experience building modern web applications.
               I specialize in JavaScript technologies, with expertise in both Vue.js and React on the
@@ -244,16 +254,18 @@ export default function Home() {
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="py-20">
+      <section id="skills" className="py-20 relative">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-12 text-center">My Skills</h2>
+          <h2 className="text-3xl font-bold mb-12 text-center">
+            <span className="bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text">My Skills</span>
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {skills.map((skill, index) => (
-              <div key={index} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-                <h3 className="font-medium mb-2">{skill.name}</h3>
+              <div key={index} className="bg-white/90 dark:bg-black/40 backdrop-blur-sm p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-800 hover:shadow-lg transition-shadow">
+                <h3 className="font-medium mb-2 text-gray-800 dark:text-gray-200">{skill.name}</h3>
                 <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
                   <div 
-                    className="bg-blue-600 h-2.5 rounded-full" 
+                    className="bg-gradient-to-r from-green-500 to-green-600 dark:from-green-400 dark:to-green-500 h-2.5 rounded-full" 
                     style={{ width: `${skill.level}%` }}
                   ></div>
                 </div>
