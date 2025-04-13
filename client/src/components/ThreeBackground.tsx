@@ -33,7 +33,7 @@ export default function ThreeBackground() {
     
     // Particle material color based on theme
     const getParticleColor = () => {
-      return isDarkMode.current ? 0x22c55e : 0x10b981; // Green shades
+      return isDarkMode.current ? 0x4ade80 : 0x10b981; // Brighter green for dark mode
     };
     
     // Create particles
@@ -62,9 +62,9 @@ export default function ThreeBackground() {
     // Particle material
     const particlesMaterial = new THREE.PointsMaterial({
       color: getParticleColor(),
-      size: 0.1,
+      size: 0.15,
       transparent: true,
-      opacity: 0.8,
+      opacity: 0.9,
       sizeAttenuation: true
     });
     
@@ -152,7 +152,7 @@ export default function ThreeBackground() {
   return (
     <div 
       ref={containerRef} 
-      className="fixed top-0 left-0 w-full h-full z-0 pointer-events-none opacity-60 dark:opacity-80"
+      className="fixed top-0 left-0 w-full h-full z-0 pointer-events-none opacity-60 dark:opacity-90"
     />
   );
 }
