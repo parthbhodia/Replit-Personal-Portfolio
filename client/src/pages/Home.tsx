@@ -285,24 +285,37 @@ export default function Home() {
       {/* Skills Section */}
       <section id="skills" className="py-20 relative">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-12 text-center">
-            <span className="bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text">My Skills</span>
-          </h2>
+          <ParallaxSection speed={0.1}>
+            <h2 className="text-3xl font-bold mb-12 text-center">
+              <span className="bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text">My Skills</span>
+            </h2>
+          </ParallaxSection>
+          
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {skills.map((skill, index) => (
-              <div key={index} className="bg-white/90 dark:bg-black/40 backdrop-blur-sm p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-800 hover:shadow-lg transition-shadow">
-                <h3 className="font-medium mb-2 text-gray-800 dark:text-gray-200">{skill.name}</h3>
-                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-                  <div 
-                    className="bg-gradient-to-r from-green-500 to-green-600 dark:from-green-400 dark:to-green-500 h-2.5 rounded-full" 
-                    style={{ width: `${skill.level}%` }}
-                  ></div>
+              <ParallaxSection key={index} speed={0.05 * (index % 3 + 1)} className="transform transition-all duration-500 hover:translate-y-[-5px]">
+                <div className="bg-white/90 dark:bg-black/40 backdrop-blur-sm p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-800 hover:shadow-xl transition-all duration-500 group">
+                  <h3 className="font-medium mb-3 text-gray-800 dark:text-gray-200 flex items-center justify-between">
+                    <span className="text-lg group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">{skill.name}</span>
+                    <span className="text-xl font-bold bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text">{skill.level}%</span>
+                  </h3>
+                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 overflow-hidden">
+                    <div 
+                      className="bg-gradient-to-r from-green-500 to-green-600 dark:from-green-400 dark:to-green-500 h-3 rounded-full" 
+                      style={{ 
+                        width: '0%', 
+                        animation: `skillProgress 1.5s ease-out forwards ${index * 0.2}s`,
+                        animationFillMode: 'forwards',
+                        maxWidth: `${skill.level}%`
+                      }}
+                    ></div>
+                  </div>
+                  <div className="flex justify-between mt-2 text-sm text-gray-500 dark:text-gray-400">
+                    <span>Beginner</span>
+                    <span>Expert</span>
+                  </div>
                 </div>
-                <div className="flex justify-between mt-1 text-sm text-gray-500 dark:text-gray-400">
-                  <span>Beginner</span>
-                  <span>Expert</span>
-                </div>
-              </div>
+              </ParallaxSection>
             ))}
           </div>
         </div>

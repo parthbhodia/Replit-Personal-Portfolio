@@ -100,3 +100,14 @@
 .glass-morphism {
   @apply bg-white/20 dark:bg-black/20 backdrop-blur-md border border-white/20 dark:border-black/20;
 }
+
+/* Skills progress animation */
+@keyframes skillProgress {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+.skill-progress {
+  width: 0%;
+  animation: skillProgress 1.5s ease-out forwards;
+}
