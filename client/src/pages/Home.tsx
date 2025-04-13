@@ -419,17 +419,18 @@ export default function Home() {
           </div>
           
           <ParallaxSection speed={0.1}>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div key={selectedCategory} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {projects
                 .filter(project => selectedCategory === 'All' || project.category === selectedCategory)
                 .map((project, index) => (
                   <AnimatedProjectCard 
-                    key={index}
+                    key={`${selectedCategory}-${index}`}
                     title={project.title}
                     description={project.description}
                     tags={project.tags}
                     liveUrl={project.liveUrl}
                     codeUrl={project.codeUrl}
+                    index={index}
                   />
               ))}
             </div>

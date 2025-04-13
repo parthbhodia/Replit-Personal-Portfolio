@@ -6,6 +6,7 @@ interface ProjectCardProps {
   tags: string[];
   liveUrl: string;
   codeUrl: string;
+  index?: number;
 }
 
 export default function AnimatedProjectCard({ 
@@ -13,7 +14,8 @@ export default function AnimatedProjectCard({
   description, 
   tags, 
   liveUrl, 
-  codeUrl 
+  codeUrl,
+  index = 0
 }: ProjectCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -50,6 +52,23 @@ export default function AnimatedProjectCard({
     setPosition({ x: 0, y: 0 });
   };
 
+  // This effect adds a new animation when the component is rendered
+  useEffect(() => {
+    if (cardRef.current) {
+      cardRef.current.classList.add('project-card-enter');
+      cardRef.current.style.animationDelay = `${index * 0.1}s`;
+    }
+    
+    // Cleanup animation classes after animation completes
+    const timeout = setTimeout(() => {
+      if (cardRef.current) {
+        cardRef.current.classList.remove('project-card-enter');
+      }
+    }, 1000);
+    
+    return () => clearTimeout(timeout);
+  }, [index]);
+  
   return (
     <div
       ref={cardRef}
@@ -59,7 +78,8 @@ export default function AnimatedProjectCard({
       className="relative h-96 bg-white/90 dark:bg-black/60 rounded-xl shadow-lg overflow-hidden transform transition-all duration-200 ease-out hover:shadow-xl hover:scale-[1.02]"
       style={{
         transform: `perspective(1000px) rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) translate3d(${position.x}px, ${position.y}px, 0)`,
-        transformStyle: 'preserve-3d'
+        transformStyle: 'preserve-3d',
+        opacity: 0 // Start with opacity 0, the animation will bring it to 1
       }}
     >
       {/* Card Header with Title */}
