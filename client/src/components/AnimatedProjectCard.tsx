@@ -78,8 +78,7 @@ export default function AnimatedProjectCard({
       className="relative h-96 bg-white/90 dark:bg-black/60 rounded-xl shadow-lg overflow-hidden transform transition-all duration-200 ease-out hover:shadow-xl hover:scale-[1.02]"
       style={{
         transform: `perspective(1000px) rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) translate3d(${position.x}px, ${position.y}px, 0)`,
-        transformStyle: 'preserve-3d',
-        opacity: 0 // Start with opacity 0, the animation will bring it to 1
+        transformStyle: 'preserve-3d'
       }}
     >
       {/* Card Header with Title */}

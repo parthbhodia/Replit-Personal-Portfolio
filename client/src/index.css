@@ -179,4 +179,5 @@
 
 .project-card-enter {
   animation: projectCardEnter 0.5s ease-out forwards;
+  opacity: 0;
 }
