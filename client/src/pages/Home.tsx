@@ -301,11 +301,9 @@ export default function Home() {
                   </h3>
                   <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 overflow-hidden">
                     <div 
-                      className="bg-gradient-to-r from-green-500 to-green-600 dark:from-green-400 dark:to-green-500 h-3 rounded-full" 
+                      className="skill-progress h-3 rounded-full" 
                       style={{ 
-                        width: '0%', 
-                        animation: `skillProgress 1.5s ease-out forwards ${index * 0.2}s`,
-                        animationFillMode: 'forwards',
+                        animationDelay: `${index * 0.2}s`,
                         maxWidth: `${skill.level}%`
                       }}
                     ></div>
