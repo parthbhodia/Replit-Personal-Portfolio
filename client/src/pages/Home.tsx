@@ -22,30 +22,105 @@ export default function Home() {
     { name: 'UI/UX Design', level: 80 }
   ];
 
-  // Projects data
+  // Projects data with categories
   const projects = [
     {
       title: 'E-commerce Platform',
       description: 'A fully functional online store with payment integration and inventory management.',
       tags: ['Vue.js', 'Node.js', 'MongoDB', 'Stripe'],
+      category: 'Web App',
       liveUrl: '#',
-      codeUrl: '#'
+      codeUrl: '#',
+      featured: true
     },
     {
       title: 'Task Management App',
       description: 'A collaborative task management tool for teams with real-time updates.',
       tags: ['React', 'Firebase', 'Material UI'],
+      category: 'Web App',
       liveUrl: '#',
-      codeUrl: '#'
+      codeUrl: '#',
+      featured: true
     },
     {
       title: 'Weather Dashboard',
       description: 'A weather application showing forecasts and historical data with interactive charts.',
       tags: ['JavaScript', 'Chart.js', 'API Integration'],
+      category: 'Web App',
       liveUrl: '#',
-      codeUrl: '#'
+      codeUrl: '#',
+      featured: true
+    },
+    {
+      title: 'Portfolio Website',
+      description: 'A responsive portfolio website showcasing my skills, projects, and experience with interactive elements.',
+      tags: ['React', 'Three.js', 'Tailwind CSS'],
+      category: 'Web App',
+      liveUrl: '#',
+      codeUrl: '#',
+      featured: false
+    },
+    {
+      title: 'AI Image Generator',
+      description: 'An application that uses machine learning to generate unique images based on text prompts.',
+      tags: ['Python', 'TensorFlow', 'React'],
+      category: 'AI/ML',
+      liveUrl: '#',
+      codeUrl: '#',
+      featured: true
+    },
+    {
+      title: 'Crypto Price Tracker',
+      description: 'Real-time cryptocurrency price tracking application with price alerts and portfolio management.',
+      tags: ['React', 'Node.js', 'WebSockets'],
+      category: 'Web App',
+      liveUrl: '#',
+      codeUrl: '#',
+      featured: false
+    },
+    {
+      title: 'Mobile Fitness App',
+      description: 'A mobile application for tracking workouts, setting fitness goals, and monitoring progress over time.',
+      tags: ['React Native', 'Firebase', 'HealthKit'],
+      category: 'Mobile App',
+      liveUrl: '#',
+      codeUrl: '#',
+      featured: true
+    },
+    {
+      title: 'Smart Home Dashboard',
+      description: 'An IoT dashboard for controlling and monitoring smart home devices with automation capabilities.',
+      tags: ['React', 'Node.js', 'MQTT', 'IoT'],
+      category: 'IoT',
+      liveUrl: '#',
+      codeUrl: '#',
+      featured: false
+    },
+    {
+      title: 'Stock Trading Bot',
+      description: 'An automated trading bot that uses algorithms and technical analysis to make stock trading decisions.',
+      tags: ['Python', 'Machine Learning', 'API Integration'],
+      category: 'AI/ML',
+      liveUrl: '#',
+      codeUrl: '#',
+      featured: false
+    },
+    {
+      title: 'Social Media Analytics',
+      description: 'A dashboard for analyzing social media performance metrics and audience engagement.',
+      tags: ['React', 'D3.js', 'API Integration'],
+      category: 'Data Visualization',
+      liveUrl: '#',
+      codeUrl: '#',
+      featured: false
     }
   ];
+  
+  // Project categories
+  const categories = ['All', 'Web App', 'Mobile App', 'AI/ML', 'IoT', 'Data Visualization'];
+  
+  // Selected category state
+  const [selectedCategory, setSelectedCategory] = useState('All');
 
   // Contact form state
   const [contactForm, setContactForm] = useState<FormData>({
@@ -322,23 +397,49 @@ export default function Home() {
       {/* Projects Section */}
       <section id="projects" className="py-20 bg-gray-50/80 dark:bg-gray-900/30 backdrop-blur-sm">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-12 text-center">
-            <span className="bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text">Featured Projects</span>
+          <h2 className="text-3xl font-bold mb-8 text-center">
+            <span className="bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text">My Projects</span>
           </h2>
+          
+          {/* Category Tabs */}
+          <div className="flex justify-center flex-wrap gap-2 mb-12">
+            {categories.map((category, index) => (
+              <button
+                key={index}
+                onClick={() => setSelectedCategory(category)}
+                className={`px-4 py-2 rounded-full transition-all duration-300 ${
+                  selectedCategory === category
+                    ? 'bg-green-500 dark:bg-green-600 text-white shadow-lg category-tab-active' 
+                    : 'bg-white/70 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300 hover:bg-green-100 dark:hover:bg-green-900/30 hover:shadow-md'
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
           
           <ParallaxSection speed={0.1}>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {projects.map((project, index) => (
-                <AnimatedProjectCard 
-                  key={index}
-                  title={project.title}
-                  description={project.description}
-                  tags={project.tags}
-                  liveUrl={project.liveUrl}
-                  codeUrl={project.codeUrl}
-                />
+              {projects
+                .filter(project => selectedCategory === 'All' || project.category === selectedCategory)
+                .map((project, index) => (
+                  <AnimatedProjectCard 
+                    key={index}
+                    title={project.title}
+                    description={project.description}
+                    tags={project.tags}
+                    liveUrl={project.liveUrl}
+                    codeUrl={project.codeUrl}
+                  />
               ))}
             </div>
+            
+            {/* No Projects Message */}
+            {projects.filter(project => selectedCategory === 'All' || project.category === selectedCategory).length === 0 && (
+              <div className="text-center py-20 text-gray-500 dark:text-gray-400">
+                <p className="text-xl">No projects found in this category.</p>
+              </div>
+            )}
           </ParallaxSection>
         </div>
       </section>
