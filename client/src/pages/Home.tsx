@@ -279,6 +279,7 @@ export default function Home() {
             Alex Chen
           </div>
           <div className="flex space-x-6">
+            <a href="#companies" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">Companies</a>
             <a href="#about" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">About</a>
             <a href="#skills" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">Skills</a>
             <a href="#projects" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">Projects</a>
@@ -326,8 +327,51 @@ export default function Home() {
               <a href="#projects" className="px-6 py-3 border-2 border-green-600 dark:border-green-500 text-green-600 dark:text-green-500 rounded-md hover:bg-green-600/10 dark:hover:bg-green-500/10 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-1">
                 View Projects
               </a>
+              <a href="/resume.pdf" download className="px-6 py-3 bg-gray-600 dark:bg-gray-700 text-white rounded-md hover:bg-gray-700 dark:hover:bg-gray-800 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-1 flex items-center">
+                <span>Download Resume</span>
+                <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+              </a>
             </div>
           </ParallaxSection>
+        </div>
+      </section>
+
+      {/* Companies Section */}
+      <section id="companies" className="py-20">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold mb-12 text-center">
+            <span className="bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text">Companies I've Worked With</span>
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="bg-white/90 dark:bg-black/40 p-6 rounded-lg shadow-lg backdrop-blur-sm transform transition-all duration-500 hover:scale-105">
+              <div className="h-16 flex items-center justify-center mb-4">
+                <img src="/company1-logo.png" alt="Google" className="max-h-full" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2 text-center">Google</h3>
+              <p className="text-gray-600 dark:text-gray-400 text-center">Senior Frontend Developer</p>
+              <p className="text-sm text-gray-500 dark:text-gray-500 text-center">2020 - Present</p>
+            </div>
+            
+            <div className="bg-white/90 dark:bg-black/40 p-6 rounded-lg shadow-lg backdrop-blur-sm transform transition-all duration-500 hover:scale-105">
+              <div className="h-16 flex items-center justify-center mb-4">
+                <img src="/company2-logo.png" alt="Microsoft" className="max-h-full" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2 text-center">Microsoft</h3>
+              <p className="text-gray-600 dark:text-gray-400 text-center">Full Stack Developer</p>
+              <p className="text-sm text-gray-500 dark:text-gray-500 text-center">2018 - 2020</p>
+            </div>
+            
+            <div className="bg-white/90 dark:bg-black/40 p-6 rounded-lg shadow-lg backdrop-blur-sm transform transition-all duration-500 hover:scale-105">
+              <div className="h-16 flex items-center justify-center mb-4">
+                <img src="/company3-logo.png" alt="Amazon" className="max-h-full" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2 text-center">Amazon</h3>
+              <p className="text-gray-600 dark:text-gray-400 text-center">Software Engineer</p>
+              <p className="text-sm text-gray-500 dark:text-gray-500 text-center">2016 - 2018</p>
+            </div>
+          </div>
         </div>
       </section>
 
