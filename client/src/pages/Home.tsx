@@ -1,3 +1,6 @@
+
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../components/ui/dialog";
+
 import React, { useState, useRef, useEffect } from 'react';
 import { format } from 'date-fns';
 import { ChatMessage, FormData } from '../types';
@@ -344,32 +347,66 @@ export default function Home() {
           <h2 className="text-3xl font-bold mb-12 text-center">
             <span className="bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text">Companies I've Worked With</span>
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="bg-white/90 dark:bg-black/40 p-6 rounded-lg shadow-lg backdrop-blur-sm transform transition-all duration-500 hover:scale-105">
-              <div className="h-16 flex items-center justify-center mb-4">
-                <img src="/company1-logo.png" alt="Google" className="max-h-full" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2 text-center">Google</h3>
-              <p className="text-gray-600 dark:text-gray-400 text-center">Senior Frontend Developer</p>
-              <p className="text-sm text-gray-500 dark:text-gray-500 text-center">2020 - Present</p>
-            </div>
-            
-            <div className="bg-white/90 dark:bg-black/40 p-6 rounded-lg shadow-lg backdrop-blur-sm transform transition-all duration-500 hover:scale-105">
-              <div className="h-16 flex items-center justify-center mb-4">
-                <img src="/company2-logo.png" alt="Microsoft" className="max-h-full" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2 text-center">Microsoft</h3>
-              <p className="text-gray-600 dark:text-gray-400 text-center">Full Stack Developer</p>
-              <p className="text-sm text-gray-500 dark:text-gray-500 text-center">2018 - 2020</p>
-            </div>
-            
-            <div className="bg-white/90 dark:bg-black/40 p-6 rounded-lg shadow-lg backdrop-blur-sm transform transition-all duration-500 hover:scale-105">
-              <div className="h-16 flex items-center justify-center mb-4">
-                <img src="/company3-logo.png" alt="Amazon" className="max-h-full" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2 text-center">Amazon</h3>
-              <p className="text-gray-600 dark:text-gray-400 text-center">Software Engineer</p>
-              <p className="text-sm text-gray-500 dark:text-gray-500 text-center">2016 - 2018</p>
+          <div className="overflow-x-auto pb-4">
+            <div className="flex gap-6 min-w-max px-4">
+              {[
+                {
+                  name: 'Google',
+                  logo: 'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png',
+                  role: 'Senior Frontend Developer',
+                  period: '2020 - Present',
+                  description: 'Led development of key features in Google Cloud Platform, improving developer experience and reducing deployment time by 40%. Implemented real-time collaboration features using WebSocket technology.'
+                },
+                {
+                  name: 'Microsoft',
+                  logo: 'https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE1Mu3b?ver=5c31',
+                  role: 'Full Stack Developer',
+                  period: '2018 - 2020',
+                  description: 'Developed and maintained core components of Microsoft Teams, focusing on performance optimization and accessibility. Created scalable backend services using Node.js and Azure.'
+                },
+                {
+                  name: 'Amazon',
+                  logo: 'https://logos-world.net/wp-content/uploads/2020/04/Amazon-Logo.png',
+                  role: 'Software Engineer',
+                  period: '2016 - 2018',
+                  description: 'Worked on Amazon Prime Video streaming infrastructure, implementing efficient content delivery solutions. Reduced loading times by 30% through innovative caching strategies.'
+                },
+                {
+                  name: 'Meta',
+                  logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Meta_Platforms_Inc._logo.svg/1200px-Meta_Platforms_Inc._logo.svg.png',
+                  role: 'Frontend Engineer',
+                  period: '2015 - 2016',
+                  description: 'Contributed to React core team, developing and maintaining key features. Implemented performance monitoring tools used across Meta products.'
+                }
+              ].map((company, index) => (
+                <Dialog key={index}>
+                  <DialogTrigger asChild>
+                    <div className="bg-white/90 dark:bg-black/40 p-6 rounded-lg shadow-lg backdrop-blur-sm transform transition-all duration-500 hover:scale-105 cursor-pointer w-72">
+                      <div className="h-16 flex items-center justify-center mb-4">
+                        <img src={company.logo} alt={company.name} className="max-h-full object-contain" />
+                      </div>
+                      <h3 className="text-xl font-semibold mb-2 text-center">{company.name}</h3>
+                      <p className="text-gray-600 dark:text-gray-400 text-center">{company.role}</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-500 text-center">{company.period}</p>
+                    </div>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                      <DialogTitle className="flex items-center gap-2">
+                        <img src={company.logo} alt={company.name} className="h-8 object-contain" />
+                        <span>{company.name}</span>
+                      </DialogTitle>
+                      <DialogDescription className="pt-4">
+                        <div className="mb-4">
+                          <p className="font-semibold text-green-600 dark:text-green-400">{company.role}</p>
+                          <p className="text-sm text-gray-500">{company.period}</p>
+                        </div>
+                        <p className="text-gray-700 dark:text-gray-300">{company.description}</p>
+                      </DialogDescription>
+                    </DialogHeader>
+                  </DialogContent>
+                </Dialog>
+              ))}
             </div>
           </div>
         </div>
