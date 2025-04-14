@@ -430,6 +430,7 @@ export default function Home() {
             </svg>
           </button>
         </div>
+        </div>
       </section>
 
       {/* About Section */}
