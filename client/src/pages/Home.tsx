@@ -19,20 +19,23 @@ export default function Home() {
             <AnimatedProjectCard
               title="Project 1"
               description="Description of project 1"
-              imageUrl="/project1.jpg"
-              link="/project1"
+              tags={["React", "TypeScript", "Tailwind"]}
+              liveUrl="/project1"
+              codeUrl="https://github.com/project1"
             />
             <AnimatedProjectCard
               title="Project 2"
               description="Description of project 2"
-              imageUrl="/project2.jpg"
-              link="/project2"
+              tags={["Node.js", "Express", "MongoDB"]}
+              liveUrl="/project2"
+              codeUrl="https://github.com/project2"
             />
             <AnimatedProjectCard
               title="Project 3"
               description="Description of project 3"
-              imageUrl="/project3.jpg"
-              link="/project3"
+              tags={["Next.js", "PostgreSQL", "GraphQL"]}
+              liveUrl="/project3"
+              codeUrl="https://github.com/project3"
             />
           </div>
         </div>
