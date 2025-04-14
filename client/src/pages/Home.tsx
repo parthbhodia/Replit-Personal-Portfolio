@@ -346,8 +346,9 @@ export default function Home() {
           <h2 className="text-3xl font-bold mb-12 text-center">
             <span className="bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text">Companies I've Worked With</span>
           </h2>
-          <div className="overflow-x-auto animate-scroll pb-4 relative">
-            <div className="flex gap-6 min-w-max px-4">
+          <div className="relative">
+            <div className="overflow-x-auto animate-scroll pb-4 px-12">
+              <div className="flex gap-6 min-w-max animate-loop">
               {[
                 {
                   name: 'Google',
@@ -410,9 +411,16 @@ export default function Home() {
           <button 
             onClick={() => {
               const container = document.querySelector('.animate-scroll');
-              if (container) container.scrollLeft -= 300;
+              if (container) {
+                const scrollAmount = container.scrollLeft - 300;
+                container.scrollTo({
+                  left: scrollAmount,
+                  behavior: 'smooth'
+                });
+              }
             }}
             className="absolute left-0 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-gray-900/80 p-2 rounded-full shadow-lg z-10 hover:bg-white dark:hover:bg-gray-900 transition-all"
+            style={{ transform: 'translateY(-50%)' }}
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -421,9 +429,16 @@ export default function Home() {
           <button 
             onClick={() => {
               const container = document.querySelector('.animate-scroll');
-              if (container) container.scrollLeft += 300;
+              if (container) {
+                const scrollAmount = container.scrollLeft + 300;
+                container.scrollTo({
+                  left: scrollAmount,
+                  behavior: 'smooth'
+                });
+              }
             }}
             className="absolute right-0 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-gray-900/80 p-2 rounded-full shadow-lg z-10 hover:bg-white dark:hover:bg-gray-900 transition-all"
+            style={{ transform: 'translateY(-50%)' }}
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
