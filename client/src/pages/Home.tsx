@@ -1,5 +1,4 @@
-
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from "../components/ui/dialog";
 
 import React, { useState, useRef, useEffect } from 'react';
 import { format } from 'date-fns';
@@ -118,10 +117,10 @@ export default function Home() {
       featured: false
     }
   ];
-  
+
   // Project categories
   const categories = ['All', 'Web App', 'Mobile App', 'AI/ML', 'IoT', 'Data Visualization'];
-  
+
   // Selected category state
   const [selectedCategory, setSelectedCategory] = useState('All');
 
@@ -159,7 +158,7 @@ export default function Home() {
     e.preventDefault();
     setSubmitting(true);
     setFormMessage('');
-    
+
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
@@ -168,9 +167,9 @@ export default function Home() {
         },
         body: JSON.stringify(contactForm)
       });
-      
+
       const data = await response.json();
-      
+
       if (response.ok) {
         setFormSuccess(true);
         setFormMessage('Your message has been sent successfully!');
@@ -217,20 +216,20 @@ export default function Home() {
   const sendChatMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!chatInput.trim()) return;
-    
+
     // Add user message
     const userMessage: ChatMessage = {
       text: chatInput,
       isUser: true,
       timestamp: new Date()
     };
-    
+
     setChatMessages(prev => [...prev, userMessage]);
-    
+
     // Store message before clearing input
     const userInputCopy = chatInput;
     setChatInput('');
-    
+
     try {
       // Send to API
       const response = await fetch('/api/chat', {
@@ -240,9 +239,9 @@ export default function Home() {
         },
         body: JSON.stringify({ message: userInputCopy })
       });
-      
+
       const data = await response.json();
-      
+
       // Add bot response
       setChatMessages(prev => [...prev, {
         text: data.response || "I'm sorry, I couldn't process your request. Please try again.",
@@ -268,13 +267,13 @@ export default function Home() {
     <div className="min-h-screen bg-white dark:bg-black text-gray-900 dark:text-gray-100">
       {/* Scroll Progress Indicator */}
       <ScrollProgress />
-      
+
       {/* Theme Toggle */}
       <ThemeToggle />
-      
+
       {/* Three.js Background */}
       <ThreeBackground />
-      
+
       {/* Navigation */}
       <nav className="bg-white/90 dark:bg-black/90 backdrop-blur-sm sticky top-0 z-50 shadow-md">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
@@ -300,13 +299,13 @@ export default function Home() {
               AC
             </div>
           </ParallaxSection>
-          
+
           <ParallaxSection speed={0.2} className="mb-4">
             <h1 className="text-4xl md:text-6xl font-bold text-center mb-4">
               Hi, I'm <span className="bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text">Alex Chen</span>
             </h1>
           </ParallaxSection>
-          
+
           <ParallaxSection speed={0.1} className="mb-8">
             <div className="text-xl md:text-2xl text-center text-gray-600 dark:text-gray-300 max-w-2xl backdrop-blur-sm py-2 px-4 rounded-lg bg-white/10 dark:bg-black/20">
               I'm a <TypewriterText 
@@ -321,7 +320,7 @@ export default function Home() {
               />
             </div>
           </ParallaxSection>
-          
+
           <ParallaxSection speed={-0.1}>
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
               <a href="#contact" className="px-6 py-3 bg-green-600 dark:bg-green-500 text-white rounded-md hover:bg-green-700 dark:hover:bg-green-600 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-1">
@@ -347,7 +346,7 @@ export default function Home() {
           <h2 className="text-3xl font-bold mb-12 text-center">
             <span className="bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text">Companies I've Worked With</span>
           </h2>
-          <div className="overflow-x-auto pb-4">
+          <div className="overflow-x-auto animate-scroll pb-4 relative">
             <div className="flex gap-6 min-w-max px-4">
               {[
                 {
@@ -408,7 +407,28 @@ export default function Home() {
                 </Dialog>
               ))}
             </div>
-          </div>
+          <button 
+            onClick={() => {
+              const container = document.querySelector('.animate-scroll');
+              if (container) container.scrollLeft -= 300;
+            }}
+            className="absolute left-0 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-gray-900/80 p-2 rounded-full shadow-lg z-10 hover:bg-white dark:hover:bg-gray-900 transition-all"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <button 
+            onClick={() => {
+              const container = document.querySelector('.animate-scroll');
+              if (container) container.scrollLeft += 300;
+            }}
+            className="absolute right-0 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-gray-900/80 p-2 rounded-full shadow-lg z-10 hover:bg-white dark:hover:bg-gray-900 transition-all"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
         </div>
       </section>
 
@@ -446,7 +466,7 @@ export default function Home() {
               <span className="bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text">My Skills</span>
             </h2>
           </ParallaxSection>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {skills.map((skill, index) => (
               <ParallaxSection key={index} speed={0.05 * (index % 3 + 1)} className="transform transition-all duration-500 hover:translate-y-[-5px]">
@@ -481,7 +501,7 @@ export default function Home() {
           <h2 className="text-3xl font-bold mb-8 text-center">
             <span className="bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text">My Projects</span>
           </h2>
-          
+
           {/* Category Tabs */}
           <div className="flex justify-center flex-wrap gap-2 mb-12">
             {categories.map((category, index) => (
@@ -498,7 +518,7 @@ export default function Home() {
               </button>
             ))}
           </div>
-          
+
           <ParallaxSection speed={0.1}>
             <div key={selectedCategory} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {projects
@@ -515,7 +535,7 @@ export default function Home() {
                   />
               ))}
             </div>
-            
+
             {/* No Projects Message */}
             {projects.filter(project => selectedCategory === 'All' || project.category === selectedCategory).length === 0 && (
               <div className="text-center py-20 text-gray-500 dark:text-gray-400">
@@ -532,7 +552,7 @@ export default function Home() {
           <h2 className="text-3xl font-bold mb-12 text-center">
             <span className="bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text">Get In Touch</span>
           </h2>
-          
+
           <ParallaxSection speed={0.05}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
               <div className="bg-white/70 dark:bg-black/50 p-6 rounded-lg shadow-md backdrop-blur-sm">
@@ -558,7 +578,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              
+
               <form onSubmit={submitContactForm} className="space-y-4 bg-white/70 dark:bg-black/50 p-6 rounded-lg shadow-md backdrop-blur-sm">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Name</label>
@@ -718,7 +738,7 @@ export default function Home() {
                 </a>
               </div>
             </div>
-            
+
             {/* Quick Links */}
             <div>
               <h4 className="text-lg font-medium mb-4 text-gray-900 dark:text-gray-100">Quick Links</h4>
@@ -745,7 +765,7 @@ export default function Home() {
                 </li>
               </ul>
             </div>
-            
+
             {/* Newsletter */}
             <div>
               <h4 className="text-lg font-medium mb-4 text-gray-900 dark:text-gray-100">Stay Updated</h4>
@@ -767,10 +787,10 @@ export default function Home() {
               </form>
             </div>
           </div>
-          
+
           {/* Divider */}
           <div className="border-t border-gray-200 dark:border-gray-800 my-8"></div>
-          
+
           {/* Copyright & Credits */}
           <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-500 dark:text-gray-400">
             <p>© {new Date().getFullYear()} Alex Chen. All rights reserved.</p>

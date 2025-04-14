@@ -1,3 +1,22 @@
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-250px * 4));
+  }
+}
+
+.animate-scroll {
+  animation: scroll 20s linear infinite;
+  min-width: max-content;
+}
+
+.animate-scroll:hover {
+  animation-play-state: paused;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
