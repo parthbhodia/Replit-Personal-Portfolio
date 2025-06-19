@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertChatHistorySchema, insertMessageSchema } from "@shared/schema";
 import { fromZodError } from "zod-validation-error";
+import { sendEmail, formatContactEmail } from "./email";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Chatbot API endpoint
@@ -49,6 +50,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Store the contact message
       const savedMessage = await storage.saveMessage(messageData);
+      
+      // Send email notification
+      const emailContent = formatContactEmail({
+        name: messageData.name,
+        email: messageData.email,
+        subject: messageData.subject,
+        message: messageData.message
+      });
+      
+      const emailSent = await sendEmail({
+        to: "parthbhodia08@gmail.com",
+        from: "noreply@replit.com", // Using Replit's verified sender
+        subject: emailContent.subject,
+        text: emailContent.text,
+        html: emailContent.html
+      });
+      
+      if (emailSent) {
+        console.log("Contact form email sent successfully");
+      }
       
       return res.status(201).json({ 
         success: true, 
