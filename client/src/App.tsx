@@ -13,14 +13,9 @@ const getInitialTheme = () => {
     if (storedTheme) {
       return storedTheme;
     }
-
-    // Check user preference
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'dark';
-    }
   }
-  // Default theme
-  return 'light';
+  // Default theme is now dark
+  return 'dark';
 };
 
 export default function App() {

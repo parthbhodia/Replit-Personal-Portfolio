@@ -10,6 +10,7 @@ import ParallaxHeader from '../components/ParallaxHeader';
 import AnimatedProjectCard from '../components/AnimatedProjectCard';
 import TypewriterText from '../components/TypewriterText';
 import ScrollProgress from '../components/ScrollProgress';
+import { Menu, X } from 'lucide-react';
 
 export default function Home() {
 
@@ -113,6 +114,9 @@ export default function Home() {
 
   // Selected category state
   const [selectedCategory, setSelectedCategory] = useState('AI/ML');
+  
+  // Mobile menu state
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Contact form state
   const [contactForm, setContactForm] = useState<FormData>({
@@ -266,17 +270,76 @@ export default function Home() {
 
       {/* Navigation */}
       <nav className="bg-white/90 dark:bg-black/90 backdrop-blur-sm sticky top-0 z-50 shadow-md">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="text-xl font-bold bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text">
-            Parth Bhodia
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="text-xl font-bold bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text">
+              Parth Bhodia
+            </div>
+            
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center space-x-6">
+              <a href="#companies" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">Companies</a>
+              <a href="#about" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">About</a>
+              <a href="/skills" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">Skills</a>
+              <a href="#projects" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">Projects</a>
+              <a href="#contact" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">Contact</a>
+              <ThemeToggle />
+            </div>
+
+            {/* Mobile Menu Button */}
+            <div className="md:hidden flex items-center space-x-4">
+              <ThemeToggle />
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="p-2 text-gray-600 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors"
+              >
+                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
           </div>
-          <div className="flex space-x-6">
-            <a href="#companies" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">Companies</a>
-            <a href="#about" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">About</a>
-            <a href="/skills" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">Skills</a>
-            <a href="#projects" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">Projects</a>
-            <a href="#contact" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">Contact</a>
-          </div>
+
+          {/* Mobile Navigation Drawer */}
+          {isMobileMenuOpen && (
+            <div className="md:hidden mt-4 pb-4 border-t border-gray-200 dark:border-gray-700">
+              <div className="flex flex-col space-y-4 pt-4">
+                <a 
+                  href="#companies" 
+                  className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Companies
+                </a>
+                <a 
+                  href="#about" 
+                  className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  About
+                </a>
+                <a 
+                  href="/skills" 
+                  className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Skills
+                </a>
+                <a 
+                  href="#projects" 
+                  className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Projects
+                </a>
+                <a 
+                  href="#contact" 
+                  className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Contact
+                </a>
+              </div>
+            </div>
+          )}
         </div>
       </nav>
 
