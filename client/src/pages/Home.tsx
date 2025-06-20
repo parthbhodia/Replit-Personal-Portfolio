@@ -162,9 +162,8 @@ export default function Home() {
         body: JSON.stringify(contactForm)
       });
 
-      const data = await response.json();
-
       if (response.ok) {
+        const data = await response.json();
         setFormSuccess(true);
         setFormMessage('Your message has been sent successfully!');
         // Reset form
@@ -175,13 +174,23 @@ export default function Home() {
           message: ''
         });
       } else {
-        setFormSuccess(false);
-        setFormMessage(data.message || 'There was an error sending your message. Please try again.');
+        throw new Error('API not available');
       }
     } catch (error) {
-      setFormSuccess(false);
-      setFormMessage('Network error. Please check your connection and try again.');
-      console.error('Error submitting form:', error);
+      // Fallback to mailto when API is not available (like on GitHub Pages)
+      const mailtoLink = `mailto:parthbhodia08@gmail.com?subject=${encodeURIComponent(contactForm.subject)}&body=${encodeURIComponent(`Name: ${contactForm.name}\nEmail: ${contactForm.email}\n\nMessage:\n${contactForm.message}`)}`;
+      window.open(mailtoLink, '_blank');
+      
+      setFormSuccess(true);
+      setFormMessage('Opening your email client to send the message. If it doesn\'t open automatically, please email me directly at parthbhodia08@gmail.com');
+      
+      // Reset form
+      setContactForm({
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+      });
     } finally {
       setSubmitting(false);
     }
