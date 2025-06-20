@@ -282,7 +282,7 @@ export default function Home() {
       <nav className="bg-white/90 dark:bg-black/90 backdrop-blur-sm sticky top-0 z-50 shadow-md">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="text-xl font-bold bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text">
-            Alex Chen
+            Parth Bhodia
           </div>
           <div className="flex space-x-6">
             <a href="#companies" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">Companies</a>
