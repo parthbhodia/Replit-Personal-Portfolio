@@ -334,7 +334,7 @@ export default function Home() {
               <a href="#projects" className="px-6 py-3 border-2 border-blue-600 dark:border-blue-500 text-blue-600 dark:text-blue-500 rounded-md hover:bg-blue-600/10 dark:hover:bg-blue-500/10 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-1">
                 View Projects
               </a>
-              <a href="/attached_assets/Fullstack%20Software%20Developer%20-%20Parth%20Bhodia_1750396640687.pdf" target="_blank" rel="noopener noreferrer" className="px-6 py-3 bg-purple-600 dark:bg-purple-700 text-white rounded-md hover:bg-purple-700 dark:hover:bg-purple-800 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-1 flex items-center">
+              <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="px-6 py-3 bg-purple-600 dark:bg-purple-700 text-white rounded-md hover:bg-purple-700 dark:hover:bg-purple-800 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-1 flex items-center">
                 <span>Download Resume</span>
                 <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -588,7 +588,7 @@ export default function Home() {
                     value={contactForm.name}
                     onChange={handleFormChange}
                     required
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-800/80 bg-white/80 backdrop-blur-sm"
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800/80 bg-white/80 backdrop-blur-sm"
                   />
                 </div>
                 <div>
@@ -600,7 +600,7 @@ export default function Home() {
                     value={contactForm.email}
                     onChange={handleFormChange}
                     required
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-800/80 bg-white/80 backdrop-blur-sm"
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800/80 bg-white/80 backdrop-blur-sm"
                   />
                 </div>
                 <div>
@@ -612,7 +612,7 @@ export default function Home() {
                     value={contactForm.subject}
                     onChange={handleFormChange}
                     required
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-800/80 bg-white/80 backdrop-blur-sm"
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800/80 bg-white/80 backdrop-blur-sm"
                   />
                 </div>
                 <div>
@@ -624,7 +624,7 @@ export default function Home() {
                     onChange={handleFormChange}
                     rows={4} 
                     required
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-800/80 bg-white/80 backdrop-blur-sm"
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800/80 bg-white/80 backdrop-blur-sm"
                   ></textarea>
                 </div>
                 <button 
@@ -794,11 +794,11 @@ export default function Home() {
           <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-500 dark:text-gray-400">
             <p>© {new Date().getFullYear()} Parth Bhodia. All rights reserved.</p>
             <div className="mt-4 md:mt-0 flex items-center space-x-4">
-              <a href="#" className="hover:text-green-600 dark:hover:text-green-400 transition-colors">Privacy Policy</a>
+              <a href="mailto:parthbhodia08@gmail.com" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Contact</a>
               <span className="text-gray-300 dark:text-gray-700">•</span>
-              <a href="#" className="hover:text-green-600 dark:hover:text-green-400 transition-colors">Terms of Service</a>
+              <a href="tel:+14439294371" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">+1 443-929-4371</a>
               <span className="text-gray-300 dark:text-gray-700">•</span>
-              <a href="#" className="hover:text-green-600 dark:hover:text-green-400 transition-colors">Sitemap</a>
+              <a href="https://linkedin.com/in/parthbhodia" target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">LinkedIn</a>
             </div>
           </div>
         </div>
