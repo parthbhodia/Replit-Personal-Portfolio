@@ -662,19 +662,19 @@ export default function Home() {
                     <div className="w-10 h-10 bg-green-100 dark:bg-green-900/60 rounded-full flex items-center justify-center mr-4 shadow-md">
                       <span className="text-green-600 dark:text-green-400">📧</span>
                     </div>
-                    <span className="text-gray-700 dark:text-gray-300">contact@alexchen.com</span>
+                    <span className="text-gray-700 dark:text-gray-300">parthbhodia08@gmail.com</span>
                   </div>
                   <div className="flex items-center transform transition-transform hover:translate-x-2">
                     <div className="w-10 h-10 bg-green-100 dark:bg-green-900/60 rounded-full flex items-center justify-center mr-4 shadow-md">
                       <span className="text-green-600 dark:text-green-400">📱</span>
                     </div>
-                    <span className="text-gray-700 dark:text-gray-300">+1 (123) 456-7890</span>
+                    <span className="text-gray-700 dark:text-gray-300">+1 (443) 929-4371</span>
                   </div>
                   <div className="flex items-center transform transition-transform hover:translate-x-2">
                     <div className="w-10 h-10 bg-green-100 dark:bg-green-900/60 rounded-full flex items-center justify-center mr-4 shadow-md">
                       <span className="text-green-600 dark:text-green-400">📍</span>
                     </div>
-                    <span className="text-gray-700 dark:text-gray-300">San Francisco, CA</span>
+                    <span className="text-gray-700 dark:text-gray-300">Jersey City, NJ</span>
                   </div>
                 </div>
               </div>
