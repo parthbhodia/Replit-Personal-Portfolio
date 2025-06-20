@@ -351,83 +351,123 @@ export default function Home() {
           <h2 className="text-3xl font-bold mb-12 text-center">
             <span className="bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text">Companies I've Worked With</span>
           </h2>
-          <div className="overflow-x-auto animate-scroll pb-4 relative">
-            <div className="flex gap-6 min-w-max px-4">
-              {[
-                {
-                  name: 'Eccalon LLC',
-                  logo: '/api/placeholder/200/60?text=Eccalon+LLC&bg=4F46E5&color=fff',
-                  role: 'Fullstack Developer',
-                  period: 'May 2022 - Present',
-                  description: 'Developed personalized knowledge assistant ChatBOT using GPT and Pinecone vector databases, reducing time-to-information retrieval by 50%. Designed Postgres schema for CMS managing 100K+ users. Built secure authentication systems with AWS services.'
-                },
-                {
-                  name: 'University of Maryland, Baltimore County',
-                  logo: '/api/placeholder/200/60?text=UMBC&bg=1E40AF&color=fff',
-                  role: 'Research Assistant - Software Developer',
-                  period: 'Jan 2022 - Dec 2022',
-                  description: 'Developed GIS-based visualization framework for detecting enemy objects using Elastic Search and Kibana. Used Java Spring Boot to control servers and communicate with edge devices using RabbitMQ.'
-                },
-                {
-                  name: 'Tata Communications Ltd.',
-                  logo: '/api/placeholder/200/60?text=TATA&bg=DC2626&color=fff',
-                  role: 'Software Developer',
-                  period: 'July 2018 - May 2021',
-                  description: 'Led development of internal IPT Tool dashboard for 10,000+ users using Django, Python, JavaScript, and React. Developed automation application for Back-Bone Cost Map, increasing APAC region revenue by 36%.'
-                }
-              ].map((company, index) => (
-                <Dialog key={index}>
-                  <DialogTrigger asChild>
-                    <div className="bg-white/90 dark:bg-black/40 p-6 rounded-lg shadow-lg backdrop-blur-sm transform transition-all duration-500 hover:scale-105 cursor-pointer w-72">
-                      <div className="h-16 flex items-center justify-center mb-4">
-                        <img src={company.logo} alt={company.name} className="max-h-full object-contain" />
-                      </div>
-                      <h3 className="text-xl font-semibold mb-2 text-center">{company.name}</h3>
-                      <p className="text-gray-600 dark:text-gray-400 text-center">{company.role}</p>
-                      <p className="text-sm text-gray-500 dark:text-gray-500 text-center">{company.period}</p>
-                    </div>
-                  </DialogTrigger>
-                  <DialogContent className="sm:max-w-[425px]">
-                    <DialogHeader>
-                      <DialogTitle className="flex items-center gap-2">
-                        <img src={company.logo} alt={company.name} className="h-8 object-contain" />
-                        <span>{company.name}</span>
-                      </DialogTitle>
-                      <DialogDescription className="pt-4">
-                        <div className="mb-4">
-                          <p className="font-semibold text-green-600 dark:text-green-400">{company.role}</p>
-                          <p className="text-sm text-gray-500">{company.period}</p>
+          <div className="relative">
+            <div className="overflow-hidden">
+              <div id="companies-carousel" className="flex gap-6 transition-transform duration-500 ease-in-out px-4">
+                {[
+                  {
+                    name: 'Eccalon LLC',
+                    logo: '/api/placeholder/200/60?text=Eccalon+LLC&bg=4F46E5&color=fff',
+                    role: 'Fullstack Developer',
+                    period: 'May 2022 - Present',
+                    description: 'Developed personalized knowledge assistant ChatBOT using GPT and Pinecone vector databases, reducing time-to-information retrieval by 50%. Designed Postgres schema for CMS managing 100K+ users. Built secure authentication systems with AWS services.'
+                  },
+                  {
+                    name: 'University of Maryland, Baltimore County',
+                    logo: '/api/placeholder/200/60?text=UMBC&bg=1E40AF&color=fff',
+                    role: 'Research Assistant - Software Developer',
+                    period: 'Jan 2022 - Dec 2022',
+                    description: 'Developed GIS-based visualization framework for detecting enemy objects using Elastic Search and Kibana. Used Java Spring Boot to control servers and communicate with edge devices using RabbitMQ.'
+                  },
+                  {
+                    name: 'Tata Communications Ltd.',
+                    logo: '/api/placeholder/200/60?text=TATA&bg=DC2626&color=fff',
+                    role: 'Software Developer',
+                    period: 'July 2018 - May 2021',
+                    description: 'Led development of internal IPT Tool dashboard for 10,000+ users using Django, Python, JavaScript, and React. Developed automation application for Back-Bone Cost Map, increasing APAC region revenue by 36%.'
+                  },
+                  {
+                    name: 'Eccalon LLC',
+                    logo: '/api/placeholder/200/60?text=Eccalon+LLC&bg=4F46E5&color=fff',
+                    role: 'Fullstack Developer',
+                    period: 'May 2022 - Present',
+                    description: 'Developed personalized knowledge assistant ChatBOT using GPT and Pinecone vector databases, reducing time-to-information retrieval by 50%. Designed Postgres schema for CMS managing 100K+ users. Built secure authentication systems with AWS services.'
+                  },
+                  {
+                    name: 'University of Maryland, Baltimore County',
+                    logo: '/api/placeholder/200/60?text=UMBC&bg=1E40AF&color=fff',
+                    role: 'Research Assistant - Software Developer',
+                    period: 'Jan 2022 - Dec 2022',
+                    description: 'Developed GIS-based visualization framework for detecting enemy objects using Elastic Search and Kibana. Used Java Spring Boot to control servers and communicate with edge devices using RabbitMQ.'
+                  }
+                ].map((company, index) => (
+                  <Dialog key={index}>
+                    <DialogTrigger asChild>
+                      <div className="bg-white/90 dark:bg-black/40 p-6 rounded-lg shadow-lg backdrop-blur-sm cursor-pointer w-72 flex-shrink-0">
+                        <div className="h-16 flex items-center justify-center mb-4">
+                          <img src={company.logo} alt={company.name} className="max-h-full object-contain" />
                         </div>
-                        <p className="text-gray-700 dark:text-gray-300">{company.description}</p>
-                      </DialogDescription>
-                    </DialogHeader>
-                  </DialogContent>
-                </Dialog>
-              ))}
+                        <h3 className="text-xl font-semibold mb-2 text-center">{company.name}</h3>
+                        <p className="text-gray-600 dark:text-gray-400 text-center">{company.role}</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-500 text-center">{company.period}</p>
+                      </div>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px]">
+                      <DialogHeader>
+                        <DialogTitle className="flex items-center gap-2">
+                          <img src={company.logo} alt={company.name} className="h-8 object-contain" />
+                          <span>{company.name}</span>
+                        </DialogTitle>
+                        <DialogDescription className="pt-4">
+                          <div className="mb-4">
+                            <p className="font-semibold text-green-600 dark:text-green-400">{company.role}</p>
+                            <p className="text-sm text-gray-500">{company.period}</p>
+                          </div>
+                          <p className="text-gray-700 dark:text-gray-300">{company.description}</p>
+                        </DialogDescription>
+                      </DialogHeader>
+                    </DialogContent>
+                  </Dialog>
+                ))}
+              </div>
             </div>
-          <button 
-            onClick={() => {
-              const container = document.querySelector('.animate-scroll');
-              if (container) container.scrollLeft -= 300;
-            }}
-            className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-gray-900/80 p-2 rounded-full shadow-lg z-20 hover:bg-white dark:hover:bg-gray-900 transition-all"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-          <button 
-            onClick={() => {
-              const container = document.querySelector('.animate-scroll');
-              if (container) container.scrollLeft += 300;
-            }}
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-gray-900/80 p-2 rounded-full shadow-lg z-20 hover:bg-white dark:hover:bg-gray-900 transition-all"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-        </div>
+            
+            <button 
+              onClick={() => {
+                const carousel = document.getElementById('companies-carousel');
+                if (carousel) {
+                  const cardWidth = 300; // 288px + gap
+                  const currentTransform = carousel.style.transform || 'translateX(0px)';
+                  const currentX = parseInt(currentTransform.match(/-?\d+/)?.[0] || '0');
+                  const newX = currentX + cardWidth;
+                  
+                  if (newX > 0) {
+                    carousel.style.transform = `translateX(-${cardWidth * 2}px)`;
+                  } else {
+                    carousel.style.transform = `translateX(${newX}px)`;
+                  }
+                }
+              }}
+              className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-900/90 p-3 rounded-full shadow-xl z-30 hover:bg-white dark:hover:bg-gray-900 transition-all"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            
+            <button 
+              onClick={() => {
+                const carousel = document.getElementById('companies-carousel');
+                if (carousel) {
+                  const cardWidth = 300; // 288px + gap
+                  const currentTransform = carousel.style.transform || 'translateX(0px)';
+                  const currentX = parseInt(currentTransform.match(/-?\d+/)?.[0] || '0');
+                  const newX = currentX - cardWidth;
+                  
+                  if (Math.abs(newX) >= cardWidth * 3) {
+                    carousel.style.transform = 'translateX(0px)';
+                  } else {
+                    carousel.style.transform = `translateX(${newX}px)`;
+                  }
+                }
+              }}
+              className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-900/90 p-3 rounded-full shadow-xl z-30 hover:bg-white dark:hover:bg-gray-900 transition-all"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
         </div>
       </section>
 
