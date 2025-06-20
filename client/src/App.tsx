@@ -22,10 +22,13 @@ export default function App() {
   // Apply theme on initial load
   useEffect(() => {
     const theme = getInitialTheme();
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
+    document.documentElement.classList.add('dark');
+    if (theme === 'light') {
       document.documentElement.classList.remove('dark');
+    }
+    // Store the default theme
+    if (typeof window !== 'undefined' && !window.localStorage.getItem('theme')) {
+      window.localStorage.setItem('theme', 'dark');
     }
   }, []);
 
