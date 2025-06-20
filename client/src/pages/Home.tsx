@@ -12,114 +12,118 @@ import TypewriterText from '../components/TypewriterText';
 import ScrollProgress from '../components/ScrollProgress';
 
 export default function Home() {
-  // Skills data
+  // Skills data based on resume
   const skills = [
-    { name: 'JavaScript', level: 90 },
-    { name: 'Vue.js', level: 85 },
-    { name: 'React', level: 80 },
-    { name: 'HTML/CSS', level: 95 },
-    { name: 'Node.js', level: 75 },
-    { name: 'Express', level: 70 },
-    { name: 'TypeScript', level: 65 },
-    { name: 'UI/UX Design', level: 80 }
+    { name: 'JavaScript', level: 95 },
+    { name: 'TypeScript', level: 90 },
+    { name: 'Vue.js', level: 90 },
+    { name: 'React', level: 85 },
+    { name: 'Node.js', level: 90 },
+    { name: 'Python', level: 85 },
+    { name: 'HTML/CSS/SASS', level: 95 },
+    { name: 'Java (Spring Boot)', level: 80 },
+    { name: 'AWS', level: 85 },
+    { name: 'PostgreSQL', level: 80 },
+    { name: 'MongoDB', level: 75 },
+    { name: 'GraphQL', level: 75 }
   ];
 
-  // Projects data with categories
+  // Projects data based on resume
   const projects = [
     {
-      title: 'E-commerce Platform',
-      description: 'A fully functional online store with payment integration and inventory management.',
-      tags: ['Vue.js', 'Node.js', 'MongoDB', 'Stripe'],
-      category: 'Web App',
-      liveUrl: '#',
-      codeUrl: '#',
-      featured: true
-    },
-    {
-      title: 'Task Management App',
-      description: 'A collaborative task management tool for teams with real-time updates.',
-      tags: ['React', 'Firebase', 'Material UI'],
-      category: 'Web App',
-      liveUrl: '#',
-      codeUrl: '#',
-      featured: true
-    },
-    {
-      title: 'Weather Dashboard',
-      description: 'A weather application showing forecasts and historical data with interactive charts.',
-      tags: ['JavaScript', 'Chart.js', 'API Integration'],
-      category: 'Web App',
-      liveUrl: '#',
-      codeUrl: '#',
-      featured: true
-    },
-    {
-      title: 'Portfolio Website',
-      description: 'A responsive portfolio website showcasing my skills, projects, and experience with interactive elements.',
-      tags: ['React', 'Three.js', 'Tailwind CSS'],
-      category: 'Web App',
-      liveUrl: '#',
-      codeUrl: '#',
-      featured: false
-    },
-    {
-      title: 'AI Image Generator',
-      description: 'An application that uses machine learning to generate unique images based on text prompts.',
-      tags: ['Python', 'TensorFlow', 'React'],
+      title: 'Personalized Knowledge Assistant ChatBOT',
+      description: 'ChatBOT using GPT and Pinecone vector databases to predict vendor success rates based on historical data. Reduced time-to-information retrieval by 50%.',
+      tags: ['GPT', 'Pinecone', 'Machine Learning', 'Vector DB'],
       category: 'AI/ML',
       liveUrl: '#',
       codeUrl: '#',
       featured: true
     },
     {
-      title: 'Crypto Price Tracker',
-      description: 'Real-time cryptocurrency price tracking application with price alerts and portfolio management.',
-      tags: ['React', 'Node.js', 'WebSockets'],
-      category: 'Web App',
-      liveUrl: '#',
-      codeUrl: '#',
-      featured: false
-    },
-    {
-      title: 'Mobile Fitness App',
-      description: 'A mobile application for tracking workouts, setting fitness goals, and monitoring progress over time.',
-      tags: ['React Native', 'Firebase', 'HealthKit'],
-      category: 'Mobile App',
+      title: 'CMS Management System',
+      description: 'Postgres schema design and implementation for CMS managing 100,000+ users with efficient data display and management.',
+      tags: ['PostgreSQL', 'Node.js', 'Database Design'],
+      category: 'Backend',
       liveUrl: '#',
       codeUrl: '#',
       featured: true
     },
     {
-      title: 'Smart Home Dashboard',
-      description: 'An IoT dashboard for controlling and monitoring smart home devices with automation capabilities.',
-      tags: ['React', 'Node.js', 'MQTT', 'IoT'],
-      category: 'IoT',
+      title: 'AWS Authentication System',
+      description: 'Secure Login and Registration system with JWT authentication using AWS Amplify, Cognito, API Gateway, and Lambda Services.',
+      tags: ['AWS', 'JWT', 'Cognito', 'Lambda', 'API Gateway'],
+      category: 'Cloud/Security',
       liveUrl: '#',
       codeUrl: '#',
-      featured: false
+      featured: true
     },
     {
-      title: 'Stock Trading Bot',
-      description: 'An automated trading bot that uses algorithms and technical analysis to make stock trading decisions.',
-      tags: ['Python', 'Machine Learning', 'API Integration'],
+      title: 'Dynamic AWS Lambda Functions',
+      description: 'HTML content generation with Open Graph metadata for enhanced social media sharing and SEO for sports news platform.',
+      tags: ['AWS Lambda', 'SEO', 'Open Graph', 'HTML'],
+      category: 'Cloud',
+      liveUrl: '#',
+      codeUrl: '#',
+      featured: true
+    },
+    {
+      title: 'NLSE Sports Website with Stripe',
+      description: 'Sports entertainment website with integrated Stripe payment processing for ticket sales and event bookings.',
+      tags: ['Stripe', 'Payment Processing', 'Vue.js', 'Node.js'],
+      category: 'E-commerce',
+      liveUrl: '#',
+      codeUrl: '#',
+      featured: true
+    },
+    {
+      title: 'Project Spectrum (Government Website)',
+      description: 'Frontend solutions using HTMX and Vue.js for seamless dynamic interactions without full page reloads.',
+      tags: ['HTMX', 'Vue.js', 'Government', 'SPA'],
+      category: 'Government',
+      liveUrl: '#',
+      codeUrl: '#',
+      featured: true
+    },
+    {
+      title: 'GIS Enemy Detection Framework',
+      description: 'GIS-based visualization framework for detecting enemy objects using Elastic Search and Kibana with real-time data processing.',
+      tags: ['Elastic Search', 'Kibana', 'GIS', 'Java Spring Boot', 'RabbitMQ'],
+      category: 'Research',
+      liveUrl: '#',
+      codeUrl: '#',
+      featured: true
+    },
+    {
+      title: 'IPT Tool Dashboard',
+      description: 'Internal dashboard for 10,000+ users to monitor login activity, app usage, and security metrics with automated testing.',
+      tags: ['Django', 'Python', 'React', 'Dashboard', 'Analytics'],
+      category: 'Enterprise',
+      liveUrl: '#',
+      codeUrl: '#',
+      featured: true
+    },
+    {
+      title: 'Back-Bone Cost Map Automation',
+      description: 'Automation application using Python3 and Leaflet Open Maps for sales team route optimization, increasing APAC revenue by 36%.',
+      tags: ['Python3', 'Leaflet', 'Maps', 'Automation', 'Sales'],
+      category: 'Enterprise',
+      liveUrl: '#',
+      codeUrl: '#',
+      featured: true
+    },
+    {
+      title: 'Nutri AI Scan',
+      description: 'Award-winning progressive web app (2nd place CBIC Entrepreneurship UMBC) using OCR to identify allergens and provide healthiness ratings.',
+      tags: ['Vue.js', 'OCR', 'REST API', 'MongoDB', 'PWA'],
       category: 'AI/ML',
       liveUrl: '#',
       codeUrl: '#',
-      featured: false
-    },
-    {
-      title: 'Social Media Analytics',
-      description: 'A dashboard for analyzing social media performance metrics and audience engagement.',
-      tags: ['React', 'D3.js', 'API Integration'],
-      category: 'Data Visualization',
-      liveUrl: '#',
-      codeUrl: '#',
-      featured: false
+      featured: true
     }
   ];
 
   // Project categories
-  const categories = ['All', 'Web App', 'Mobile App', 'AI/ML', 'IoT', 'Data Visualization'];
+  const categories = ['All', 'AI/ML', 'Backend', 'Cloud/Security', 'Cloud', 'E-commerce', 'Government', 'Research', 'Enterprise'];
 
   // Selected category state
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -139,7 +143,7 @@ export default function Home() {
   const [chatbotOpen, setChatbotOpen] = useState(false);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
     {
-      text: "Hello! I'm your portfolio assistant. How can I help you today?",
+      text: "Hello! I'm here to help you learn about Parth Bhodia. Ask me about his skills, experience, projects, education, or visa status!",
       isUser: false,
       timestamp: new Date()
     }
@@ -295,14 +299,14 @@ export default function Home() {
       <section className="min-h-screen flex items-center justify-center relative -mt-screen">
         <div className="container mx-auto px-4 flex flex-col items-center z-10">
           <ParallaxSection speed={0.4} className="mb-8">
-            <div className="w-32 h-32 rounded-full bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 flex items-center justify-center text-4xl text-white shadow-lg transform transition-all duration-500 hover:scale-110">
-              AC
+            <div className="w-32 h-32 rounded-full bg-gradient-to-r from-blue-500 to-purple-700 dark:from-blue-400 dark:to-purple-600 flex items-center justify-center text-4xl text-white shadow-lg transform transition-all duration-500 hover:scale-110">
+              PB
             </div>
           </ParallaxSection>
 
           <ParallaxSection speed={0.2} className="mb-4">
             <h1 className="text-4xl md:text-6xl font-bold text-center mb-4">
-              Hi, I'm <span className="bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text">Alex Chen</span>
+              Hi, I'm <span className="bg-gradient-to-r from-blue-500 to-purple-700 dark:from-blue-400 dark:to-purple-600 text-transparent bg-clip-text">Parth Bhodia</span>
             </h1>
           </ParallaxSection>
 
@@ -310,26 +314,27 @@ export default function Home() {
             <div className="text-xl md:text-2xl text-center text-gray-600 dark:text-gray-300 max-w-2xl backdrop-blur-sm py-2 px-4 rounded-lg bg-white/10 dark:bg-black/20">
               I'm a <TypewriterText 
                 texts={[
-                  "Full Stack Developer", 
-                  "UI/UX Designer", 
-                  "JavaScript Expert", 
-                  "React Specialist", 
-                  "Vue.js Enthusiast"
+                  "Software Developer", 
+                  "Full Stack Engineer", 
+                  "Vue.js Expert", 
+                  "React Developer", 
+                  "AWS Cloud Specialist",
+                  "Python Developer"
                 ]}
-                className="bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text font-semibold"
+                className="bg-gradient-to-r from-blue-500 to-purple-700 dark:from-blue-400 dark:to-purple-600 text-transparent bg-clip-text font-semibold"
               />
             </div>
           </ParallaxSection>
 
           <ParallaxSection speed={-0.1}>
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-              <a href="#contact" className="px-6 py-3 bg-green-600 dark:bg-green-500 text-white rounded-md hover:bg-green-700 dark:hover:bg-green-600 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-1">
+              <a href="#contact" className="px-6 py-3 bg-blue-600 dark:bg-blue-500 text-white rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-1">
                 Get in Touch
               </a>
-              <a href="#projects" className="px-6 py-3 border-2 border-green-600 dark:border-green-500 text-green-600 dark:text-green-500 rounded-md hover:bg-green-600/10 dark:hover:bg-green-500/10 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-1">
+              <a href="#projects" className="px-6 py-3 border-2 border-blue-600 dark:border-blue-500 text-blue-600 dark:text-blue-500 rounded-md hover:bg-blue-600/10 dark:hover:bg-blue-500/10 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-1">
                 View Projects
               </a>
-              <a href="/resume.pdf" download className="px-6 py-3 bg-gray-600 dark:bg-gray-700 text-white rounded-md hover:bg-gray-700 dark:hover:bg-gray-800 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-1 flex items-center">
+              <a href="https://drive.google.com/file/d/your-resume-link/view" target="_blank" rel="noopener noreferrer" className="px-6 py-3 bg-purple-600 dark:bg-purple-700 text-white rounded-md hover:bg-purple-700 dark:hover:bg-purple-800 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-1 flex items-center">
                 <span>Download Resume</span>
                 <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -344,38 +349,31 @@ export default function Home() {
       <section id="companies" className="py-20">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold mb-12 text-center">
-            <span className="bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text">Companies I've Worked With</span>
+            <span className="bg-gradient-to-r from-blue-500 to-purple-700 dark:from-blue-400 dark:to-purple-600 text-transparent bg-clip-text">Companies I've Worked With</span>
           </h2>
           <div className="overflow-x-auto animate-scroll pb-4 relative">
             <div className="flex gap-6 min-w-max px-4">
-              {[
+              [
                 {
-                  name: 'Google',
-                  logo: 'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png',
-                  role: 'Senior Frontend Developer',
-                  period: '2020 - Present',
-                  description: 'Led development of key features in Google Cloud Platform, improving developer experience and reducing deployment time by 40%. Implemented real-time collaboration features using WebSocket technology.'
+                  name: 'Eccalon LLC',
+                  logo: 'https://via.placeholder.com/200x60/4F46E5/white?text=Eccalon+LLC',
+                  role: 'Fullstack Developer',
+                  period: 'May 2022 - Present',
+                  description: 'Developed personalized knowledge assistant ChatBOT using GPT and Pinecone vector databases, reducing time-to-information retrieval by 50%. Designed Postgres schema for CMS managing 100K+ users. Built secure authentication systems with AWS services.'
                 },
                 {
-                  name: 'Microsoft',
-                  logo: 'https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE1Mu3b?ver=5c31',
-                  role: 'Full Stack Developer',
-                  period: '2018 - 2020',
-                  description: 'Developed and maintained core components of Microsoft Teams, focusing on performance optimization and accessibility. Created scalable backend services using Node.js and Azure.'
+                  name: 'University of Maryland, Baltimore County',
+                  logo: 'https://via.placeholder.com/200x60/1E40AF/white?text=UMBC',
+                  role: 'Research Assistant - Software Developer',
+                  period: 'Jan 2022 - Dec 2022',
+                  description: 'Developed GIS-based visualization framework for detecting enemy objects using Elastic Search and Kibana. Used Java Spring Boot to control servers and communicate with edge devices using RabbitMQ.'
                 },
                 {
-                  name: 'Amazon',
-                  logo: 'https://logos-world.net/wp-content/uploads/2020/04/Amazon-Logo.png',
-                  role: 'Software Engineer',
-                  period: '2016 - 2018',
-                  description: 'Worked on Amazon Prime Video streaming infrastructure, implementing efficient content delivery solutions. Reduced loading times by 30% through innovative caching strategies.'
-                },
-                {
-                  name: 'Meta',
-                  logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Meta_Platforms_Inc._logo.svg/1200px-Meta_Platforms_Inc._logo.svg.png',
-                  role: 'Frontend Engineer',
-                  period: '2015 - 2016',
-                  description: 'Contributed to React core team, developing and maintaining key features. Implemented performance monitoring tools used across Meta products.'
+                  name: 'Tata Communications Ltd.',
+                  logo: 'https://via.placeholder.com/200x60/DC2626/white?text=TATA',
+                  role: 'Software Developer',
+                  period: 'July 2018 - May 2021',
+                  description: 'Led development of internal IPT Tool dashboard for 10,000+ users using Django, Python, JavaScript, and React. Developed automation application for Back-Bone Cost Map, increasing APAC region revenue by 36%.'
                 }
               ].map((company, index) => (
                 <Dialog key={index}>
