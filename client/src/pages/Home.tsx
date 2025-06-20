@@ -357,38 +357,38 @@ export default function Home() {
                 {[
                   {
                     name: 'Eccalon LLC',
-                    logo: '/api/placeholder/200/60?text=Eccalon+LLC&bg=4F46E5&color=fff',
+                    logo: 'https://media.licdn.com/dms/image/C4E0BAQHvgvKQQzQvdA/company-logo_200_200/0/1631353450421?e=2147483647&v=beta&t=zQyGRJKWNM7Aj_qpgxJwCnXvnNEqfz8w_ZV1hKr2X0c',
                     role: 'Fullstack Developer',
                     period: 'May 2022 - Present',
                     description: 'Developed personalized knowledge assistant ChatBOT using GPT and Pinecone vector databases, reducing time-to-information retrieval by 50%. Designed Postgres schema for CMS managing 100K+ users. Built secure authentication systems with AWS services.'
                   },
                   {
                     name: 'University of Maryland, Baltimore County',
-                    logo: '/api/placeholder/200/60?text=UMBC&bg=1E40AF&color=fff',
+                    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/UMBC_Retrievers_logo.svg/200px-UMBC_Retrievers_logo.svg.png',
                     role: 'Research Assistant - Software Developer',
                     period: 'Jan 2022 - Dec 2022',
                     description: 'Developed GIS-based visualization framework for detecting enemy objects using Elastic Search and Kibana. Used Java Spring Boot to control servers and communicate with edge devices using RabbitMQ.'
                   },
                   {
                     name: 'Tata Communications Ltd.',
-                    logo: '/api/placeholder/200/60?text=TATA&bg=DC2626&color=fff',
+                    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Tata_Communications_Logo.svg/200px-Tata_Communications_Logo.svg.png',
                     role: 'Software Developer',
                     period: 'July 2018 - May 2021',
                     description: 'Led development of internal IPT Tool dashboard for 10,000+ users using Django, Python, JavaScript, and React. Developed automation application for Back-Bone Cost Map, increasing APAC region revenue by 36%.'
                   },
                   {
                     name: 'Eccalon LLC',
-                    logo: '/api/placeholder/200/60?text=Eccalon+LLC&bg=4F46E5&color=fff',
+                    logo: 'https://media.licdn.com/dms/image/C4E0BAQHvgvKQQzQvdA/company-logo_200_200/0/1631353450421?e=2147483647&v=beta&t=zQyGRJKWNM7Aj_qpgxJwCnXvnNEqfz8w_ZV1hKr2X0c',
                     role: 'Fullstack Developer',
                     period: 'May 2022 - Present',
                     description: 'Developed personalized knowledge assistant ChatBOT using GPT and Pinecone vector databases, reducing time-to-information retrieval by 50%. Designed Postgres schema for CMS managing 100K+ users. Built secure authentication systems with AWS services.'
                   },
                   {
                     name: 'University of Maryland, Baltimore County',
-                    logo: '/api/placeholder/200/60?text=UMBC&bg=1E40AF&color=fff',
+                    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/UMBC_Retrievers_logo.svg/200px-UMBC_Retrievers_logo.svg.png',
                     role: 'Research Assistant - Software Developer',
                     period: 'Jan 2022 - Dec 2022',
-                    description: 'Developed GIS-based visualization framework for detecting enemy objects using Elastic Search and Kibana. Used Java Spring Boot to control servers and communicate with edge devices using RabbitMQ.'
+                    description: 'Developed GIS-based visualization framework for detecting enemy objects using Elastic Search and Bikana. Used Java Spring Boot to control servers and communicate with edge devices using RabbitMQ.'
                   }
                 ].map((company, index) => (
                   <Dialog key={index}>
