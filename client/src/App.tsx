@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Switch, Route } from 'wouter';
 import Home from './pages/Home';
+import Skills from './pages/Skills';
 import NotFound from './pages/not-found';
 import CustomCursor from './components/CustomCursor';
 
@@ -41,6 +42,7 @@ export default function App() {
       {/* Routes */}
       <Switch>
         <Route path="/" component={Home} />
+        <Route path="/skills" component={Skills} />
         <Route component={NotFound} />
       </Switch>
     </div>
