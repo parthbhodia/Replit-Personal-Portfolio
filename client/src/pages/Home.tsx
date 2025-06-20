@@ -353,7 +353,7 @@ export default function Home() {
           </h2>
           <div className="overflow-x-auto animate-scroll pb-4 relative">
             <div className="flex gap-6 min-w-max px-4">
-              [
+              {[
                 {
                   name: 'Eccalon LLC',
                   logo: 'https://via.placeholder.com/200x60/4F46E5/white?text=Eccalon+LLC',
@@ -435,23 +435,23 @@ export default function Home() {
       <section id="about" className="py-20 bg-gray-50 dark:bg-gray-900/40 backdrop-blur-sm">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold mb-12 text-center relative">
-            <span className="bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text">About Me</span>
+            <span className="bg-gradient-to-r from-blue-500 to-purple-700 dark:from-blue-400 dark:to-purple-600 text-transparent bg-clip-text">About Me</span>
           </h2>
           <div className="max-w-3xl mx-auto text-gray-700 dark:text-gray-300 space-y-4 bg-white/80 dark:bg-black/40 p-6 rounded-lg shadow-md backdrop-blur-sm">
             <p>
-              I'm a full stack developer with over 5 years of experience building modern web applications.
-              I specialize in JavaScript technologies, with expertise in both Vue.js and React on the
-              frontend, and Node.js on the backend.
+              I'm a Software Developer with over 5 years of experience in HTML, CSS, SASS, SCSS, TypeScript, 
+              JavaScript, Node.js, Python, and AWS. I'm proficient with modern frameworks such as Vue.js, 
+              Nuxt, and React, with extensive experience in REST APIs and GraphQL.
             </p>
             <p>
-              My journey in web development began with a passion for creating intuitive user experiences.
-              I've since expanded my skills to include backend development, database design, and
-              deployment strategies, allowing me to deliver complete solutions from concept to production.
+              Currently based in Jersey City, NJ, I'm on F1 OPT status and graduated with a Master's in 
+              Computer Science from UMBC in May 2023. My expertise spans from building ChatBOTs with GPT 
+              and vector databases to designing systems for 100K+ users.
             </p>
             <p>
-              When I'm not coding, you can find me exploring new hiking trails, experimenting with 
-              photography, or learning about the latest web technologies. I believe in continuous
-              learning and regularly attend tech meetups and conferences to stay on top of industry trends.
+              I've led projects that reduced information retrieval time by 50% and increased revenue by 36% 
+              through automation. I'm passionate about creating efficient, scalable solutions and stay current 
+              with emerging technologies in cloud computing and AI/ML.
             </p>
           </div>
         </div>
@@ -462,7 +462,7 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <ParallaxSection speed={0.1}>
             <h2 className="text-3xl font-bold mb-12 text-center">
-              <span className="bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text">My Skills</span>
+              <span className="bg-gradient-to-r from-blue-500 to-purple-700 dark:from-blue-400 dark:to-purple-600 text-transparent bg-clip-text">My Skills</span>
             </h2>
           </ParallaxSection>
 
@@ -471,8 +471,8 @@ export default function Home() {
               <ParallaxSection key={index} speed={0.05 * (index % 3 + 1)} className="transform transition-all duration-500 hover:translate-y-[-5px]">
                 <div className="bg-white/90 dark:bg-black/40 backdrop-blur-sm p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-800 hover:shadow-xl transition-all duration-500 group">
                   <h3 className="font-medium mb-3 text-gray-800 dark:text-gray-200 flex items-center justify-between">
-                    <span className="text-lg group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">{skill.name}</span>
-                    <span className="text-xl font-bold bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text">{skill.level}%</span>
+                    <span className="text-lg group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{skill.name}</span>
+                    <span className="text-xl font-bold bg-gradient-to-r from-blue-500 to-purple-700 dark:from-blue-400 dark:to-purple-600 text-transparent bg-clip-text">{skill.level}%</span>
                   </h3>
                   <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 overflow-hidden">
                     <div 
