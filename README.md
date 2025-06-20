@@ -1,42 +1,48 @@
-# Alex Chen - Portfolio Website
+# Personal Portfolio
 
-A professional portfolio website built with React featuring sections for About Me, Skills, Projects, and Contact.
+A modern, responsive portfolio website built with React, TypeScript, and Three.js.
 
 ## Features
 
-- Responsive design for mobile, tablet, and desktop
-- Modern UI with clean, professional styling
-- Interactive UI components
-- Contact form for visitor engagement
-- Future chatbot integration for enhanced user experience
+- Interactive 3D background with Three.js
+- Responsive design with Tailwind CSS
+- Contact form with email notifications
+- Dark/light theme toggle
+- Smooth parallax scrolling
+- Animated project cards
+- Real-time chat functionality
 
-## Technologies Used
+## Live Demo
 
-- React
-- TypeScript
-- Tailwind CSS
-- Shadcn UI Components
-- Express (Backend)
+Visit the live site: [https://parthbhodia.github.io/Replit-Personal-Portfolio/](https://parthbhodia.github.io/Replit-Personal-Portfolio/)
 
-## Development
+## Local Development
 
-To run this project locally:
-
-```bash
-# Install dependencies
-npm install
-
-# Start the development server
-npm run dev
-```
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Start development server: `npm run dev`
+4. Open http://localhost:5000
 
 ## Deployment
 
-This project can be deployed to any static hosting service:
+This project is automatically deployed to GitHub Pages using GitHub Actions whenever changes are pushed to the main branch.
 
-1. Build the project: `npm run build`
-2. Upload the contents of the `dist` folder to your hosting provider
+To deploy manually:
+1. Push your changes to the main branch
+2. GitHub Actions will automatically build and deploy to GitHub Pages
+3. Enable GitHub Pages in repository settings if not already enabled
 
-## License
+## Environment Variables
 
-All rights reserved.
+For the contact form to work, you need to set:
+- `SENDGRID_API_KEY` - SendGrid API key for email functionality
+
+## Tech Stack
+
+- React 18 with TypeScript
+- Vite for build tooling
+- Tailwind CSS for styling
+- Three.js for 3D graphics
+- Shadcn/ui components
+- Express.js backend
+- SendGrid for email notifications
