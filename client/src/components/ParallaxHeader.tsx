@@ -33,6 +33,14 @@ export default function ParallaxHeader() {
         }}
       >
         <div className="w-full h-full absolute">
+          {/* Header with name */}
+          <div className="text-center z-10">
+            <h1 className="text-4xl md:text-6xl font-bold mb-4 text-white">
+              Parth Bhodia
+            </h1>
+            <p className="text-xl md:text-2xl text-green-200">Software Developer</p>
+          </div>
+          
           {/* Animated gradient circles */}
           <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-gradient-to-r from-green-400/30 to-green-600/30 filter blur-3xl animate-float"></div>
           <div className="absolute bottom-1/3 right-1/3 w-96 h-96 rounded-full bg-gradient-to-r from-green-500/20 to-green-700/20 filter blur-3xl" style={{ animationDelay: '1s', animationDuration: '7s' }}></div>
