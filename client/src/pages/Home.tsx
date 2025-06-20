@@ -112,7 +112,7 @@ export default function Home() {
   const categories = ['All', 'AI/ML', 'Backend', 'Cloud/Security', 'Cloud', 'E-commerce', 'Government', 'Research', 'Enterprise'];
 
   // Selected category state
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedCategory, setSelectedCategory] = useState('AI/ML');
 
   // Contact form state
   const [contactForm, setContactForm] = useState<FormData>({
