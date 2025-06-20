@@ -287,7 +287,7 @@ export default function Home() {
           <div className="flex space-x-6">
             <a href="#companies" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">Companies</a>
             <a href="#about" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">About</a>
-            <a href="#skills" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">Skills</a>
+            <a href="/skills" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">Skills</a>
             <a href="#projects" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">Projects</a>
             <a href="#contact" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">Contact</a>
           </div>
