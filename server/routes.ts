@@ -4,8 +4,12 @@ import { storage } from "./storage";
 import { insertChatHistorySchema, insertMessageSchema } from "@shared/schema";
 import { fromZodError } from "zod-validation-error";
 import { sendEmail, formatContactEmail } from "./email";
+import { generatePlaceholder } from "./api/placeholder";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Placeholder image API endpoint
+  app.get("/api/placeholder/:width/:height", generatePlaceholder);
+  
   // Chatbot API endpoint
   app.post("/api/chat", async (req, res) => {
     try {

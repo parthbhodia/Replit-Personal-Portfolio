@@ -356,21 +356,21 @@ export default function Home() {
               {[
                 {
                   name: 'Eccalon LLC',
-                  logo: 'https://via.placeholder.com/200x60/4F46E5/white?text=Eccalon+LLC',
+                  logo: '/api/placeholder/200/60?text=Eccalon+LLC&bg=4F46E5&color=fff',
                   role: 'Fullstack Developer',
                   period: 'May 2022 - Present',
                   description: 'Developed personalized knowledge assistant ChatBOT using GPT and Pinecone vector databases, reducing time-to-information retrieval by 50%. Designed Postgres schema for CMS managing 100K+ users. Built secure authentication systems with AWS services.'
                 },
                 {
                   name: 'University of Maryland, Baltimore County',
-                  logo: 'https://via.placeholder.com/200x60/1E40AF/white?text=UMBC',
+                  logo: '/api/placeholder/200/60?text=UMBC&bg=1E40AF&color=fff',
                   role: 'Research Assistant - Software Developer',
                   period: 'Jan 2022 - Dec 2022',
                   description: 'Developed GIS-based visualization framework for detecting enemy objects using Elastic Search and Kibana. Used Java Spring Boot to control servers and communicate with edge devices using RabbitMQ.'
                 },
                 {
                   name: 'Tata Communications Ltd.',
-                  logo: 'https://via.placeholder.com/200x60/DC2626/white?text=TATA',
+                  logo: '/api/placeholder/200/60?text=TATA&bg=DC2626&color=fff',
                   role: 'Software Developer',
                   period: 'July 2018 - May 2021',
                   description: 'Led development of internal IPT Tool dashboard for 10,000+ users using Django, Python, JavaScript, and React. Developed automation application for Back-Bone Cost Map, increasing APAC region revenue by 36%.'
@@ -410,7 +410,7 @@ export default function Home() {
               const container = document.querySelector('.animate-scroll');
               if (container) container.scrollLeft -= 300;
             }}
-            className="absolute left-0 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-gray-900/80 p-2 rounded-full shadow-lg z-10 hover:bg-white dark:hover:bg-gray-900 transition-all"
+            className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-gray-900/80 p-2 rounded-full shadow-lg z-20 hover:bg-white dark:hover:bg-gray-900 transition-all"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -421,7 +421,7 @@ export default function Home() {
               const container = document.querySelector('.animate-scroll');
               if (container) container.scrollLeft += 300;
             }}
-            className="absolute right-0 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-gray-900/80 p-2 rounded-full shadow-lg z-10 hover:bg-white dark:hover:bg-gray-900 transition-all"
+            className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-gray-900/80 p-2 rounded-full shadow-lg z-20 hover:bg-white dark:hover:bg-gray-900 transition-all"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
