@@ -227,7 +227,7 @@ export default function Home() {
     }
     
     if (msg.includes('visa') || msg.includes('status') || msg.includes('opt')) {
-      return "I'm currently on F1 OPT status after graduating from UMBC in May 2023. I'm authorized to work in the US and looking for full-time opportunities.";
+      return "I am looking for more fun opportunities to work with! I'm authorized to work in the US and excited about new challenges.";
     }
     
     if (msg.includes('contact') || msg.includes('hire') || msg.includes('reach')) {
