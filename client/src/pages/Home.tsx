@@ -206,6 +206,49 @@ export default function Home() {
     }
   };
 
+  // Client-side bot responses
+  const getBotResponse = (message: string): string => {
+    const msg = message.toLowerCase().trim();
+    
+    if (msg.includes('experience') || msg.includes('work') || msg.includes('job')) {
+      return "I have experience at Eccalon LLC (2022-Present) as a Fullstack Developer, UMBC as Research Assistant (2022), and Tata Communications (2018-2021) as Software Developer. I've worked on AI/ML projects, enterprise dashboards, and automation systems.";
+    }
+    
+    if (msg.includes('skills') || msg.includes('technology') || msg.includes('tech')) {
+      return "My core skills include JavaScript (95%), TypeScript (90%), Vue.js (90%), React (85%), Node.js (90%), Python (85%), and cloud technologies like AWS. I also work with databases like PostgreSQL and MongoDB.";
+    }
+    
+    if (msg.includes('education') || msg.includes('degree') || msg.includes('study')) {
+      return "I graduated from University of Maryland, Baltimore County (UMBC) in May 2023 with a Master's degree in Computer Science. I'm currently on F1 OPT status.";
+    }
+    
+    if (msg.includes('project') || msg.includes('portfolio')) {
+      return "My featured projects include a Personalized Knowledge Assistant ChatBOT using GPT and Pinecone, CMS Management System for 100K+ users, and Nutri AI Scan (award-winning PWA). Check out the Projects section for more details!";
+    }
+    
+    if (msg.includes('visa') || msg.includes('status') || msg.includes('opt')) {
+      return "I'm currently on F1 OPT status after graduating from UMBC in May 2023. I'm authorized to work in the US and looking for full-time opportunities.";
+    }
+    
+    if (msg.includes('contact') || msg.includes('hire') || msg.includes('reach')) {
+      return "You can reach me at parthbhodia08@gmail.com or through the contact form on this website. I'm actively looking for software development opportunities!";
+    }
+    
+    if (msg.includes('ai') || msg.includes('machine learning') || msg.includes('ml')) {
+      return "I have strong experience in AI/ML, including developing a ChatBOT with GPT and Pinecone vector databases, OCR-based applications, and data analytics. It's one of my primary areas of expertise.";
+    }
+    
+    if (msg.includes('hello') || msg.includes('hi') || msg.includes('hey')) {
+      return "Hello! I'm Parth's portfolio assistant. I can tell you about his work experience, skills, education, projects, or visa status. What would you like to know?";
+    }
+    
+    if (msg.includes('location') || msg.includes('where')) {
+      return "I'm based in Maryland, USA. I'm available for remote work or positions in the DMV area (DC, Maryland, Virginia).";
+    }
+    
+    return "I can help you learn about Parth's experience, skills, education, projects, or contact information. Try asking about his work experience, technical skills, or recent projects!";
+  };
+
   // Send chat message
   const sendChatMessage = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -224,8 +267,8 @@ export default function Home() {
     const userInputCopy = chatInput;
     setChatInput('');
 
+    // Try API first, fallback to client-side responses
     try {
-      // Send to API
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
@@ -234,21 +277,25 @@ export default function Home() {
         body: JSON.stringify({ message: userInputCopy })
       });
 
-      const data = await response.json();
-
-      // Add bot response
-      setChatMessages(prev => [...prev, {
-        text: data.response || "I'm sorry, I couldn't process your request. Please try again.",
-        isUser: false,
-        timestamp: new Date()
-      }]);
+      if (response.ok) {
+        const data = await response.json();
+        setChatMessages(prev => [...prev, {
+          text: data.response || getBotResponse(userInputCopy),
+          isUser: false,
+          timestamp: new Date()
+        }]);
+      } else {
+        throw new Error('API not available');
+      }
     } catch (error) {
-      console.error('Error sending chat message:', error);
-      setChatMessages(prev => [...prev, {
-        text: "Sorry, there was an error processing your message. Please try again.",
-        isUser: false,
-        timestamp: new Date()
-      }]);
+      // Use client-side responses when API is not available (like on GitHub Pages)
+      setTimeout(() => {
+        setChatMessages(prev => [...prev, {
+          text: getBotResponse(userInputCopy),
+          isUser: false,
+          timestamp: new Date()
+        }]);
+      }, 500); // Small delay to simulate thinking
     }
   };
 
