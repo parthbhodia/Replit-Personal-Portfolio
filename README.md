@@ -14,7 +14,7 @@ A modern, responsive portfolio website built with React, TypeScript, and Three.j
 
 ## Live Demo
 
-Visit the live site: [https://parthbhodia.github.io/Replit-Personal-Portfolio/](https://parthbhodia.github.io/Replit-Personal-Portfolio/)
+Visit the live site: [https://parthbhodia.com](https://parthbhodia.com)
 
 ## Local Development
 
