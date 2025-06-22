@@ -147,53 +147,28 @@ export default function Home() {
     setContactForm(prev => ({ ...prev, [name]: value }));
   };
 
-  // Contact form submission
+  // Contact form submission - Always use Gmail direct link for GitHub Pages
   const submitContactForm = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
     setFormMessage('');
 
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(contactForm)
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setFormSuccess(true);
-        setFormMessage('Your message has been sent successfully!');
-        // Reset form
-        setContactForm({
-          name: '',
-          email: '',
-          subject: '',
-          message: ''
-        });
-      } else {
-        throw new Error('API not available');
-      }
-    } catch (error) {
-      // Direct Gmail mailto link that opens Gmail app/web with pre-filled fields
-      const gmailUrl = `https://mail.google.com/mail/?view=cm&to=parthbhodia08@gmail.com&su=${encodeURIComponent(contactForm.subject)}&body=${encodeURIComponent(`Name: ${contactForm.name}\nEmail: ${contactForm.email}\n\nMessage:\n${contactForm.message}`)}`;
-      window.open(gmailUrl, '_blank');
-      
-      setFormSuccess(true);
-      setFormMessage('Opening Gmail to send your message. Please complete sending from Gmail.');
-      
-      // Reset form
-      setContactForm({
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
-      });
-    } finally {
-      setSubmitting(false);
-    }
+    // Direct Gmail mailto link that opens Gmail app/web with pre-filled fields
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&to=parthbhodia08@gmail.com&su=${encodeURIComponent(contactForm.subject)}&body=${encodeURIComponent(`Name: ${contactForm.name}\nEmail: ${contactForm.email}\n\nMessage:\n${contactForm.message}`)}`;
+    window.open(gmailUrl, '_blank');
+    
+    setFormSuccess(true);
+    setFormMessage('Opening Gmail to send your message. Please complete sending from Gmail.');
+    
+    // Reset form
+    setContactForm({
+      name: '',
+      email: '',
+      subject: '',
+      message: ''
+    });
+    
+    setSubmitting(false);
   };
 
   // Toggle chatbot visibility
