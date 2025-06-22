@@ -177,12 +177,12 @@ export default function Home() {
         throw new Error('API not available');
       }
     } catch (error) {
-      // Fallback to mailto when API is not available (like on GitHub Pages)
-      const mailtoLink = `mailto:parthbhodia08@gmail.com?subject=${encodeURIComponent(contactForm.subject)}&body=${encodeURIComponent(`Name: ${contactForm.name}\nEmail: ${contactForm.email}\n\nMessage:\n${contactForm.message}`)}`;
-      window.open(mailtoLink, '_blank');
+      // Direct Gmail mailto link that opens Gmail app/web with pre-filled fields
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&to=parthbhodia08@gmail.com&su=${encodeURIComponent(contactForm.subject)}&body=${encodeURIComponent(`Name: ${contactForm.name}\nEmail: ${contactForm.email}\n\nMessage:\n${contactForm.message}`)}`;
+      window.open(gmailUrl, '_blank');
       
       setFormSuccess(true);
-      setFormMessage('Opening your email client to send the message. If it doesn\'t open automatically, please email me directly at parthbhodia08@gmail.com');
+      setFormMessage('Opening Gmail to send your message. Please complete sending from Gmail.');
       
       // Reset form
       setContactForm({
@@ -672,12 +672,6 @@ export default function Home() {
                       <span className="text-green-600 dark:text-green-400">📧</span>
                     </div>
                     <span className="text-gray-700 dark:text-gray-300">parthbhodia08@gmail.com</span>
-                  </div>
-                  <div className="flex items-center transform transition-transform hover:translate-x-2">
-                    <div className="w-10 h-10 bg-green-100 dark:bg-green-900/60 rounded-full flex items-center justify-center mr-4 shadow-md">
-                      <span className="text-green-600 dark:text-green-400">📱</span>
-                    </div>
-                    <span className="text-gray-700 dark:text-gray-300">+1 (443) 929-4371</span>
                   </div>
                   <div className="flex items-center transform transition-transform hover:translate-x-2">
                     <div className="w-10 h-10 bg-green-100 dark:bg-green-900/60 rounded-full flex items-center justify-center mr-4 shadow-md">
