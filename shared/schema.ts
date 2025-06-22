@@ -47,5 +47,20 @@ export type User = typeof users.$inferSelect;
 export type InsertMessage = z.infer<typeof insertMessageSchema>;
 export type Message = typeof messages.$inferSelect;
 
+export const hearts = pgTable("hearts", {
+  id: serial("id").primaryKey(),
+  sessionId: text("session_id").notNull(),
+  isLiked: boolean("is_liked").default(false).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertHeartSchema = createInsertSchema(hearts).pick({
+  sessionId: true,
+  isLiked: true,
+});
+
 export type InsertChatHistory = z.infer<typeof insertChatHistorySchema>;
 export type ChatHistory = typeof chatHistory.$inferSelect;
+export type InsertHeart = z.infer<typeof insertHeartSchema>;
+export type Heart = typeof hearts.$inferSelect;
