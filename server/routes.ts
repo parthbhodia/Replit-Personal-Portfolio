@@ -1,10 +1,11 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertChatHistorySchema, insertMessageSchema, insertHeartSchema, insertViewSchema } from "@shared/schema";
+import { insertChatHistorySchema, insertMessageSchema } from "@shared/schema";
 import { fromZodError } from "zod-validation-error";
 import { sendEmail, formatContactEmail } from "./email";
 import { generatePlaceholder } from "./api/placeholder";
+import { supabaseService } from "./supabase";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Placeholder image API endpoint
@@ -85,68 +86,68 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Heart endpoints
-  app.get("/api/heart/:sessionId/:blogPostId", async (req, res) => {
+  // Blog stats endpoints
+  app.get("/api/blog/:blogPostId/stats", async (req, res) => {
     try {
-      const { sessionId, blogPostId } = req.params;
-      const heart = await storage.getHeart(sessionId, blogPostId);
-      return res.json({ isLiked: heart?.isLiked || false });
-    } catch (error) {
-      console.error("Get heart error:", error);
-      return res.status(500).json({ message: "Failed to get heart status" });
-    }
-  });
-
-  app.post("/api/heart", async (req, res) => {
-    try {
-      const validatedData = insertHeartSchema.safeParse(req.body);
+      const { blogPostId } = req.params;
+      const stats = await supabaseService.getBlogStats(blogPostId);
       
-      if (!validatedData.success) {
-        const validationError = fromZodError(validatedData.error);
-        return res.status(400).json({ message: validationError.message });
-      }
-      
-      const heartData = validatedData.data;
-      const savedHeart = await storage.upsertHeart(heartData);
-      
-      return res.json({ 
-        success: true, 
-        isLiked: savedHeart.isLiked 
+      return res.json({
+        views: stats?.views || 0,
+        hearts: stats?.hearts || 0
       });
     } catch (error) {
-      console.error("Heart API error:", error);
-      return res.status(500).json({ message: "Failed to update heart" });
+      console.error("Get blog stats error:", error);
+      return res.status(500).json({ message: "Failed to get blog stats" });
     }
   });
 
-  // View endpoints
-  app.post("/api/view", async (req, res) => {
+  app.post("/api/blog/:blogPostId/view", async (req, res) => {
     try {
-      const validatedData = insertViewSchema.safeParse(req.body);
-      
-      if (!validatedData.success) {
-        const validationError = fromZodError(validatedData.error);
-        return res.status(400).json({ message: validationError.message });
-      }
-      
-      const viewData = validatedData.data;
-      await storage.addView(viewData);
+      const { blogPostId } = req.params;
+      await supabaseService.incrementViews(blogPostId);
       
       return res.json({ success: true });
     } catch (error) {
-      console.error("View API error:", error);
-      return res.status(500).json({ message: "Failed to record view" });
+      console.error("Increment views error:", error);
+      return res.status(500).json({ message: "Failed to increment views" });
     }
   });
 
-  app.get("/api/views/:page", async (req, res) => {
+  app.get("/api/blog/:blogPostId/user/:userFingerprint", async (req, res) => {
     try {
-      const { page } = req.params;
-      const count = await storage.getViewCount(page);
-      return res.json({ count });
+      const { blogPostId, userFingerprint } = req.params;
+      const interaction = await supabaseService.getUserInteraction(userFingerprint, blogPostId);
+      
+      return res.json({
+        hasLiked: interaction?.has_liked || false,
+        hasViewed: interaction?.has_viewed || false
+      });
     } catch (error) {
-      console.error("Get views error:", error);
-      return res.status(500).json({ message: "Failed to get view count" });
+      console.error("Get user interaction error:", error);
+      return res.status(500).json({ message: "Failed to get user interaction" });
+    }
+  });
+
+  app.post("/api/blog/:blogPostId/heart", async (req, res) => {
+    try {
+      const { blogPostId } = req.params;
+      const { userFingerprint } = req.body;
+      
+      if (!userFingerprint) {
+        return res.status(400).json({ message: "User fingerprint is required" });
+      }
+      
+      const result = await supabaseService.toggleHeart(blogPostId, userFingerprint);
+      
+      return res.json({
+        success: true,
+        isLiked: result.isLiked,
+        totalHearts: result.totalHearts
+      });
+    } catch (error) {
+      console.error("Toggle heart error:", error);
+      return res.status(500).json({ message: "Failed to toggle heart" });
     }
   });
 

@@ -466,7 +466,7 @@ export default function Blog() {
                     <Clock className="h-4 w-4" />
                     <span>{selectedPost.readTime}</span>
                   </div>
-                  <ViewCounter page={`blog/${selectedPost.id}`} />
+                  <ViewCounter blogPostId={selectedPost.id} />
                 </div>
                 <HeartButton blogPostId={selectedPost.id} size={24} />
               </div>
@@ -613,7 +613,7 @@ export default function Blog() {
                       </div>
                     </div>
                     <div className="flex items-center space-x-3">
-                      <ViewCounter page={`blog/${post.id}`} />
+                      <ViewCounter blogPostId={post.id} />
                       <HeartButton blogPostId={post.id} size={20} />
                     </div>
                   </div>

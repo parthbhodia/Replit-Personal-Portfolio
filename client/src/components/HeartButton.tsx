@@ -3,14 +3,14 @@ import { Heart } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiRequest } from '../lib/queryClient';
 
-// Generate a unique session ID for the user
-const getSessionId = () => {
-  let sessionId = localStorage.getItem('portfolio-session-id');
-  if (!sessionId) {
-    sessionId = 'session-' + Math.random().toString(36).substr(2, 9) + '-' + Date.now();
-    localStorage.setItem('portfolio-session-id', sessionId);
+// Generate a unique fingerprint for the user
+const getUserFingerprint = () => {
+  let fingerprint = localStorage.getItem('user-fingerprint');
+  if (!fingerprint) {
+    fingerprint = 'fp-' + Math.random().toString(36).substr(2, 9) + '-' + Date.now();
+    localStorage.setItem('user-fingerprint', fingerprint);
   }
-  return sessionId;
+  return fingerprint;
 };
 
 interface HeartButtonProps {
@@ -21,33 +21,41 @@ interface HeartButtonProps {
 
 export default function HeartButton({ blogPostId, className = '', size = 24 }: HeartButtonProps) {
   const [isAnimating, setIsAnimating] = useState(false);
-  const sessionId = getSessionId();
+  const [heartCount, setHeartCount] = useState(0);
+  const userFingerprint = getUserFingerprint();
   const queryClient = useQueryClient();
 
-  // Get current heart status
-  const { data: heartData } = useQuery({
-    queryKey: ['heart', sessionId, blogPostId],
-    queryFn: () => fetch(`/api/heart/${sessionId}/${blogPostId}`).then(res => res.json()),
+  // Get blog stats and user interaction
+  const { data: statsData } = useQuery({
+    queryKey: ['blog-stats', blogPostId],
+    queryFn: () => fetch(`/api/blog/${blogPostId}/stats`).then(res => res.json()),
   });
 
-  const isLiked = heartData?.isLiked || false;
+  const { data: userInteraction } = useQuery({
+    queryKey: ['user-interaction', userFingerprint, blogPostId],
+    queryFn: () => fetch(`/api/blog/${blogPostId}/user/${userFingerprint}`).then(res => res.json()),
+  });
+
+  const isLiked = userInteraction?.hasLiked || false;
+
+  useEffect(() => {
+    setHeartCount(statsData?.hearts || 0);
+  }, [statsData]);
 
   // Mutation to toggle heart
   const heartMutation = useMutation({
-    mutationFn: (isLiked: boolean) =>
-      apiRequest('/api/heart', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessionId, blogPostId, isLiked }),
-      }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['heart', sessionId, blogPostId] });
+    mutationFn: () =>
+      apiRequest(`/api/blog/${blogPostId}/heart`, 'POST', { userFingerprint }),
+    onSuccess: (data) => {
+      setHeartCount(data.totalHearts);
+      queryClient.invalidateQueries({ queryKey: ['blog-stats', blogPostId] });
+      queryClient.invalidateQueries({ queryKey: ['user-interaction', userFingerprint, blogPostId] });
     },
   });
 
   const handleHeartClick = () => {
     setIsAnimating(true);
-    heartMutation.mutate(!isLiked);
+    heartMutation.mutate();
     
     // Reset animation after it completes
     setTimeout(() => setIsAnimating(false), 600);
@@ -102,6 +110,13 @@ export default function HeartButton({ blogPostId, className = '', size = 24 }: H
       {/* Ripple effect */}
       {isAnimating && (
         <div className="absolute inset-0 rounded-full bg-red-400 opacity-30 animate-ping" />
+      )}
+
+      {/* Heart count */}
+      {heartCount > 0 && (
+        <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+          {heartCount > 99 ? '99+' : heartCount}
+        </span>
       )}
     </button>
   );

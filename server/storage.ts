@@ -127,7 +127,8 @@ export class MemStorage implements IStorage {
 
   async getViewCount(page: string): Promise<number> {
     let count = 0;
-    for (const view of this.views.values()) {
+    const viewsArray = Array.from(this.views.values());
+    for (const view of viewsArray) {
       if (view.page === page) {
         count++;
       }

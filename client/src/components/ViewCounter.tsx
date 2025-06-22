@@ -3,47 +3,32 @@ import { Eye } from 'lucide-react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { apiRequest } from '../lib/queryClient';
 
-// Generate a unique session ID for the user
-const getSessionId = () => {
-  let sessionId = localStorage.getItem('portfolio-session-id');
-  if (!sessionId) {
-    sessionId = 'session-' + Math.random().toString(36).substr(2, 9) + '-' + Date.now();
-    localStorage.setItem('portfolio-session-id', sessionId);
-  }
-  return sessionId;
-};
-
 interface ViewCounterProps {
-  page: string;
+  blogPostId: string;
   className?: string;
   size?: number;
 }
 
-export default function ViewCounter({ page, className = '', size = 16 }: ViewCounterProps) {
-  const sessionId = getSessionId();
+export default function ViewCounter({ blogPostId, className = '', size = 16 }: ViewCounterProps) {
   const [hasViewed, setHasViewed] = useState(false);
 
-  // Get current view count
-  const { data: viewData } = useQuery({
-    queryKey: ['views', page],
-    queryFn: () => fetch(`/api/views/${encodeURIComponent(page)}`).then(res => res.json()),
+  // Get current view count from blog stats
+  const { data: statsData } = useQuery({
+    queryKey: ['blog-stats', blogPostId],
+    queryFn: () => fetch(`/api/blog/${blogPostId}/stats`).then(res => res.json()),
   });
 
-  const viewCount = viewData?.count || 0;
+  const viewCount = statsData?.views || 0;
 
   // Mutation to record view
   const viewMutation = useMutation({
     mutationFn: () =>
-      apiRequest('/api/view', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessionId, page }),
-      }),
+      apiRequest(`/api/blog/${blogPostId}/view`, 'POST', {}),
   });
 
   // Record view on component mount (only once per session)
   useEffect(() => {
-    const viewKey = `viewed-${page}`;
+    const viewKey = `viewed-${blogPostId}`;
     const hasViewedBefore = sessionStorage.getItem(viewKey);
     
     if (!hasViewedBefore && !hasViewed) {
@@ -51,7 +36,7 @@ export default function ViewCounter({ page, className = '', size = 16 }: ViewCou
       sessionStorage.setItem(viewKey, 'true');
       setHasViewed(true);
     }
-  }, [page, viewMutation, hasViewed]);
+  }, [blogPostId, viewMutation, hasViewed]);
 
   const formatCount = (count: number) => {
     if (count >= 1000000) {

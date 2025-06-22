@@ -47,36 +47,41 @@ export type User = typeof users.$inferSelect;
 export type InsertMessage = z.infer<typeof insertMessageSchema>;
 export type Message = typeof messages.$inferSelect;
 
-export const hearts = pgTable("hearts", {
+export const blogStats = pgTable("blog_stats", {
   id: serial("id").primaryKey(),
-  sessionId: text("session_id").notNull(),
-  blogPostId: text("blog_post_id").notNull(),
-  isLiked: boolean("is_liked").default(false).notNull(),
+  blogPostId: text("blog_post_id").notNull().unique(),
+  hearts: integer("hearts").default(0).notNull(),
+  views: integer("views").default(0).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
-export const insertHeartSchema = createInsertSchema(hearts).pick({
-  sessionId: true,
-  blogPostId: true,
-  isLiked: true,
-});
-
-export const views = pgTable("views", {
+export const userInteractions = pgTable("user_interactions", {
   id: serial("id").primaryKey(),
-  sessionId: text("session_id").notNull(),
-  page: text("page").notNull(),
+  userFingerprint: text("user_fingerprint").notNull(),
+  blogPostId: text("blog_post_id").notNull(),
+  hasLiked: boolean("has_liked").default(false).notNull(),
+  hasViewed: boolean("has_viewed").default(false).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
-export const insertViewSchema = createInsertSchema(views).pick({
-  sessionId: true,
-  page: true,
+export const insertBlogStatsSchema = createInsertSchema(blogStats).pick({
+  blogPostId: true,
+  hearts: true,
+  views: true,
+});
+
+export const insertUserInteractionSchema = createInsertSchema(userInteractions).pick({
+  userFingerprint: true,
+  blogPostId: true,
+  hasLiked: true,
+  hasViewed: true,
 });
 
 export type InsertChatHistory = z.infer<typeof insertChatHistorySchema>;
 export type ChatHistory = typeof chatHistory.$inferSelect;
-export type InsertHeart = z.infer<typeof insertHeartSchema>;
-export type Heart = typeof hearts.$inferSelect;
-export type InsertView = z.infer<typeof insertViewSchema>;
-export type View = typeof views.$inferSelect;
+export type InsertBlogStats = z.infer<typeof insertBlogStatsSchema>;
+export type BlogStats = typeof blogStats.$inferSelect;
+export type InsertUserInteraction = z.infer<typeof insertUserInteractionSchema>;
+export type UserInteraction = typeof userInteractions.$inferSelect;
