@@ -66,6 +66,18 @@ export const userInteractions = pgTable("user_interactions", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
+export const comments = pgTable("comments", {
+  id: serial("id").primaryKey(),
+  blogPostId: text("blog_post_id").notNull(),
+  parentId: integer("parent_id"),
+  authorName: text("author_name").notNull(),
+  authorEmail: text("author_email").notNull(),
+  content: text("content").notNull(),
+  userFingerprint: text("user_fingerprint").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
 export const insertBlogStatsSchema = createInsertSchema(blogStats).pick({
   blogPostId: true,
   hearts: true,
@@ -79,9 +91,20 @@ export const insertUserInteractionSchema = createInsertSchema(userInteractions).
   hasViewed: true,
 });
 
+export const insertCommentSchema = createInsertSchema(comments).pick({
+  blogPostId: true,
+  parentId: true,
+  authorName: true,
+  authorEmail: true,
+  content: true,
+  userFingerprint: true,
+});
+
 export type InsertChatHistory = z.infer<typeof insertChatHistorySchema>;
 export type ChatHistory = typeof chatHistory.$inferSelect;
 export type InsertBlogStats = z.infer<typeof insertBlogStatsSchema>;
 export type BlogStats = typeof blogStats.$inferSelect;
 export type InsertUserInteraction = z.infer<typeof insertUserInteractionSchema>;
 export type UserInteraction = typeof userInteractions.$inferSelect;
+export type InsertComment = z.infer<typeof insertCommentSchema>;
+export type Comment = typeof comments.$inferSelect;

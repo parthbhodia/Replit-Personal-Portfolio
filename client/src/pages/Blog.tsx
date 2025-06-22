@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'wouter';
 import { Calendar, Clock, ArrowRight, Home, User, Share2, MessageCircle } from 'lucide-react';
 import ThemeToggle from '../components/ThemeToggle';
 import HeartButton from '../components/HeartButton';
 import ViewCounter from '../components/ViewCounter';
+import CommentSection from '../components/CommentSection';
+import ShareButton from '../components/ShareButton';
 import { Menu, X } from 'lucide-react';
 
 interface BlogPost {
@@ -409,6 +411,30 @@ Remember: Architecture should serve your business goals, not the other way aroun
 export default function Blog() {
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [userFingerprint, setUserFingerprint] = useState<string>('');
+
+  // Generate user fingerprint
+  useEffect(() => {
+    const generateFingerprint = () => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        ctx.textBaseline = 'top';
+        ctx.font = '14px Arial';
+        ctx.fillText('User fingerprint', 2, 2);
+      }
+      
+      const fingerprint = `fp-${Math.random().toString(36).substr(2, 9)}-${Date.now()}`;
+      return fingerprint;
+    };
+
+    let fp = localStorage.getItem('userFingerprint');
+    if (!fp) {
+      fp = generateFingerprint();
+      localStorage.setItem('userFingerprint', fp);
+    }
+    setUserFingerprint(fp);
+  }, []);
 
   if (selectedPost) {
     return (
@@ -501,53 +527,12 @@ export default function Blog() {
                 </div>
                 
                 <div className="flex items-center space-x-4">
-                  <button 
-                    onClick={async () => {
-                      try {
-                        if (navigator.share) {
-                          await navigator.share({
-                            title: selectedPost.title,
-                            text: selectedPost.excerpt,
-                            url: window.location.href,
-                          });
-                        } else {
-                          await navigator.clipboard.writeText(window.location.href);
-                        }
-                      } catch (error) {
-                        // User canceled share or clipboard failed - silently ignore
-                        if (error.name !== 'AbortError') {
-                          console.log('Share failed, copying to clipboard as fallback');
-                          try {
-                            await navigator.clipboard.writeText(window.location.href);
-                          } catch (clipboardError) {
-                            // Fallback for browsers that don't support clipboard API
-                            const textArea = document.createElement('textarea');
-                            textArea.value = window.location.href;
-                            document.body.appendChild(textArea);
-                            textArea.select();
-                            document.execCommand('copy');
-                            document.body.removeChild(textArea);
-                          }
-                        }
-                      }
-                    }}
-                    className="flex items-center space-x-2 px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-                  >
-                    <Share2 size={16} />
-                    <span className="text-sm font-medium">Share</span>
-                  </button>
-                  
-                  <button 
-                    onClick={() => {
-                      const subject = `Re: ${selectedPost.title}`;
-                      const body = `I read your blog post "${selectedPost.title}" and wanted to share my thoughts...`;
-                      window.location.href = `mailto:parthbhodia08@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-                    }}
-                    className="flex items-center space-x-2 px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-                  >
-                    <MessageCircle size={16} />
-                    <span className="text-sm font-medium">Comment</span>
-                  </button>
+                  <ShareButton 
+                    title={selectedPost.title}
+                    excerpt={selectedPost.excerpt}
+                    url={window.location.href}
+                    className="px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                  />
                 </div>
               </div>
               
@@ -555,6 +540,14 @@ export default function Blog() {
                 <p>Enjoyed this post? Share your thoughts or connect with me!</p>
               </div>
             </div>
+
+            {/* Comments Section */}
+            {userFingerprint && (
+              <CommentSection 
+                blogPostId={selectedPost.id} 
+                userFingerprint={userFingerprint}
+              />
+            )}
           </div>
         </article>
       </div>

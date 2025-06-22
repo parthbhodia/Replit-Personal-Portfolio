@@ -28,6 +28,18 @@ export interface UserInteractionSupabase {
   updated_at: string;
 }
 
+export interface CommentSupabase {
+  id: number;
+  blog_post_id: string;
+  parent_id: number | null;
+  author_name: string;
+  author_email: string;
+  content: string;
+  user_fingerprint: string;
+  created_at: string;
+  updated_at: string;
+}
+
 export class SupabaseService {
   async getBlogStats(blogPostId: string): Promise<BlogStatsSupabase | null> {
     try {
@@ -184,6 +196,60 @@ export class SupabaseService {
       return data;
     } catch (error) {
       console.error('Error fetching user interaction:', error);
+      return null;
+    }
+  }
+
+  async getComments(blogPostId: string): Promise<CommentSupabase[]> {
+    try {
+      const { data, error } = await supabase
+        .from('comments')
+        .select('*')
+        .eq('blog_post_id', blogPostId)
+        .order('created_at', { ascending: true });
+
+      if (error) {
+        console.error('Error fetching comments:', error);
+        return [];
+      }
+
+      return data || [];
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+      return [];
+    }
+  }
+
+  async addComment(comment: {
+    blogPostId: string;
+    parentId?: number;
+    authorName: string;
+    authorEmail: string;
+    content: string;
+    userFingerprint: string;
+  }): Promise<CommentSupabase | null> {
+    try {
+      const { data, error } = await supabase
+        .from('comments')
+        .insert({
+          blog_post_id: comment.blogPostId,
+          parent_id: comment.parentId || null,
+          author_name: comment.authorName,
+          author_email: comment.authorEmail,
+          content: comment.content,
+          user_fingerprint: comment.userFingerprint,
+        })
+        .select()
+        .single();
+
+      if (error) {
+        console.error('Error adding comment:', error);
+        return null;
+      }
+
+      return data;
+    } catch (error) {
+      console.error('Error adding comment:', error);
       return null;
     }
   }
