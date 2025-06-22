@@ -16,17 +16,28 @@ export default function AuthModal({ isOpen, onClose, onAuth }: AuthModalProps) {
   const handleGoogleAuth = async () => {
     setIsLoading(true);
     try {
-      // Simulate OAuth flow - in real implementation, this would redirect to Google OAuth
-      // For demo purposes, we'll use a mock user
-      const mockGoogleUser = {
-        name: 'Demo User',
-        email: 'demo@gmail.com',
-        avatar: 'https://via.placeholder.com/40'
+      // Open Google OAuth in popup
+      const popup = window.open(
+        'https://accounts.google.com/oauth/authorize?' +
+        'client_id=your-google-client-id&' +
+        'redirect_uri=' + encodeURIComponent(window.location.origin + '/auth/google/callback') + '&' +
+        'response_type=code&' +
+        'scope=openid profile email',
+        'google-auth',
+        'width=500,height=600'
+      );
+
+      // For demo purposes since we don't have real OAuth setup
+      const userName = prompt('Enter your name:') || 'Anonymous User';
+      const userEmail = prompt('Enter your email:') || 'user@example.com';
+      const demoUser = {
+        name: userName,
+        email: userEmail,
+        avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=10b981&color=fff`
       };
       
-      // Store auth info in localStorage
-      localStorage.setItem('authUser', JSON.stringify(mockGoogleUser));
-      onAuth(mockGoogleUser);
+      localStorage.setItem('authUser', JSON.stringify(demoUser));
+      onAuth(demoUser);
       onClose();
     } catch (error) {
       console.error('Google auth failed:', error);
@@ -38,17 +49,27 @@ export default function AuthModal({ isOpen, onClose, onAuth }: AuthModalProps) {
   const handleGithubAuth = async () => {
     setIsLoading(true);
     try {
-      // Simulate OAuth flow - in real implementation, this would redirect to GitHub OAuth
-      // For demo purposes, we'll use a mock user
-      const mockGithubUser = {
-        name: 'GitHub User',
-        email: 'user@github.com',
-        avatar: 'https://via.placeholder.com/40'
+      // Open GitHub OAuth in popup
+      const popup = window.open(
+        'https://github.com/login/oauth/authorize?' +
+        'client_id=your-github-client-id&' +
+        'redirect_uri=' + encodeURIComponent(window.location.origin + '/auth/github/callback') + '&' +
+        'scope=user:email',
+        'github-auth',
+        'width=500,height=600'
+      );
+
+      // For demo purposes since we don't have real OAuth setup
+      const githubUsername = prompt('Enter your GitHub username:') || 'github-user';
+      const githubEmail = prompt('Enter your email:') || 'user@github.com';
+      const demoUser = {
+        name: githubUsername,
+        email: githubEmail,
+        avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(githubUsername)}&background=333&color=fff`
       };
       
-      // Store auth info in localStorage
-      localStorage.setItem('authUser', JSON.stringify(mockGithubUser));
-      onAuth(mockGithubUser);
+      localStorage.setItem('authUser', JSON.stringify(demoUser));
+      onAuth(demoUser);
       onClose();
     } catch (error) {
       console.error('GitHub auth failed:', error);
