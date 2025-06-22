@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertChatHistorySchema, insertMessageSchema } from "@shared/schema";
+import { insertChatHistorySchema, insertMessageSchema, insertHeartSchema } from "@shared/schema";
 import { fromZodError } from "zod-validation-error";
 import { sendEmail, formatContactEmail } from "./email";
 import { generatePlaceholder } from "./api/placeholder";

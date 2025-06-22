@@ -889,6 +889,11 @@ export default function Home() {
 
           {/* Copyright & Credits */}
           <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-500 dark:text-gray-400">
+            <div className="flex items-center space-x-2 mb-2">
+              <span>Made with</span>
+              <HeartButton size={16} />
+              <span>by Parth Bhodia</span>
+            </div>
             <p>© {new Date().getFullYear()} Parth Bhodia. All rights reserved.</p>
             <div className="mt-4 md:mt-0 flex items-center space-x-4">
               <a href="mailto:parthbhodia08@gmail.com" className="hover:text-green-600 dark:hover:text-green-400 transition-colors">Contact</a>

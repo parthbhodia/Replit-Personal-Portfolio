@@ -1,7 +1,8 @@
 import { 
   users, type User, type InsertUser, 
   messages, type Message, type InsertMessage,
-  chatHistory, type ChatHistory, type InsertChatHistory
+  chatHistory, type ChatHistory, type InsertChatHistory,
+  hearts, type Heart, type InsertHeart
 } from "@shared/schema";
 
 // modify the interface with any CRUD methods
@@ -82,7 +83,7 @@ export class MemStorage implements IStorage {
     if (existing) {
       const updated: Heart = {
         ...existing,
-        isLiked: insertHeart.isLiked,
+        isLiked: insertHeart.isLiked ?? false,
         updatedAt: new Date(),
       };
       this.hearts.set(insertHeart.sessionId, updated);
@@ -91,8 +92,9 @@ export class MemStorage implements IStorage {
       const id = this.heartCurrentId++;
       const now = new Date();
       const heart: Heart = {
-        ...insertHeart,
         id,
+        sessionId: insertHeart.sessionId,
+        isLiked: insertHeart.isLiked ?? false,
         createdAt: now,
         updatedAt: now,
       };
