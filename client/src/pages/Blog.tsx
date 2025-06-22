@@ -502,15 +502,33 @@ export default function Blog() {
                 
                 <div className="flex items-center space-x-4">
                   <button 
-                    onClick={() => {
-                      if (navigator.share) {
-                        navigator.share({
-                          title: selectedPost.title,
-                          text: selectedPost.excerpt,
-                          url: window.location.href,
-                        });
-                      } else {
-                        navigator.clipboard.writeText(window.location.href);
+                    onClick={async () => {
+                      try {
+                        if (navigator.share) {
+                          await navigator.share({
+                            title: selectedPost.title,
+                            text: selectedPost.excerpt,
+                            url: window.location.href,
+                          });
+                        } else {
+                          await navigator.clipboard.writeText(window.location.href);
+                        }
+                      } catch (error) {
+                        // User canceled share or clipboard failed - silently ignore
+                        if (error.name !== 'AbortError') {
+                          console.log('Share failed, copying to clipboard as fallback');
+                          try {
+                            await navigator.clipboard.writeText(window.location.href);
+                          } catch (clipboardError) {
+                            // Fallback for browsers that don't support clipboard API
+                            const textArea = document.createElement('textarea');
+                            textArea.value = window.location.href;
+                            document.body.appendChild(textArea);
+                            textArea.select();
+                            document.execCommand('copy');
+                            document.body.removeChild(textArea);
+                          }
+                        }
                       }
                     }}
                     className="flex items-center space-x-2 px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
