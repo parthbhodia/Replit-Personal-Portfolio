@@ -15,19 +15,30 @@ export default function ViewCounter({ blogPostId, className = '', size = 16 }: V
   // Get current view count from blog stats
   const { data: statsData } = useQuery({
     queryKey: ['blog-stats', blogPostId],
-    queryFn: () => fetch(`/api/blog/${blogPostId}/stats`).then(res => res.json()),
+    queryFn: async () => {
+      const response = await fetch(`/api/blog/${blogPostId}/stats`);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch stats: ${response.status}`);
+      }
+      return response.json();
+    },
   });
 
   const viewCount = statsData?.views || 0;
 
   // Mutation to record view
   const viewMutation = useMutation({
-    mutationFn: () =>
-      fetch(`/api/blog/${blogPostId}/view`, {
+    mutationFn: async () => {
+      const response = await fetch(`/api/blog/${blogPostId}/view`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({}),
-      }).then(res => res.json()),
+      });
+      if (!response.ok) {
+        throw new Error(`Failed to record view: ${response.status}`);
+      }
+      return response.json();
+    },
   });
 
   // Record view on component mount (only once per session)

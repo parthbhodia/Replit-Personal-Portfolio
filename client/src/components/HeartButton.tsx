@@ -28,12 +28,24 @@ export default function HeartButton({ blogPostId, className = '', size = 24 }: H
   // Get blog stats and user interaction
   const { data: statsData } = useQuery({
     queryKey: ['blog-stats', blogPostId],
-    queryFn: () => fetch(`/api/blog/${blogPostId}/stats`).then(res => res.json()),
+    queryFn: async () => {
+      const response = await fetch(`/api/blog/${blogPostId}/stats`);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch stats: ${response.status}`);
+      }
+      return response.json();
+    },
   });
 
   const { data: userInteraction } = useQuery({
     queryKey: ['user-interaction', userFingerprint, blogPostId],
-    queryFn: () => fetch(`/api/blog/${blogPostId}/user/${userFingerprint}`).then(res => res.json()),
+    queryFn: async () => {
+      const response = await fetch(`/api/blog/${blogPostId}/user/${userFingerprint}`);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch user interaction: ${response.status}`);
+      }
+      return response.json();
+    },
   });
 
   const isLiked = userInteraction?.hasLiked || false;
@@ -44,12 +56,17 @@ export default function HeartButton({ blogPostId, className = '', size = 24 }: H
 
   // Mutation to toggle heart
   const heartMutation = useMutation({
-    mutationFn: () =>
-      fetch(`/api/blog/${blogPostId}/heart`, {
+    mutationFn: async () => {
+      const response = await fetch(`/api/blog/${blogPostId}/heart`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userFingerprint }),
-      }).then(res => res.json()),
+      });
+      if (!response.ok) {
+        throw new Error(`Failed to toggle heart: ${response.status}`);
+      }
+      return response.json();
+    },
     onSuccess: (data) => {
       setHeartCount(data.totalHearts);
       queryClient.invalidateQueries({ queryKey: ['blog-stats', blogPostId] });
