@@ -50,6 +50,7 @@ export type Message = typeof messages.$inferSelect;
 export const hearts = pgTable("hearts", {
   id: serial("id").primaryKey(),
   sessionId: text("session_id").notNull(),
+  blogPostId: text("blog_post_id").notNull(),
   isLiked: boolean("is_liked").default(false).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
@@ -57,10 +58,25 @@ export const hearts = pgTable("hearts", {
 
 export const insertHeartSchema = createInsertSchema(hearts).pick({
   sessionId: true,
+  blogPostId: true,
   isLiked: true,
+});
+
+export const views = pgTable("views", {
+  id: serial("id").primaryKey(),
+  sessionId: text("session_id").notNull(),
+  page: text("page").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertViewSchema = createInsertSchema(views).pick({
+  sessionId: true,
+  page: true,
 });
 
 export type InsertChatHistory = z.infer<typeof insertChatHistorySchema>;
 export type ChatHistory = typeof chatHistory.$inferSelect;
 export type InsertHeart = z.infer<typeof insertHeartSchema>;
 export type Heart = typeof hearts.$inferSelect;
+export type InsertView = z.infer<typeof insertViewSchema>;
+export type View = typeof views.$inferSelect;

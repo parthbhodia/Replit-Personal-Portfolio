@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'wouter';
 import ThreeBackground from '../components/ThreeBackground';
 import ThemeToggle from '../components/ThemeToggle';
+import ViewCounter from '../components/ViewCounter';
 import { Menu, X } from 'lucide-react';
 
 export default function Skills() {

@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Link } from 'wouter';
 import { Calendar, Clock, ArrowRight, Home, User } from 'lucide-react';
 import ThemeToggle from '../components/ThemeToggle';
+import HeartButton from '../components/HeartButton';
+import ViewCounter from '../components/ViewCounter';
 import { Menu, X } from 'lucide-react';
 
 interface BlogPost {
@@ -454,15 +456,19 @@ export default function Blog() {
                 {selectedPost.title}
               </h1>
               
-              <div className="flex items-center space-x-4 text-gray-600 dark:text-gray-400 mb-6">
-                <div className="flex items-center space-x-1">
-                  <Calendar className="h-4 w-4" />
-                  <span>{new Date(selectedPost.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center space-x-4 text-gray-600 dark:text-gray-400">
+                  <div className="flex items-center space-x-1">
+                    <Calendar className="h-4 w-4" />
+                    <span>{new Date(selectedPost.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <Clock className="h-4 w-4" />
+                    <span>{selectedPost.readTime}</span>
+                  </div>
+                  <ViewCounter page={`blog/${selectedPost.id}`} />
                 </div>
-                <div className="flex items-center space-x-1">
-                  <Clock className="h-4 w-4" />
-                  <span>{selectedPost.readTime}</span>
-                </div>
+                <HeartButton blogPostId={selectedPost.id} size={24} />
               </div>
               
               <div className="flex flex-wrap gap-2 mb-8">
@@ -596,13 +602,19 @@ export default function Blog() {
                   </p>
                   
                   <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 mb-4">
-                    <div className="flex items-center space-x-1">
-                      <Calendar className="h-4 w-4" />
-                      <span>{new Date(post.date).toLocaleDateString()}</span>
+                    <div className="flex items-center space-x-4">
+                      <div className="flex items-center space-x-1">
+                        <Calendar className="h-4 w-4" />
+                        <span>{new Date(post.date).toLocaleDateString()}</span>
+                      </div>
+                      <div className="flex items-center space-x-1">
+                        <Clock className="h-4 w-4" />
+                        <span>{post.readTime}</span>
+                      </div>
                     </div>
-                    <div className="flex items-center space-x-1">
-                      <Clock className="h-4 w-4" />
-                      <span>{post.readTime}</span>
+                    <div className="flex items-center space-x-3">
+                      <ViewCounter page={`blog/${post.id}`} />
+                      <HeartButton blogPostId={post.id} size={20} />
                     </div>
                   </div>
                   

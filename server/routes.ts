@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertChatHistorySchema, insertMessageSchema, insertHeartSchema } from "@shared/schema";
+import { insertChatHistorySchema, insertMessageSchema, insertHeartSchema, insertViewSchema } from "@shared/schema";
 import { fromZodError } from "zod-validation-error";
 import { sendEmail, formatContactEmail } from "./email";
 import { generatePlaceholder } from "./api/placeholder";
@@ -86,10 +86,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Heart endpoints
-  app.get("/api/heart/:sessionId", async (req, res) => {
+  app.get("/api/heart/:sessionId/:blogPostId", async (req, res) => {
     try {
-      const { sessionId } = req.params;
-      const heart = await storage.getHeart(sessionId);
+      const { sessionId, blogPostId } = req.params;
+      const heart = await storage.getHeart(sessionId, blogPostId);
       return res.json({ isLiked: heart?.isLiked || false });
     } catch (error) {
       console.error("Get heart error:", error);
@@ -116,6 +116,37 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Heart API error:", error);
       return res.status(500).json({ message: "Failed to update heart" });
+    }
+  });
+
+  // View endpoints
+  app.post("/api/view", async (req, res) => {
+    try {
+      const validatedData = insertViewSchema.safeParse(req.body);
+      
+      if (!validatedData.success) {
+        const validationError = fromZodError(validatedData.error);
+        return res.status(400).json({ message: validationError.message });
+      }
+      
+      const viewData = validatedData.data;
+      await storage.addView(viewData);
+      
+      return res.json({ success: true });
+    } catch (error) {
+      console.error("View API error:", error);
+      return res.status(500).json({ message: "Failed to record view" });
+    }
+  });
+
+  app.get("/api/views/:page", async (req, res) => {
+    try {
+      const { page } = req.params;
+      const count = await storage.getViewCount(page);
+      return res.json({ count });
+    } catch (error) {
+      console.error("Get views error:", error);
+      return res.status(500).json({ message: "Failed to get view count" });
     }
   });
 

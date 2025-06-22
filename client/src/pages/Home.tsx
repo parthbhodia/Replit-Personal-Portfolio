@@ -11,7 +11,7 @@ import ParallaxHeader from '../components/ParallaxHeader';
 import AnimatedProjectCard from '../components/AnimatedProjectCard';
 import TypewriterText from '../components/TypewriterText';
 import ScrollProgress from '../components/ScrollProgress';
-import HeartButton from '../components/HeartButton';
+import ViewCounter from '../components/ViewCounter';
 import { Menu, X } from 'lucide-react';
 
 export default function Home() {
@@ -305,11 +305,11 @@ export default function Home() {
       <nav className="bg-white/90 dark:bg-black/90 backdrop-blur-sm sticky top-0 z-50 shadow-md">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-4">
               <div className="text-xl font-bold bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text">
                 Parth Bhodia
               </div>
-              <HeartButton size={20} />
+              <ViewCounter page="home" size={18} />
             </div>
             
             {/* Desktop Navigation */}
@@ -890,9 +890,7 @@ export default function Home() {
           {/* Copyright & Credits */}
           <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-500 dark:text-gray-400">
             <div className="flex items-center space-x-2 mb-2">
-              <span>Made with</span>
-              <HeartButton size={16} />
-              <span>by Parth Bhodia</span>
+              <span>Made with ❤️ by Parth Bhodia</span>
             </div>
             <p>© {new Date().getFullYear()} Parth Bhodia. All rights reserved.</p>
             <div className="mt-4 md:mt-0 flex items-center space-x-4">

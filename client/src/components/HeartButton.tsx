@@ -14,19 +14,20 @@ const getSessionId = () => {
 };
 
 interface HeartButtonProps {
+  blogPostId: string;
   className?: string;
   size?: number;
 }
 
-export default function HeartButton({ className = '', size = 24 }: HeartButtonProps) {
+export default function HeartButton({ blogPostId, className = '', size = 24 }: HeartButtonProps) {
   const [isAnimating, setIsAnimating] = useState(false);
   const sessionId = getSessionId();
   const queryClient = useQueryClient();
 
   // Get current heart status
   const { data: heartData } = useQuery({
-    queryKey: ['heart', sessionId],
-    queryFn: () => fetch(`/api/heart/${sessionId}`).then(res => res.json()),
+    queryKey: ['heart', sessionId, blogPostId],
+    queryFn: () => fetch(`/api/heart/${sessionId}/${blogPostId}`).then(res => res.json()),
   });
 
   const isLiked = heartData?.isLiked || false;
@@ -37,10 +38,10 @@ export default function HeartButton({ className = '', size = 24 }: HeartButtonPr
       apiRequest('/api/heart', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessionId, isLiked }),
+        body: JSON.stringify({ sessionId, blogPostId, isLiked }),
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['heart', sessionId] });
+      queryClient.invalidateQueries({ queryKey: ['heart', sessionId, blogPostId] });
     },
   });
 
