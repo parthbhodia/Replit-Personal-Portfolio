@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'wouter';
-import { Calendar, Clock, ArrowRight, Home, User } from 'lucide-react';
+import { Calendar, Clock, ArrowRight, Home, User, Share2, MessageCircle } from 'lucide-react';
 import ThemeToggle from '../components/ThemeToggle';
 import HeartButton from '../components/HeartButton';
 import ViewCounter from '../components/ViewCounter';
@@ -483,6 +483,60 @@ export default function Blog() {
             <div className="prose prose-lg dark:prose-invert max-w-none">
               <div dangerouslySetInnerHTML={{ __html: selectedPost.content.replace(/\n/g, '<br />').replace(/```([^`]+)```/g, '<pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto"><code>$1</code></pre>').replace(/`([^`]+)`/g, '<code class="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">$1</code>') }} />
             </div>
+            
+            {/* Social engagement section */}
+            <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
+              <div className="flex items-center justify-between flex-wrap gap-4">
+                <div className="flex items-center space-x-6">
+                  <HeartButton 
+                    blogPostId={selectedPost.id} 
+                    className="flex items-center space-x-2 px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                    size={20}
+                  />
+                  <ViewCounter 
+                    blogPostId={selectedPost.id} 
+                    className="flex items-center space-x-2 px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-800"
+                    size={16}
+                  />
+                </div>
+                
+                <div className="flex items-center space-x-4">
+                  <button 
+                    onClick={() => {
+                      if (navigator.share) {
+                        navigator.share({
+                          title: selectedPost.title,
+                          text: selectedPost.excerpt,
+                          url: window.location.href,
+                        });
+                      } else {
+                        navigator.clipboard.writeText(window.location.href);
+                      }
+                    }}
+                    className="flex items-center space-x-2 px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                  >
+                    <Share2 size={16} />
+                    <span className="text-sm font-medium">Share</span>
+                  </button>
+                  
+                  <button 
+                    onClick={() => {
+                      const subject = `Re: ${selectedPost.title}`;
+                      const body = `I read your blog post "${selectedPost.title}" and wanted to share my thoughts...`;
+                      window.location.href = `mailto:parthbhodia08@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                    }}
+                    className="flex items-center space-x-2 px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                  >
+                    <MessageCircle size={16} />
+                    <span className="text-sm font-medium">Comment</span>
+                  </button>
+                </div>
+              </div>
+              
+              <div className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
+                <p>Enjoyed this post? Share your thoughts or connect with me!</p>
+              </div>
+            </div>
           </div>
         </article>
       </div>
@@ -572,10 +626,12 @@ export default function Blog() {
             {blogPosts.map((post) => (
               <article
                 key={post.id}
-                className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
-                onClick={() => setSelectedPost(post)}
+                className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
               >
-                <div className="h-48 bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center">
+                <div 
+                  className="h-48 bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center cursor-pointer"
+                  onClick={() => setSelectedPost(post)}
+                >
                   <div className="text-white text-center p-4">
                     <div className="text-6xl mb-2">
                       {post.category === 'Cloud Architecture' && '☁️'}
@@ -593,11 +649,17 @@ export default function Blog() {
                     </span>
                   </div>
                   
-                  <h2 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">
+                  <h2 
+                    className="text-xl font-bold mb-3 text-gray-900 dark:text-white cursor-pointer hover:text-green-600 dark:hover:text-green-400 transition-colors"
+                    onClick={() => setSelectedPost(post)}
+                  >
                     {post.title}
                   </h2>
                   
-                  <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
+                  <p 
+                    className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3 cursor-pointer"
+                    onClick={() => setSelectedPost(post)}
+                  >
                     {post.excerpt}
                   </p>
                   
@@ -614,7 +676,9 @@ export default function Blog() {
                     </div>
                     <div className="flex items-center space-x-3">
                       <ViewCounter blogPostId={post.id} />
-                      <HeartButton blogPostId={post.id} size={20} />
+                      <div onClick={(e) => e.stopPropagation()}>
+                        <HeartButton blogPostId={post.id} size={20} />
+                      </div>
                     </div>
                   </div>
                   
@@ -626,7 +690,10 @@ export default function Blog() {
                     ))}
                   </div>
                   
-                  <button className="inline-flex items-center text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 font-medium">
+                  <button 
+                    className="inline-flex items-center text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 font-medium"
+                    onClick={() => setSelectedPost(post)}
+                  >
                     Read More
                     <ArrowRight className="h-4 w-4 ml-1" />
                   </button>
