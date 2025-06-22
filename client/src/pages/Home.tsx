@@ -1,6 +1,7 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from "../components/ui/dialog";
 
 import React, { useState, useRef, useEffect } from 'react';
+import { Link } from 'wouter';
 import { format } from 'date-fns';
 import { ChatMessage, FormData } from '../types';
 import ThreeBackground from '../components/ThreeBackground';
@@ -827,9 +828,14 @@ export default function Home() {
                   </a>
                 </li>
                 <li>
-                  <a href="#skills" className="hover:text-green-600 dark:hover:text-green-400 transition-colors flex items-center">
+                  <Link href="/skills" className="hover:text-green-600 dark:hover:text-green-400 transition-colors flex items-center">
                     <span className="mr-2">→</span> Skills & Expertise
-                  </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/blog" className="hover:text-green-600 dark:hover:text-green-400 transition-colors flex items-center">
+                    <span className="mr-2">→</span> Tech Blog
+                  </Link>
                 </li>
                 <li>
                   <a href="#projects" className="hover:text-green-600 dark:hover:text-green-400 transition-colors flex items-center">

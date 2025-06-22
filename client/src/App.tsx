@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Switch, Route } from 'wouter';
 import Home from './pages/Home';
 import Skills from './pages/Skills';
+import Blog from './pages/Blog';
 import NotFound from './pages/not-found';
 import CustomCursor from './components/CustomCursor';
 
