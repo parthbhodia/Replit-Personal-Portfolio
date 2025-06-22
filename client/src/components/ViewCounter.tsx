@@ -23,7 +23,11 @@ export default function ViewCounter({ blogPostId, className = '', size = 16 }: V
   // Mutation to record view
   const viewMutation = useMutation({
     mutationFn: () =>
-      apiRequest(`/api/blog/${blogPostId}/view`, 'POST', {}),
+      fetch(`/api/blog/${blogPostId}/view`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({}),
+      }).then(res => res.json()),
   });
 
   // Record view on component mount (only once per session)

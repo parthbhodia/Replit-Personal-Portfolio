@@ -45,7 +45,11 @@ export default function HeartButton({ blogPostId, className = '', size = 24 }: H
   // Mutation to toggle heart
   const heartMutation = useMutation({
     mutationFn: () =>
-      apiRequest(`/api/blog/${blogPostId}/heart`, 'POST', { userFingerprint }),
+      fetch(`/api/blog/${blogPostId}/heart`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userFingerprint }),
+      }).then(res => res.json()),
     onSuccess: (data) => {
       setHeartCount(data.totalHearts);
       queryClient.invalidateQueries({ queryKey: ['blog-stats', blogPostId] });
