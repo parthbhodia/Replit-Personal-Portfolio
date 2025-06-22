@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onAuth: (user: { name: string; email: string; avatar?: string }) => void;
+  onAuth: (user: { name: string; email: string }) => void;
 }
 
 export default function AuthModal({ isOpen, onClose, onAuth }: AuthModalProps) {
@@ -32,8 +32,7 @@ export default function AuthModal({ isOpen, onClose, onAuth }: AuthModalProps) {
       const userEmail = prompt('Enter your email:') || 'user@example.com';
       const demoUser = {
         name: userName,
-        email: userEmail,
-        avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=10b981&color=fff`
+        email: userEmail
       };
       
       localStorage.setItem('authUser', JSON.stringify(demoUser));
@@ -64,8 +63,7 @@ export default function AuthModal({ isOpen, onClose, onAuth }: AuthModalProps) {
       const githubEmail = prompt('Enter your email:') || 'user@github.com';
       const demoUser = {
         name: githubUsername,
-        email: githubEmail,
-        avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(githubUsername)}&background=333&color=fff`
+        email: githubEmail
       };
       
       localStorage.setItem('authUser', JSON.stringify(demoUser));
