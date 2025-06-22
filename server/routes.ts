@@ -151,6 +151,47 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Comments endpoints
+  app.get('/api/blog/:postId/comments', async (req, res) => {
+    try {
+      const { postId } = req.params;
+      const comments = await supabaseService.getComments(postId);
+      res.json(comments);
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+      res.status(500).json({ error: 'Failed to fetch comments' });
+    }
+  });
+
+  app.post('/api/blog/:postId/comments', async (req, res) => {
+    try {
+      const { postId } = req.params;
+      const { parentId, authorName, authorEmail, content, userFingerprint } = req.body;
+      
+      if (!authorName || !authorEmail || !content || !userFingerprint) {
+        return res.status(400).json({ error: 'All fields are required' });
+      }
+
+      const comment = await supabaseService.addComment({
+        blogPostId: postId,
+        parentId,
+        authorName,
+        authorEmail,
+        content,
+        userFingerprint
+      });
+
+      if (!comment) {
+        return res.status(500).json({ error: 'Failed to add comment' });
+      }
+
+      res.json(comment);
+    } catch (error) {
+      console.error('Error adding comment:', error);
+      res.status(500).json({ error: 'Failed to add comment' });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

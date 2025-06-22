@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { MessageCircle, Reply, User } from 'lucide-react';
+import { MessageCircle, Reply, User, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Input } from '@/components/ui/input';
+import AuthModal from './AuthModal';
 
 interface Comment {
   id: number;
@@ -26,13 +26,21 @@ interface CommentSectionProps {
 export default function CommentSection({ blogPostId, userFingerprint }: CommentSectionProps) {
   const [showCommentForm, setShowCommentForm] = useState(false);
   const [replyTo, setReplyTo] = useState<number | null>(null);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authUser, setAuthUser] = useState<{ name: string; email: string; avatar?: string } | null>(null);
   const [newComment, setNewComment] = useState({
-    authorName: '',
-    authorEmail: '',
     content: ''
   });
 
   const queryClient = useQueryClient();
+
+  // Check for existing auth on component mount
+  useEffect(() => {
+    const savedUser = localStorage.getItem('authUser');
+    if (savedUser) {
+      setAuthUser(JSON.parse(savedUser));
+    }
+  }, []);
 
   // Fetch comments
   const { data: comments = [], isLoading } = useQuery({
@@ -43,8 +51,6 @@ export default function CommentSection({ blogPostId, userFingerprint }: CommentS
   // Add comment mutation
   const addCommentMutation = useMutation({
     mutationFn: (commentData: {
-      authorName: string;
-      authorEmail: string;
       content: string;
       parentId?: number;
     }) =>
@@ -52,13 +58,16 @@ export default function CommentSection({ blogPostId, userFingerprint }: CommentS
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          ...commentData,
+          authorName: authUser?.name || 'Anonymous',
+          authorEmail: authUser?.email || 'anonymous@example.com',
+          content: commentData.content,
+          parentId: commentData.parentId,
           userFingerprint,
         }),
       }).then(res => res.json()),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['comments', blogPostId] });
-      setNewComment({ authorName: '', authorEmail: '', content: '' });
+      setNewComment({ content: '' });
       setShowCommentForm(false);
       setReplyTo(null);
     },
@@ -94,14 +103,29 @@ export default function CommentSection({ blogPostId, userFingerprint }: CommentS
 
   const handleSubmit = (e: React.FormEvent, parentId?: number) => {
     e.preventDefault();
-    if (!newComment.authorName || !newComment.authorEmail || !newComment.content) {
+    if (!authUser) {
+      setShowAuthModal(true);
+      return;
+    }
+    if (!newComment.content) {
       return;
     }
 
     addCommentMutation.mutate({
-      ...newComment,
+      content: newComment.content,
       parentId,
     });
+  };
+
+  const handleAuth = (user: { name: string; email: string; avatar?: string }) => {
+    setAuthUser(user);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('authUser');
+    setAuthUser(null);
+    setShowCommentForm(false);
+    setReplyTo(null);
   };
 
   const CommentItem = ({ comment, depth = 0 }: { comment: Comment; depth?: number }) => (
@@ -127,33 +151,29 @@ export default function CommentSection({ blogPostId, userFingerprint }: CommentS
 
         {replyTo === comment.id && (
           <form onSubmit={(e) => handleSubmit(e, comment.id)} className="mt-4 space-y-3">
-            <div className="grid grid-cols-2 gap-3">
-              <Input
-                placeholder="Your name"
-                value={newComment.authorName}
-                onChange={(e) => setNewComment(prev => ({ ...prev, authorName: e.target.value }))}
-                required
-              />
-              <Input
-                type="email"
-                placeholder="Your email"
-                value={newComment.authorEmail}
-                onChange={(e) => setNewComment(prev => ({ ...prev, authorEmail: e.target.value }))}
-                required
-              />
-            </div>
+            {authUser && (
+              <div className="flex items-center space-x-2 mb-3">
+                {authUser.avatar && (
+                  <img src={authUser.avatar} alt={authUser.name} className="w-6 h-6 rounded-full" />
+                )}
+                <span className="text-sm text-gray-600 dark:text-gray-400">
+                  Replying as {authUser.name}
+                </span>
+              </div>
+            )}
             <Textarea
-              placeholder="Write your reply..."
+              placeholder={authUser ? "Write your reply..." : "Sign in to reply..."}
               value={newComment.content}
               onChange={(e) => setNewComment(prev => ({ ...prev, content: e.target.value }))}
               rows={3}
               required
+              disabled={!authUser}
             />
             <div className="flex space-x-2">
               <Button 
                 type="submit" 
                 size="sm"
-                disabled={addCommentMutation.isPending}
+                disabled={addCommentMutation.isPending || !authUser}
               >
                 {addCommentMutation.isPending ? 'Posting...' : 'Post Reply'}
               </Button>
@@ -201,30 +221,49 @@ export default function CommentSection({ blogPostId, userFingerprint }: CommentS
           <MessageCircle size={20} />
           <span>Comments ({comments.length})</span>
         </h3>
-        <Button
-          onClick={() => setShowCommentForm(!showCommentForm)}
-          variant="outline"
-        >
-          Add Comment
-        </Button>
+        <div className="flex items-center space-x-3">
+          {authUser ? (
+            <>
+              <div className="flex items-center space-x-2">
+                {authUser.avatar && (
+                  <img src={authUser.avatar} alt={authUser.name} className="w-6 h-6 rounded-full" />
+                )}
+                <span className="text-sm text-gray-600 dark:text-gray-400">{authUser.name}</span>
+              </div>
+              <Button
+                onClick={() => setShowCommentForm(!showCommentForm)}
+                variant="outline"
+              >
+                Add Comment
+              </Button>
+              <Button
+                onClick={handleLogout}
+                variant="ghost"
+                size="sm"
+              >
+                <LogOut size={16} />
+              </Button>
+            </>
+          ) : (
+            <Button
+              onClick={() => setShowAuthModal(true)}
+              variant="outline"
+            >
+              Sign in to Comment
+            </Button>
+          )}
+        </div>
       </div>
 
-      {showCommentForm && (
+      {showCommentForm && authUser && (
         <form onSubmit={(e) => handleSubmit(e)} className="mb-8 space-y-4 bg-gray-50 dark:bg-gray-800 p-6 rounded-lg">
-          <div className="grid grid-cols-2 gap-4">
-            <Input
-              placeholder="Your name"
-              value={newComment.authorName}
-              onChange={(e) => setNewComment(prev => ({ ...prev, authorName: e.target.value }))}
-              required
-            />
-            <Input
-              type="email"
-              placeholder="Your email"
-              value={newComment.authorEmail}
-              onChange={(e) => setNewComment(prev => ({ ...prev, authorEmail: e.target.value }))}
-              required
-            />
+          <div className="flex items-center space-x-2 mb-4">
+            {authUser.avatar && (
+              <img src={authUser.avatar} alt={authUser.name} className="w-8 h-8 rounded-full" />
+            )}
+            <span className="text-sm text-gray-600 dark:text-gray-400">
+              Commenting as {authUser.name}
+            </span>
           </div>
           <Textarea
             placeholder="Share your thoughts..."
@@ -262,6 +301,12 @@ export default function CommentSection({ blogPostId, userFingerprint }: CommentS
           ))
         )}
       </div>
+
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        onAuth={handleAuth}
+      />
     </div>
   );
 }
