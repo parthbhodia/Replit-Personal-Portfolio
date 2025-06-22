@@ -21,6 +21,26 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Heart animation keyframes */
+@keyframes float-heart {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateY(-20px) scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-40px) scale(0.8);
+  }
+}
+
+.animate-float-heart {
+  animation: float-heart 1s ease-out forwards;
+}
+
 @layer base {
   * {
     @apply border-border;

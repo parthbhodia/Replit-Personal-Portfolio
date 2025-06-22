@@ -13,23 +13,29 @@ export interface IStorage {
   createUser(user: InsertUser): Promise<User>;
   saveMessage(message: InsertMessage): Promise<Message>;
   saveChatHistory(chat: InsertChatHistory): Promise<ChatHistory>;
+  getHeart(sessionId: string): Promise<Heart | undefined>;
+  upsertHeart(heart: InsertHeart): Promise<Heart>;
 }
 
 export class MemStorage implements IStorage {
   private users: Map<number, User>;
   private messages: Map<number, Message>;
   private chats: Map<number, ChatHistory>;
+  private hearts: Map<string, Heart>;
   private userCurrentId: number;
   private messageCurrentId: number;
   private chatCurrentId: number;
+  private heartCurrentId: number;
 
   constructor() {
     this.users = new Map();
     this.messages = new Map();
     this.chats = new Map();
+    this.hearts = new Map();
     this.userCurrentId = 1;
     this.messageCurrentId = 1;
     this.chatCurrentId = 1;
+    this.heartCurrentId = 1;
   }
 
   async getUser(id: number): Promise<User | undefined> {
@@ -65,6 +71,34 @@ export class MemStorage implements IStorage {
     const chat: ChatHistory = { ...insertChat, id, createdAt };
     this.chats.set(id, chat);
     return chat;
+  }
+
+  async getHeart(sessionId: string): Promise<Heart | undefined> {
+    return this.hearts.get(sessionId);
+  }
+
+  async upsertHeart(insertHeart: InsertHeart): Promise<Heart> {
+    const existing = this.hearts.get(insertHeart.sessionId);
+    if (existing) {
+      const updated: Heart = {
+        ...existing,
+        isLiked: insertHeart.isLiked,
+        updatedAt: new Date(),
+      };
+      this.hearts.set(insertHeart.sessionId, updated);
+      return updated;
+    } else {
+      const id = this.heartCurrentId++;
+      const now = new Date();
+      const heart: Heart = {
+        ...insertHeart,
+        id,
+        createdAt: now,
+        updatedAt: now,
+      };
+      this.hearts.set(insertHeart.sessionId, heart);
+      return heart;
+    }
   }
 }
 

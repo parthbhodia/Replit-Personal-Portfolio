@@ -85,6 +85,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Heart endpoints
+  app.get("/api/heart/:sessionId", async (req, res) => {
+    try {
+      const { sessionId } = req.params;
+      const heart = await storage.getHeart(sessionId);
+      return res.json({ isLiked: heart?.isLiked || false });
+    } catch (error) {
+      console.error("Get heart error:", error);
+      return res.status(500).json({ message: "Failed to get heart status" });
+    }
+  });
+
+  app.post("/api/heart", async (req, res) => {
+    try {
+      const validatedData = insertHeartSchema.safeParse(req.body);
+      
+      if (!validatedData.success) {
+        const validationError = fromZodError(validatedData.error);
+        return res.status(400).json({ message: validationError.message });
+      }
+      
+      const heartData = validatedData.data;
+      const savedHeart = await storage.upsertHeart(heartData);
+      
+      return res.json({ 
+        success: true, 
+        isLiked: savedHeart.isLiked 
+      });
+    } catch (error) {
+      console.error("Heart API error:", error);
+      return res.status(500).json({ message: "Failed to update heart" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
