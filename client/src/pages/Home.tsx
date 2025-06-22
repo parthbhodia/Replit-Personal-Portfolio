@@ -312,8 +312,9 @@ export default function Home() {
             <div className="hidden md:flex items-center space-x-6">
               <a href="#companies" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">Companies</a>
               <a href="#about" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">About</a>
-              <a href="/skills" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">Skills</a>
+              <Link href="/skills" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">Skills</Link>
               <a href="#projects" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">Projects</a>
+              <Link href="/blog" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">Blog</Link>
               <a href="#contact" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">Contact</a>
               <ThemeToggle />
             </div>
@@ -348,13 +349,13 @@ export default function Home() {
                 >
                   About
                 </a>
-                <a 
+                <Link 
                   href="/skills" 
                   className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Skills
-                </a>
+                </Link>
                 <a 
                   href="#projects" 
                   className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors"
@@ -362,6 +363,13 @@ export default function Home() {
                 >
                   Projects
                 </a>
+                <Link 
+                  href="/blog" 
+                  className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Blog
+                </Link>
                 <a 
                   href="#contact" 
                   className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors"

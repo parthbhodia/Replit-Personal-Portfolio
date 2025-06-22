@@ -5,6 +5,9 @@ import Skills from './pages/Skills';
 import Blog from './pages/Blog';
 import NotFound from './pages/not-found';
 import CustomCursor from './components/CustomCursor';
+import ScrollProgress from './components/ScrollProgress';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { queryClient } from './lib/queryClient';
 
 // Theme preference detector
 const getInitialTheme = () => {
@@ -34,17 +37,22 @@ export default function App() {
   }, []);
 
   return (
-    <div className="app">
-      {/* Custom Cursor */}
-      <CustomCursor />
-      
-      {/* Routes */}
-      <Switch>
-        <Route path="/" component={Home} />
-        <Route path="/skills" component={Skills} />
-        <Route component={NotFound} />
-      </Switch>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <div className="app">
+        {/* Custom Cursor */}
+        <CustomCursor />
+        <ScrollProgress />
+        
+        {/* Routes */}
+        <Switch>
+          <Route path="/" component={Home} />
+          <Route path="/skills" component={Skills} />
+          <Route path="/blog" component={Blog} />
+          <Route path="/blog/:slug" component={Blog} />
+          <Route component={NotFound} />
+        </Switch>
+      </div>
+    </QueryClientProvider>
   );
 }
 
