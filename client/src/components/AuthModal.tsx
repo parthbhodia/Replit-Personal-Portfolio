@@ -16,28 +16,20 @@ export default function AuthModal({ isOpen, onClose, onAuth }: AuthModalProps) {
   const handleGoogleAuth = async () => {
     setIsLoading(true);
     try {
-      // Open Google OAuth in popup
-      const popup = window.open(
-        'https://accounts.google.com/oauth/authorize?' +
-        'client_id=your-google-client-id&' +
-        'redirect_uri=' + encodeURIComponent(window.location.origin + '/auth/google/callback') + '&' +
-        'response_type=code&' +
-        'scope=openid profile email',
-        'google-auth',
-        'width=500,height=600'
-      );
-
-      // For demo purposes since we don't have real OAuth setup
+      // Demo authentication - prompt for user details
       const userName = prompt('Enter your name:') || 'Anonymous User';
       const userEmail = prompt('Enter your email:') || 'user@example.com';
-      const demoUser = {
-        name: userName,
-        email: userEmail
-      };
       
-      localStorage.setItem('authUser', JSON.stringify(demoUser));
-      onAuth(demoUser);
-      onClose();
+      if (userName && userEmail) {
+        const demoUser = {
+          name: userName,
+          email: userEmail
+        };
+        
+        localStorage.setItem('authUser', JSON.stringify(demoUser));
+        onAuth(demoUser);
+        onClose();
+      }
     } catch (error) {
       console.error('Google auth failed:', error);
     } finally {
@@ -48,27 +40,20 @@ export default function AuthModal({ isOpen, onClose, onAuth }: AuthModalProps) {
   const handleGithubAuth = async () => {
     setIsLoading(true);
     try {
-      // Open GitHub OAuth in popup
-      const popup = window.open(
-        'https://github.com/login/oauth/authorize?' +
-        'client_id=your-github-client-id&' +
-        'redirect_uri=' + encodeURIComponent(window.location.origin + '/auth/github/callback') + '&' +
-        'scope=user:email',
-        'github-auth',
-        'width=500,height=600'
-      );
-
-      // For demo purposes since we don't have real OAuth setup
+      // Demo authentication - prompt for user details
       const githubUsername = prompt('Enter your GitHub username:') || 'github-user';
       const githubEmail = prompt('Enter your email:') || 'user@github.com';
-      const demoUser = {
-        name: githubUsername,
-        email: githubEmail
-      };
       
-      localStorage.setItem('authUser', JSON.stringify(demoUser));
-      onAuth(demoUser);
-      onClose();
+      if (githubUsername && githubEmail) {
+        const demoUser = {
+          name: githubUsername,
+          email: githubEmail
+        };
+        
+        localStorage.setItem('authUser', JSON.stringify(demoUser));
+        onAuth(demoUser);
+        onClose();
+      }
     } catch (error) {
       console.error('GitHub auth failed:', error);
     } finally {
@@ -94,7 +79,7 @@ export default function AuthModal({ isOpen, onClose, onAuth }: AuthModalProps) {
 
         <div className="space-y-4">
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-            Choose your preferred method to sign in and start commenting
+            Choose your preferred method to sign in and start commenting (Demo Mode)
           </p>
 
           <Button
