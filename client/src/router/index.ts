@@ -9,6 +9,16 @@ const routes = [
     component: HomeView
   },
   {
+    path: '/blog',
+    name: 'Blog',
+    component: () => import('../pages/Blog.tsx')
+  },
+  {
+    path: '/blog/:id',
+    name: 'BlogPost',
+    component: () => import('../pages/Blog.tsx')
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: NotFound

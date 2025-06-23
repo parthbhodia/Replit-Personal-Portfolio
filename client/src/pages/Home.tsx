@@ -313,9 +313,11 @@ export default function Home() {
       <nav className="bg-white/90 dark:bg-black/90 backdrop-blur-sm sticky top-0 z-50 shadow-md">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="text-xl font-bold bg-gradient-to-r from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600 text-transparent bg-clip-text">
-              Parth Bhodia
-            </div>
+            <Link href="/">
+              <div className="text-xl font-bold bg-gradient-to-r from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600 text-transparent bg-clip-text cursor-pointer">
+                Parth Bhodia
+              </div>
+            </Link>
             
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-6">
@@ -451,7 +453,7 @@ export default function Home() {
           </h2>
           <div className="relative">
             <div className="overflow-hidden">
-              <div id="companies-carousel" className="flex gap-6 transition-transform duration-500 ease-in-out px-4">
+              <div id="companies-carousel" className="flex gap-6 transition-transform duration-500 ease-in-out px-4 justify-center">
                 {[
                   {
                     name: 'Eccalon LLC',
@@ -462,7 +464,7 @@ export default function Home() {
                   },
                   {
                     name: 'University of Maryland, Baltimore County',
-                    logo: 'https://www.interfolio.com/wp-content/uploads/umbc.png',
+                    logo: 'https://i.pinimg.com/1200x/4a/14/02/4a1402708352e7c0993d76ea70fefd79.jpg',
                     role: 'Research Assistant - Software Developer',
                     period: 'Jan 2022 - Dec 2022',
                     description: 'Developed GIS-based visualization framework for detecting enemy objects using Elastic Search and Kibana. Used Java Spring Boot to control servers and communicate with edge devices using RabbitMQ.'
@@ -473,20 +475,6 @@ export default function Home() {
                     role: 'Software Developer',
                     period: 'July 2018 - May 2021',
                     description: 'Led development of internal IPT Tool dashboard for 10,000+ users using Django, Python, JavaScript, and React. Developed automation application for Back-Bone Cost Map, increasing APAC region revenue by 36%.'
-                  },
-                  {
-                    name: 'Eccalon LLC',
-                    logo: 'https://media.glassdoor.com/sqll/2356227/eccalon-squarelogo-1556550788109.png',
-                    role: 'Fullstack Developer',
-                    period: 'May 2022 - Present',
-                    description: 'Developed personalized knowledge assistant ChatBOT using GPT and Pinecone vector databases, reducing time-to-information retrieval by 50%. Designed Postgres schema for CMS managing 100K+ users. Built secure authentication systems with AWS services.'
-                  },
-                  {
-                    name: 'University of Maryland, Baltimore County',
-                    logo: 'https://www.interfolio.com/wp-content/uploads/umbc.png',
-                    role: 'Research Assistant - Software Developer',
-                    period: 'Jan 2022 - Dec 2022',
-                    description: 'Developed GIS-based visualization framework for detecting enemy objects using Elastic Search and Kibana. Used Java Spring Boot to control servers and communicate with edge devices using RabbitMQ.'
                   }
                 ].map((company, index) => (
                   <Dialog key={index}>
@@ -520,51 +508,54 @@ export default function Home() {
               </div>
             </div>
             
-            <button 
-              onClick={() => {
-                const carousel = document.getElementById('companies-carousel');
-                if (carousel) {
-                  const cardWidth = 300; // 288px + gap
-                  const currentTransform = carousel.style.transform || 'translateX(0px)';
-                  const currentX = parseInt(currentTransform.match(/-?\d+/)?.[0] || '0');
-                  const newX = currentX + cardWidth;
-                  
-                  if (newX > 0) {
-                    carousel.style.transform = `translateX(-${cardWidth * 2}px)`;
-                  } else {
-                    carousel.style.transform = `translateX(${newX}px)`;
+            {/* Only show arrows on mobile when less than 3 items are visible */}
+            <div className="md:hidden">
+              <button 
+                onClick={() => {
+                  const carousel = document.getElementById('companies-carousel');
+                  if (carousel) {
+                    const cardWidth = 300; // 288px + gap
+                    const currentTransform = carousel.style.transform || 'translateX(0px)';
+                    const currentX = parseInt(currentTransform.match(/-?\d+/)?.[0] || '0');
+                    const newX = currentX + cardWidth;
+                    
+                    if (newX > 0) {
+                      carousel.style.transform = `translateX(-${cardWidth * 2}px)`;
+                    } else {
+                      carousel.style.transform = `translateX(${newX}px)`;
+                    }
                   }
-                }
-              }}
-              className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-900/90 p-3 rounded-full shadow-xl z-30 hover:bg-white dark:hover:bg-gray-900 transition-all"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
-            
-            <button 
-              onClick={() => {
-                const carousel = document.getElementById('companies-carousel');
-                if (carousel) {
-                  const cardWidth = 300; // 288px + gap
-                  const currentTransform = carousel.style.transform || 'translateX(0px)';
-                  const currentX = parseInt(currentTransform.match(/-?\d+/)?.[0] || '0');
-                  const newX = currentX - cardWidth;
-                  
-                  if (Math.abs(newX) >= cardWidth * 3) {
-                    carousel.style.transform = 'translateX(0px)';
-                  } else {
-                    carousel.style.transform = `translateX(${newX}px)`;
+                }}
+                className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-900/90 p-3 rounded-full shadow-xl z-30 hover:bg-white dark:hover:bg-gray-900 transition-all"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              
+              <button 
+                onClick={() => {
+                  const carousel = document.getElementById('companies-carousel');
+                  if (carousel) {
+                    const cardWidth = 300; // 288px + gap
+                    const currentTransform = carousel.style.transform || 'translateX(0px)';
+                    const currentX = parseInt(currentTransform.match(/-?\d+/)?.[0] || '0');
+                    const newX = currentX - cardWidth;
+                    
+                    if (Math.abs(newX) >= cardWidth * 2) {
+                      carousel.style.transform = 'translateX(0px)';
+                    } else {
+                      carousel.style.transform = `translateX(${newX}px)`;
+                    }
                   }
-                }
-              }}
-              className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-900/90 p-3 rounded-full shadow-xl z-30 hover:bg-white dark:hover:bg-gray-900 transition-all"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
+                }}
+                className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-900/90 p-3 rounded-full shadow-xl z-30 hover:bg-white dark:hover:bg-gray-900 transition-all"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </section>
@@ -622,20 +613,22 @@ export default function Home() {
           </div>
 
           <ParallaxSection speed={0.1}>
-            <div key={selectedCategory} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {projects
-                .filter(project => selectedCategory === 'All' || project.category === selectedCategory)
-                .map((project, index) => (
-                  <AnimatedProjectCard 
-                    key={`${selectedCategory}-${index}`}
-                    title={project.title}
-                    description={project.description}
-                    tags={project.tags}
-                    liveUrl={project.liveUrl}
-                    codeUrl={project.codeUrl}
-                    index={index}
-                  />
-              ))}
+            <div key={selectedCategory} className="w-full overflow-x-auto pb-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 min-w-[320px]">
+                {projects
+                  .filter(project => selectedCategory === 'All' || project.category === selectedCategory)
+                  .map((project, index) => (
+                    <AnimatedProjectCard 
+                      key={`${selectedCategory}-${index}`}
+                      title={project.title}
+                      description={project.description}
+                      tags={project.tags}
+                      liveUrl={project.liveUrl}
+                      codeUrl={project.codeUrl}
+                      index={index}
+                    />
+                ))}
+              </div>
             </div>
 
             {/* No Projects Message */}

@@ -7,6 +7,13 @@ import { useSEO } from '../hooks/useSEO';
 import { ChatMessage } from '../types';
 import { Menu, X } from 'lucide-react';
 
+// Chat message type
+interface ChatMessage {
+  text: string;
+  isUser: boolean;
+  timestamp: Date;
+}
+
 export default function Skills() {
   // SEO optimization for skills page
   useSEO({
@@ -105,6 +112,7 @@ export default function Skills() {
               <Link href="/#about" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">About</Link>
               <Link href="/skills" className="font-medium text-purple-600 dark:text-purple-400">Skills</Link>
               <Link href="/#projects" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Projects</Link>
+              <Link href="/blog" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Blog</Link>
               <Link href="/#contact" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Contact</Link>
               <ThemeToggle />
             </div>
@@ -152,6 +160,13 @@ export default function Skills() {
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Projects
+                </Link>
+                <Link 
+                  href="/blog" 
+                  className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Blog
                 </Link>
                 <Link 
                   href="/#contact" 

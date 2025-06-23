@@ -512,18 +512,24 @@ export default function Blog({ slug }: BlogProps = {}) {
         <nav className="bg-white/90 dark:bg-black/90 backdrop-blur-sm sticky top-0 z-50 shadow-md">
           <div className="container mx-auto px-4 py-4">
             <div className="flex items-center justify-between">
+              <Link href="/">
+                <div className="text-xl font-bold bg-gradient-to-r from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600 text-transparent bg-clip-text cursor-pointer">
+                  Parth Bhodia
+                </div>
+              </Link>
+              
               <div className="text-xl font-bold bg-gradient-to-r from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600 text-transparent bg-clip-text">
                 Parth Bhodia
               </div>
 
               {/* Desktop Navigation */}
               <div className="hidden md:flex items-center space-x-6">
-                <a href="/#companies" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Companies</a>
-                <a href="/#about" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">About</a>
+                <Link href="/#companies" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Companies</Link>
+                <Link href="/#about" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">About</Link>
                 <Link href="/skills" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Skills</Link>
-                <a href="/#projects" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Projects</a>
+                <Link href="/#projects" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Projects</Link>
                 <span className="font-medium text-purple-600 dark:text-purple-400">Blog</span>
-                <a href="/#contact" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Contact</a>
+                <Link href="/#contact" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Contact</Link>
                 <ThemeToggle />
               </div>
 
@@ -543,20 +549,20 @@ export default function Blog({ slug }: BlogProps = {}) {
             {isMobileMenuOpen && (
               <div className="md:hidden mt-4 pb-4 border-t border-gray-200 dark:border-gray-700">
                 <div className="flex flex-col space-y-4 pt-4">
-                  <a 
+                  <Link 
                     href="/#companies" 
                     className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Companies
-                  </a>
-                  <a 
+                  </Link>
+                  <Link 
                     href="/#about" 
                     className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     About
-                  </a>
+                  </Link>
                   <Link 
                     href="/skills" 
                     className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
@@ -564,20 +570,20 @@ export default function Blog({ slug }: BlogProps = {}) {
                   >
                     Skills
                   </Link>
-                  <a 
+                  <Link 
                     href="/#projects" 
                     className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Projects
-                  </a>
-                  <a 
+                  </Link>
+                  <Link 
                     href="/#contact" 
                     className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Contact
-                  </a>
+                  </Link>
                   <span className="font-medium text-purple-600 dark:text-purple-400">
                     Blog
                   </span>
@@ -686,18 +692,24 @@ export default function Blog({ slug }: BlogProps = {}) {
       <nav className="bg-white/90 dark:bg-black/90 backdrop-blur-sm sticky top-0 z-50 shadow-md">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
+            <Link href="/">
+              <div className="text-xl font-bold bg-gradient-to-r from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600 text-transparent bg-clip-text cursor-pointer">
+                Parth Bhodia
+              </div>
+            </Link>
+            
             <div className="text-xl font-bold bg-gradient-to-r from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600 text-transparent bg-clip-text">
               Parth Bhodia
             </div>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-6">
-              <a href="#companies" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Companies</a>
-              <a href="#about" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">About</a>
+              <Link href="/#companies" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Companies</Link>
+              <Link href="/#about" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">About</Link>
               <Link href="/skills" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Skills</Link>
-              <a href="#projects" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Projects</a>
+              <Link href="/#projects" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Projects</Link>
               <span className="font-medium text-purple-600 dark:text-purple-400">Blog</span>
-              <a href="#contact" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Contact</a>
+              <Link href="/#contact" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Contact</Link>
               <ThemeToggle />
             </div>
 
@@ -717,20 +729,20 @@ export default function Blog({ slug }: BlogProps = {}) {
           {isMobileMenuOpen && (
             <div className="md:hidden mt-4 pb-4 border-t border-gray-200 dark:border-gray-700">
               <div className="flex flex-col space-y-4 pt-4">
-                <a 
-                  href="#companies" 
+                <Link 
+                  href="/#companies" 
                   className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Companies
-                </a>
-                <a 
-                  href="#about" 
+                </Link>
+                <Link 
+                  href="/#about" 
                   className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   About
-                </a>
+                </Link>
                 <Link 
                   href="/skills" 
                   className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
@@ -738,20 +750,20 @@ export default function Blog({ slug }: BlogProps = {}) {
                 >
                   Skills
                 </Link>
-                <a 
-                  href="#projects" 
+                <Link 
+                  href="/#projects" 
                   className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Projects
-                </a>
-                <a 
-                  href="#contact" 
+                </Link>
+                <Link 
+                  href="/#contact" 
                   className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Contact
-                </a>
+                </Link>
                 <span className="font-medium text-purple-600 dark:text-purple-400">
                   Blog
                 </span>
