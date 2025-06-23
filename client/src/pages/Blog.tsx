@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'wouter';
+import { Link, useLocation } from 'wouter';
 import { Calendar, Clock, ArrowRight, Home, User, Share2, MessageCircle } from 'lucide-react';
 import ThemeToggle from '../components/ThemeToggle';
 import HeartButton from '../components/HeartButton';
@@ -420,6 +420,8 @@ interface BlogProps {
 }
 
 export default function Blog({ slug }: BlogProps = {}) {
+  const [location, setLocation] = useLocation();
+  
   // SEO optimization for blog pages
   useSEO({
     title: slug 
@@ -806,25 +808,17 @@ export default function Blog({ slug }: BlogProps = {}) {
                     </span>
                   </div>
 
-                  <h2 
-                    className="text-xl font-bold mb-3 text-gray-900 dark:text-white cursor-pointer hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-                    onClick={() => {
-                      setSelectedPost(post);
-                      window.history.pushState({}, '', `/blog/${post.id}`);
-                    }}
-                  >
-                    {post.title}
-                  </h2>
+                  <Link href={`/blog/${post.id}`}>
+                    <h2 className="text-xl font-bold mb-3 text-gray-900 dark:text-white cursor-pointer hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                      {post.title}
+                    </h2>
+                  </Link>
 
-                  <p 
-                    className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3 cursor-pointer"
-                    onClick={() => {
-                      setSelectedPost(post);
-                      window.history.pushState({}, '', `/blog/${post.id}`);
-                    }}
-                  >
-                    {post.excerpt}
-                  </p>
+                  <Link href={`/blog/${post.id}`}>
+                    <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3 cursor-pointer">
+                      {post.excerpt}
+                    </p>
+                  </Link>
 
                   <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 mb-4">
                     <div className="flex items-center space-x-4">
@@ -853,16 +847,13 @@ export default function Blog({ slug }: BlogProps = {}) {
                     ))}
                   </div>
 
-                  <button 
+                  <Link 
+                    href={`/blog/${post.id}`}
                     className="inline-flex items-center text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-medium"
-                    onClick={() => {
-                      setSelectedPost(post);
-                      window.history.pushState({}, '', `/blog/${post.id}`);
-                    }}
                   >
                     Read More
                     <ArrowRight className="h-4 w-4 ml-1" />
-                  </button>
+                  </Link>
                 </div>
               </article>
             ))}
