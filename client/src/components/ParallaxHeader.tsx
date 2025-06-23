@@ -38,7 +38,7 @@ export default function ParallaxHeader() {
             <h1 className="text-4xl md:text-6xl font-bold mb-4 text-white">
               Parth Bhodia
             </h1>
-            <p className="text-xl md:text-2xl text-green-200">Software Developer</p>
+            <p className="text-xl md:text-2xl text-purple-200">Software Developer</p>
           </div>
           
           {/* Animated gradient circles */}

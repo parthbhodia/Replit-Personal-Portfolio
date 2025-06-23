@@ -83,7 +83,7 @@ export default function AnimatedProjectCard({
     >
       {/* Card Header with Title */}
       <div 
-        className="h-48 bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 flex items-center justify-center p-6 transform transition-transform duration-300"
+        className="h-48 bg-gradient-to-r from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600 flex items-center justify-center p-6 transform transition-transform duration-300"
         style={{ 
           transform: `translateZ(${isHovered ? '20px' : '0px'})`,
           transformStyle: 'preserve-3d'
@@ -110,7 +110,7 @@ export default function AnimatedProjectCard({
           {tags.map((tag, index) => (
             <span 
               key={index} 
-              className="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 text-xs rounded-full"
+              className="px-2 py-1 bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 text-xs rounded-full"
             >
               {tag}
             </span>
@@ -126,7 +126,7 @@ export default function AnimatedProjectCard({
         >
           <a 
             href={liveUrl} 
-            className="px-3 py-1 bg-green-600 dark:bg-green-500 text-white rounded hover:bg-green-700 dark:hover:bg-green-600 transition-colors"
+            className="px-3 py-1 bg-purple-600 dark:bg-purple-500 text-white rounded hover:bg-purple-700 dark:hover:bg-purple-600 transition-colors"
           >
             View Live
           </a>

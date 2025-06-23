@@ -144,7 +144,7 @@ export default function CommentSection({ blogPostId, userFingerprint }: CommentS
         <p className="text-gray-700 dark:text-gray-300 mb-2">{comment.content}</p>
         <button
           onClick={() => setReplyTo(replyTo === comment.id ? null : comment.id)}
-          className="text-sm text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 flex items-center space-x-1"
+          className="text-sm text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 flex items-center space-x-1"
         >
           <Reply size={14} />
           <span>Reply</span>

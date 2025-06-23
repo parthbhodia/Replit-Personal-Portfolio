@@ -675,13 +675,13 @@ export default function Blog({ slug }: BlogProps = {}) {
           {isMobileMenuOpen && (
             <div className="md:hidden mt-4 py-4 border-t border-gray-200 dark:border-gray-700">
               <div className="flex flex-col space-y-4">
-                <Link href="/" className="text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors">
+                <Link href="/" className="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
                   Home
                 </Link>
-                <Link href="/skills" className="text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors">
+                <Link href="/skills" className="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
                   Skills
                 </Link>
-                <span className="text-green-600 dark:text-green-400 font-medium">
+                <span className="text-purple-600 dark:text-purple-400 font-medium">
                   Blog
                 </span>
               </div>

@@ -32,7 +32,7 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="fixed z-[999] top-20 right-6 w-14 h-14 bg-white/95 dark:bg-gray-800/95 rounded-full shadow-xl flex items-center justify-center backdrop-blur-sm hover:shadow-2xl transition-all transform hover:scale-110 border-2 border-green-400/30 hover:border-green-500/50 animate-pulse-light"
+      className="fixed z-[999] top-20 right-6 w-14 h-14 bg-white/95 dark:bg-gray-800/95 rounded-full shadow-xl flex items-center justify-center backdrop-blur-sm hover:shadow-2xl transition-all transform hover:scale-110 border-2 border-purple-400/30 hover:border-purple-500/50 animate-pulse-light"
       aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
     >
       {/* Sun icon for light mode */}
@@ -57,7 +57,7 @@ export default function ThemeToggle() {
       {darkMode && (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-7 w-7 text-green-400"
+          className="h-7 w-7 text-purple-400"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
