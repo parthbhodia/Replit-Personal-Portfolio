@@ -537,7 +537,7 @@ export default function Blog({ slug }: BlogProps = {}) {
             <header className="mb-8">
               <Link
                 href="/blog"
-                className="inline-flex items-center text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 mb-6"
+                className="inline-flex items-center text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 mb-6"
                 onClick={() => {
                   setSelectedPost(null);
                   window.history.pushState({}, '', '/blog');
@@ -547,7 +547,7 @@ export default function Blog({ slug }: BlogProps = {}) {
               </Link>
               
               <div className="mb-4">
-                <span className="inline-block px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 rounded-full text-sm font-medium">
+                <span className="inline-block px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 rounded-full text-sm font-medium">
                   {selectedPost.category}
                 </span>
               </div>
@@ -646,13 +646,13 @@ export default function Blog({ slug }: BlogProps = {}) {
 
               {/* Desktop Navigation */}
               <div className="hidden md:flex items-center space-x-6">
-                <Link href="/" className="text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors">
+                <Link href="/" className="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
                   Home
                 </Link>
-                <Link href="/skills" className="text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors">
+                <Link href="/skills" className="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
                   Skills
                 </Link>
-                <span className="text-green-600 dark:text-green-400 font-medium">
+                <span className="text-purple-600 dark:text-purple-400 font-medium">
                   Blog
                 </span>
               </div>
@@ -664,7 +664,7 @@ export default function Blog({ slug }: BlogProps = {}) {
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="md:hidden p-2 text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors"
+                className="md:hidden p-2 text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
               >
                 {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </button>
@@ -714,7 +714,7 @@ export default function Blog({ slug }: BlogProps = {}) {
                 className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
               >
                 <div 
-                  className="h-48 bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center cursor-pointer"
+                  className="h-48 bg-gradient-to-br from-purple-400 to-blue-500 flex items-center justify-center cursor-pointer"
                   onClick={() => {
                     setSelectedPost(post);
                     window.history.pushState({}, '', `/blog/${post.id}`);
@@ -732,7 +732,7 @@ export default function Blog({ slug }: BlogProps = {}) {
                 
                 <div className="p-6">
                   <div className="mb-3">
-                    <span className="inline-block px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 rounded-full text-sm font-medium">
+                    <span className="inline-block px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 rounded-full text-sm font-medium">
                       {post.category}
                     </span>
                   </div>
@@ -788,7 +788,7 @@ export default function Blog({ slug }: BlogProps = {}) {
                     className="inline-flex items-center text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-medium"
                     onClick={() => {
                       setSelectedPost(post);
-                      window.history.pushState({}, '', `/blog/${post.slug}`);
+                      window.history.pushState({}, '', `/blog/${post.id}`);
                     }}
                   >
                     Read More

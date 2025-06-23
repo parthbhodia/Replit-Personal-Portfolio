@@ -34,18 +34,18 @@ export default function Skills() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <Link href="/">
-              <div className="text-xl font-bold bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text cursor-pointer">
+              <div className="text-xl font-bold bg-gradient-to-r from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600 text-transparent bg-clip-text cursor-pointer">
                 Parth Bhodia
               </div>
             </Link>
             
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-6">
-              <Link href="/#companies" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">Companies</Link>
-              <Link href="/#about" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">About</Link>
-              <Link href="/skills" className="font-medium text-green-600 dark:text-green-400">Skills</Link>
-              <Link href="/#projects" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">Projects</Link>
-              <Link href="/#contact" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">Contact</Link>
+              <Link href="/#companies" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Companies</Link>
+              <Link href="/#about" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">About</Link>
+              <Link href="/skills" className="font-medium text-purple-600 dark:text-purple-400">Skills</Link>
+              <Link href="/#projects" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Projects</Link>
+              <Link href="/#contact" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Contact</Link>
               <ThemeToggle />
             </div>
 

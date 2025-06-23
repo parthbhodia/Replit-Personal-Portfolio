@@ -132,7 +132,7 @@ export default function AnimatedProjectCard({
           </a>
           <a 
             href={codeUrl} 
-            className="px-3 py-1 border border-green-600 dark:border-green-500 text-green-600 dark:text-green-500 rounded hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors"
+            className="px-3 py-1 border border-purple-600 dark:border-purple-500 text-purple-600 dark:text-purple-500 rounded hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-colors"
           >
             Source Code
           </a>
@@ -141,7 +141,7 @@ export default function AnimatedProjectCard({
       
       {/* Animated glow effect on hover */}
       {isHovered && (
-        <div className="absolute -inset-0.5 bg-gradient-to-r from-green-500 to-green-600 rounded-xl blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-pulse"></div>
+        <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-pulse"></div>
       )}
     </div>
   );
