@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Switch, Route } from 'wouter';
+import { Switch, Route, Router } from 'wouter';
 import Home from './pages/Home';
 import Skills from './pages/Skills';
 import Blog from './pages/Blog';
@@ -38,26 +38,25 @@ export default function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="app">
-        {/* Custom Cursor */}
-        <CustomCursor />
-        <ScrollProgress />
-        
-        {/* Routes */}
-        <Switch>
-          <Route path="/" component={Home} />
-          <Route path="/skills" component={Skills} />
-          <Route path="/blog" component={Blog} />
-          <Route path="/blog/:id">
-            {(params) => <Blog slug={params.id} />}
-          </Route>
-          <Route component={NotFound} />
-        </Switch>
-      </div>
+      <Router>
+        <div className="app">
+          {/* Custom Cursor */}
+          <CustomCursor />
+          <ScrollProgress />
+          
+          {/* Routes */}
+          <Switch>
+            <Route path="/" component={Home} />
+            <Route path="/skills" component={Skills} />
+            <Route path="/blog" component={Blog} />
+            <Route path="/blog/:id">
+              {(params) => <Blog slug={params.id} />}
+            </Route>
+            <Route component={NotFound} />
+          </Switch>
+        </div>
+      </Router>
     </QueryClientProvider>
   );
 }
 
-export function Router() {
-  return <App />;
-}

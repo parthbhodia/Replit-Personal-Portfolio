@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'wouter';
 import { Calendar, Clock, ArrowRight, Home, User, Share2, MessageCircle } from 'lucide-react';
 import ThemeToggle from '../components/ThemeToggle';
@@ -191,7 +191,7 @@ import asyncio
 class AICodeAssistant:
     def __init__(self, api_key):
         self.client = OpenAI(api_key=api_key)
-    
+
     async def generate_function(self, description):
         response = await self.client.chat.completions.create(
             model="gpt-4",
@@ -312,13 +312,13 @@ class OrderService {
     async createOrder(orderData) {
         // Validate order
         const validation = await this.userService.validateUser(orderData.userId);
-        
+
         // Check inventory
         const inventory = await this.inventoryService.checkAvailability(orderData.items);
-        
+
         // Process payment
         const payment = await this.paymentService.processPayment(orderData.payment);
-        
+
         // Create order
         return await this.orderRepository.create({
             ...orderData,
@@ -349,16 +349,16 @@ class ApplicationService {
         this.contentModule = new ContentModule();
         this.analyticsModule = new AnalyticsModule();
     }
-    
+
     async createContent(userId, contentData) {
         // All modules can share the same database transaction
         const transaction = await this.database.beginTransaction();
-        
+
         try {
             const user = await this.userModule.getUser(userId, transaction);
             const content = await this.contentModule.create(contentData, transaction);
             await this.analyticsModule.trackContentCreation(userId, content.id, transaction);
-            
+
             await transaction.commit();
             return content;
         } catch (error) {
@@ -443,7 +443,7 @@ export default function Blog({ slug }: BlogProps = {}) {
   const [isTyping, setIsTyping] = useState(false);
 
   const toggleChatbot = () => setChatbotOpen(!chatbotOpen);
-  
+
   // Fetch blog posts from Supabase
   const { data: blogPosts = [], isLoading } = useQuery({
     queryKey: ['/api/blog/posts'],
@@ -460,7 +460,7 @@ export default function Blog({ slug }: BlogProps = {}) {
       tags: post.tags
     }))
   });
-  
+
   // Use UUID from props or URL
   const currentId = slug || (() => {
     const currentPath = window.location.pathname;
@@ -481,7 +481,7 @@ export default function Blog({ slug }: BlogProps = {}) {
       localStorage.setItem('userFingerprint', fp);
     }
     setUserFingerprint(fp);
-    
+
     // Handle URL routing for direct blog post access
     if (currentId && !selectedPost) {
       const post = blogPosts.find(p => p.id === currentId);
@@ -513,7 +513,7 @@ export default function Blog({ slug }: BlogProps = {}) {
               <div className="text-xl font-bold bg-gradient-to-r from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600 text-transparent bg-clip-text">
                 Parth Bhodia
               </div>
-              
+
               {/* Desktop Navigation */}
               <div className="hidden md:flex items-center space-x-6">
                 <a href="/#companies" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Companies</a>
@@ -599,17 +599,17 @@ export default function Blog({ slug }: BlogProps = {}) {
               >
                 ← Back to Blog
               </Link>
-              
+
               <div className="mb-4">
                 <span className="inline-block px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 rounded-full text-sm font-medium">
                   {selectedPost.category}
                 </span>
               </div>
-              
+
               <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-white">
                 {selectedPost.title}
               </h1>
-              
+
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center space-x-4 text-gray-600 dark:text-gray-400">
                   <div className="flex items-center space-x-1">
@@ -624,7 +624,7 @@ export default function Blog({ slug }: BlogProps = {}) {
                 </div>
                 <HeartButton blogPostId={selectedPost.id} size={24} />
               </div>
-              
+
               <div className="flex flex-wrap gap-2 mb-8">
                 {selectedPost.tags.map((tag, index) => (
                   <span key={index} className="px-2 py-1 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded text-sm">
@@ -637,7 +637,7 @@ export default function Blog({ slug }: BlogProps = {}) {
             <div className="prose prose-lg dark:prose-invert max-w-none">
               <div dangerouslySetInnerHTML={{ __html: selectedPost.content.replace(/\n/g, '<br />').replace(/```([^`]+)```/g, '<pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto"><code>$1</code></pre>').replace(/`([^`]+)`/g, '<code class="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">$1</code>') }} />
             </div>
-            
+
             {/* Social engagement section */}
             <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
               <div className="flex items-center justify-between flex-wrap gap-4">
@@ -653,7 +653,7 @@ export default function Blog({ slug }: BlogProps = {}) {
                     size={16}
                   />
                 </div>
-                
+
                 <div className="flex items-center space-x-4">
                   <ShareButton 
                     title={selectedPost.title}
@@ -663,7 +663,7 @@ export default function Blog({ slug }: BlogProps = {}) {
                   />
                 </div>
               </div>
-              
+
               <div className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
                 <p>Enjoyed this post? Share your thoughts or connect with me!</p>
               </div>
@@ -691,7 +691,7 @@ export default function Blog({ slug }: BlogProps = {}) {
             <div className="text-xl font-bold bg-gradient-to-r from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600 text-transparent bg-clip-text">
               Parth Bhodia
             </div>
-            
+
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-6">
               <a href="#companies" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Companies</a>
@@ -802,14 +802,14 @@ export default function Blog({ slug }: BlogProps = {}) {
                     <p className="text-sm opacity-90">{post.category}</p>
                   </div>
                 </div>
-                
+
                 <div className="p-6">
                   <div className="mb-3">
                     <span className="inline-block px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 rounded-full text-sm font-medium">
                       {post.category}
                     </span>
                   </div>
-                  
+
                   <h2 
                     className="text-xl font-bold mb-3 text-gray-900 dark:text-white cursor-pointer hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                     onClick={() => {
@@ -819,7 +819,7 @@ export default function Blog({ slug }: BlogProps = {}) {
                   >
                     {post.title}
                   </h2>
-                  
+
                   <p 
                     className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3 cursor-pointer"
                     onClick={() => {
@@ -829,7 +829,7 @@ export default function Blog({ slug }: BlogProps = {}) {
                   >
                     {post.excerpt}
                   </p>
-                  
+
                   <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 mb-4">
                     <div className="flex items-center space-x-4">
                       <div className="flex items-center space-x-1">
@@ -848,7 +848,7 @@ export default function Blog({ slug }: BlogProps = {}) {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="flex flex-wrap gap-1 mb-4">
                     {post.tags.slice(0, 3).map((tag, index) => (
                       <span key={index} className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded text-xs">
@@ -856,7 +856,7 @@ export default function Blog({ slug }: BlogProps = {}) {
                       </span>
                     ))}
                   </div>
-                  
+
                   <button 
                     className="inline-flex items-center text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-medium"
                     onClick={() => {
@@ -1030,7 +1030,7 @@ export default function Blog({ slug }: BlogProps = {}) {
                 setChatMessages(prev => [...prev, userMessage]);
                 setChatInput('');
                 setIsTyping(true);
-                
+
                 // Simulate AI response
                 setTimeout(() => {
                   setIsTyping(false);
