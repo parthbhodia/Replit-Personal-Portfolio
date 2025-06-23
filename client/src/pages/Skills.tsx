@@ -145,6 +145,20 @@ export default function Skills() {
           </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="bg-gray-50 dark:bg-gray-900 py-12">
+        <div className="container mx-auto px-4">
+          <div className="text-center text-gray-600 dark:text-gray-400 text-sm">
+            <p>&copy; 2024 Parth Bhodia. All rights reserved.</p>
+            <div className="flex justify-center space-x-6 mt-2">
+              <a href="mailto:parthbhodia08@gmail.com" className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Contact</a>
+              <span className="text-gray-300 dark:text-gray-700">•</span>
+              <a href="https://linkedin.com/in/parthbhodia" target="_blank" rel="noopener noreferrer" className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors">LinkedIn</a>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
