@@ -458,30 +458,51 @@ export default function Blog({ slug }: BlogProps = {}) {
         <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
           <div className="container mx-auto px-4 py-4">
             <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <Link href="/" className="flex items-center space-x-2 text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300">
-                  <Home className="h-5 w-5" />
-                  <span>Home</span>
+              <div className="flex items-center space-x-8">
+                <Link href="/" className="flex items-center space-x-2">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600 flex items-center justify-center text-sm text-white font-bold">
+                    PB
+                  </div>
+                  <span className="text-xl font-semibold bg-gradient-to-r from-purple-600 to-purple-800 dark:from-purple-400 dark:to-purple-600 text-transparent bg-clip-text">
+                    Parth Bhodia
+                  </span>
                 </Link>
-                <span className="text-gray-400">/</span>
-                <Link
-                  href="/blog"
-                  className="text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300"
-                  onClick={() => {
-                    setSelectedPost(null);
-                    window.history.pushState({}, '', '/blog');
-                  }}
-                >
-                  Blog
-                </Link>
+                
+                <div className="hidden md:flex items-center space-x-6">
+                  <Link href="/" className="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                    Home
+                  </Link>
+                  <Link href="/skills" className="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                    Skills
+                  </Link>
+                  <Link href="/blog" className="text-purple-600 dark:text-purple-400 font-medium">
+                    Blog
+                  </Link>
+                </div>
               </div>
               <ThemeToggle />
+            </div>
+            
+            {/* Breadcrumbs */}
+            <div className="mt-2 flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
+              <Link href="/" className="hover:text-purple-600 dark:hover:text-purple-400">Home</Link>
+              <span>/</span>
+              <Link href="/blog" className="hover:text-purple-600 dark:hover:text-purple-400" onClick={() => {
+                setSelectedPost(null);
+                window.history.pushState({}, '', '/blog');
+              }}>Blog</Link>
+              {selectedPost && (
+                <>
+                  <span>/</span>
+                  <span className="text-purple-600 dark:text-purple-400 font-medium">{selectedPost.title}</span>
+                </>
+              )}
             </div>
           </div>
         </nav>
 
         {/* Blog Post Content */}
-        <article className="pt-20 pb-12">
+        <article className="pt-32 pb-12">
           <div className="container mx-auto px-4 max-w-4xl">
             <header className="mb-8">
               <Link
@@ -690,7 +711,7 @@ export default function Blog({ slug }: BlogProps = {}) {
                     className="text-xl font-bold mb-3 text-gray-900 dark:text-white cursor-pointer hover:text-green-600 dark:hover:text-green-400 transition-colors"
                     onClick={() => {
                       setSelectedPost(post);
-                      window.history.pushState({}, '', `/blog/${post.slug}`);
+                      window.history.pushState({}, '', `/blog/${post.id}`);
                     }}
                   >
                     {post.title}
