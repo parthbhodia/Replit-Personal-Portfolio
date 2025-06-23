@@ -8,6 +8,33 @@ import { generatePlaceholder } from "./api/placeholder";
 import { supabaseService } from "./supabase";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Blog posts API
+  app.get('/api/blog/posts', async (req, res) => {
+    try {
+      const posts = await supabaseService.getAllBlogPosts();
+      res.json(posts);
+    } catch (error) {
+      console.error('Error fetching blog posts:', error);
+      res.status(500).json({ error: 'Failed to fetch blog posts' });
+    }
+  });
+
+  app.get('/api/blog/posts/:id', async (req, res) => {
+    try {
+      const { id } = req.params;
+      const post = await supabaseService.getBlogPost(id);
+      
+      if (!post) {
+        return res.status(404).json({ error: 'Blog post not found' });
+      }
+      
+      res.json(post);
+    } catch (error) {
+      console.error('Error fetching blog post:', error);
+      res.status(500).json({ error: 'Failed to fetch blog post' });
+    }
+  });
+
   // Placeholder image API endpoint
   app.get("/api/placeholder/:width/:height", generatePlaceholder);
   
