@@ -412,18 +412,15 @@ export default function Blog() {
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [userFingerprint, setUserFingerprint] = useState<string>('');
+  
+  // Get slug from URL if exists
+  const currentPath = window.location.pathname;
+  const slugMatch = currentPath.match(/\/blog\/([^\/]+)/);
+  const currentSlug = slugMatch ? slugMatch[1] : null;
 
-  // Generate user fingerprint
+  // Generate user fingerprint and handle URL routing
   useEffect(() => {
     const generateFingerprint = () => {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      if (ctx) {
-        ctx.textBaseline = 'top';
-        ctx.font = '14px Arial';
-        ctx.fillText('User fingerprint', 2, 2);
-      }
-      
       const fingerprint = `fp-${Math.random().toString(36).substr(2, 9)}-${Date.now()}`;
       return fingerprint;
     };
@@ -434,7 +431,15 @@ export default function Blog() {
       localStorage.setItem('userFingerprint', fp);
     }
     setUserFingerprint(fp);
-  }, []);
+    
+    // Handle URL routing for direct blog post access
+    if (currentSlug && !selectedPost) {
+      const post = blogPosts.find(p => p.id === currentSlug);
+      if (post) {
+        setSelectedPost(post);
+      }
+    }
+  }, [currentSlug, selectedPost]);
 
   if (selectedPost) {
     return (
@@ -449,12 +454,16 @@ export default function Blog() {
                   <span>Home</span>
                 </Link>
                 <span className="text-gray-400">/</span>
-                <button
-                  onClick={() => setSelectedPost(null)}
+                <Link
+                  href="/blog"
                   className="text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300"
+                  onClick={() => {
+                    setSelectedPost(null);
+                    window.history.pushState({}, '', '/blog');
+                  }}
                 >
                   Blog
-                </button>
+                </Link>
               </div>
               <ThemeToggle />
             </div>
@@ -465,12 +474,16 @@ export default function Blog() {
         <article className="pt-20 pb-12">
           <div className="container mx-auto px-4 max-w-4xl">
             <header className="mb-8">
-              <button
-                onClick={() => setSelectedPost(null)}
+              <Link
+                href="/blog"
                 className="inline-flex items-center text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 mb-6"
+                onClick={() => {
+                  setSelectedPost(null);
+                  window.history.pushState({}, '', '/blog');
+                }}
               >
                 ← Back to Blog
-              </button>
+              </Link>
               
               <div className="mb-4">
                 <span className="inline-block px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 rounded-full text-sm font-medium">
@@ -641,7 +654,10 @@ export default function Blog() {
               >
                 <div 
                   className="h-48 bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center cursor-pointer"
-                  onClick={() => setSelectedPost(post)}
+                  onClick={() => {
+                    setSelectedPost(post);
+                    window.history.pushState({}, '', `/blog/${post.id}`);
+                  }}
                 >
                   <div className="text-white text-center p-4">
                     <div className="text-6xl mb-2">
@@ -662,14 +678,20 @@ export default function Blog() {
                   
                   <h2 
                     className="text-xl font-bold mb-3 text-gray-900 dark:text-white cursor-pointer hover:text-green-600 dark:hover:text-green-400 transition-colors"
-                    onClick={() => setSelectedPost(post)}
+                    onClick={() => {
+                      setSelectedPost(post);
+                      window.history.pushState({}, '', `/blog/${post.id}`);
+                    }}
                   >
                     {post.title}
                   </h2>
                   
                   <p 
                     className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3 cursor-pointer"
-                    onClick={() => setSelectedPost(post)}
+                    onClick={() => {
+                      setSelectedPost(post);
+                      window.history.pushState({}, '', `/blog/${post.id}`);
+                    }}
                   >
                     {post.excerpt}
                   </p>
