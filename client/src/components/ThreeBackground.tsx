@@ -33,7 +33,7 @@ export default function ThreeBackground() {
     
     // Particle material color based on theme
     const getParticleColor = () => {
-      return isDarkMode.current ? 0x4ade80 : 0x10b981; // Brighter green for dark mode
+      return isDarkMode.current ? 0x8b5cf6 : 0x7c3aed; // Brighter purple for dark mode
     };
     
     // Create particles

@@ -677,7 +677,7 @@ export default function Home() {
                     value={contactForm.name}
                     onChange={handleFormChange}
                     required
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-800/80 bg-white/80 backdrop-blur-sm"
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-800/80 bg-white/80 backdrop-blur-sm"
                   />
                 </div>
                 <div>
@@ -713,7 +713,7 @@ export default function Home() {
                     onChange={handleFormChange}
                     rows={4} 
                     required
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-800/80 bg-white/80 backdrop-blur-sm"
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-800/80 bg-white/80 backdrop-blur-sm"
                   ></textarea>
                 </div>
                 <button 
@@ -852,7 +852,7 @@ export default function Home() {
                   </a>
                 </li>
                 <li>
-                  <a href="#contact" className="hover:text-green-600 dark:hover:text-green-400 transition-colors flex items-center">
+                  <a href="#contact" className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors flex items-center">
                     <span className="mr-2">→</span> Get In Touch
                   </a>
                 </li>
@@ -869,11 +869,11 @@ export default function Home() {
                 <input 
                   type="email" 
                   placeholder="Your email address" 
-                  className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-l-md focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-800/30 bg-white/80 backdrop-blur-sm"
+                  className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-l-md focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-800/30 bg-white/80 backdrop-blur-sm"
                 />
                 <button 
                   type="submit" 
-                  className="px-4 py-2 bg-gradient-to-r from-green-500 to-green-600 dark:from-green-400 dark:to-green-500 text-white rounded-r-md hover:from-green-600 hover:to-green-700 dark:hover:from-green-500 dark:hover:to-green-600 transition-all"
+                  className="px-4 py-2 bg-gradient-to-r from-purple-500 to-purple-600 dark:from-purple-400 dark:to-purple-500 text-white rounded-r-md hover:from-purple-600 hover:to-purple-700 dark:hover:from-purple-500 dark:hover:to-purple-600 transition-all"
                 >
                   Subscribe
                 </button>
@@ -891,11 +891,9 @@ export default function Home() {
             </div>
             <p>© {new Date().getFullYear()} Parth Bhodia. All rights reserved.</p>
             <div className="mt-4 md:mt-0 flex items-center space-x-4">
-              <a href="mailto:parthbhodia08@gmail.com" className="hover:text-green-600 dark:hover:text-green-400 transition-colors">Contact</a>
+              <a href="mailto:parthbhodia08@gmail.com" className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Contact</a>
               <span className="text-gray-300 dark:text-gray-700">•</span>
-              <a href="tel:+14439294371" className="hover:text-green-600 dark:hover:text-green-400 transition-colors">+1 443-929-4371</a>
-              <span className="text-gray-300 dark:text-gray-700">•</span>
-              <a href="https://linkedin.com/in/parthbhodia" target="_blank" rel="noopener noreferrer" className="hover:text-green-600 dark:hover:text-green-400 transition-colors">LinkedIn</a>
+              <a href="https://linkedin.com/in/parthbhodia" target="_blank" rel="noopener noreferrer" className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors">LinkedIn</a>
             </div>
           </div>
         </div>
