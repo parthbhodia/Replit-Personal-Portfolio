@@ -6,6 +6,7 @@ import HeartButton from '../components/HeartButton';
 import ViewCounter from '../components/ViewCounter';
 import CommentSection from '../components/CommentSection';
 import ShareButton from '../components/ShareButton';
+import { useSEO } from '../hooks/useSEO';
 import { Menu, X } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import type { ChatMessage } from '../types';

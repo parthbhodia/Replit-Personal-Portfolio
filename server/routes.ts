@@ -6,6 +6,7 @@ import { fromZodError } from "zod-validation-error";
 import { sendEmail, formatContactEmail } from "./email";
 import { generatePlaceholder } from "./api/placeholder";
 import { supabaseService } from "./supabase";
+import { generateSitemap, generateRobots } from "./seo";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Blog posts API
@@ -218,6 +219,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ error: 'Failed to add comment' });
     }
   });
+
+  // SEO endpoints
+  app.get("/sitemap.xml", generateSitemap);
+  app.get("/robots.txt", generateRobots);
 
   const httpServer = createServer(app);
   return httpServer;
