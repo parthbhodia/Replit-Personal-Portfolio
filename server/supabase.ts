@@ -40,7 +40,53 @@ export interface CommentSupabase {
   updated_at: string;
 }
 
+export interface BlogPostSupabase {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  date: string;
+  read_time: string;
+  category: string;
+  image: string;
+  tags: string[];
+  created_at: string;
+  updated_at: string;
+}
+
 export class SupabaseService {
+  async getAllBlogPosts(): Promise<BlogPostSupabase[]> {
+    try {
+      const { data, error } = await supabase
+        .from('blog_posts')
+        .select('*')
+        .order('date', { ascending: false });
+
+      if (error) throw error;
+      return data || [];
+    } catch (error) {
+      console.error('Error fetching blog posts:', error);
+      return [];
+    }
+  }
+
+  async getBlogPost(id: string): Promise<BlogPostSupabase | null> {
+    try {
+      const { data, error } = await supabase
+        .from('blog_posts')
+        .select('*')
+        .eq('id', id)
+        .single();
+
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      console.error('Error fetching blog post:', error);
+      return null;
+    }
+  }
+
   async getBlogStats(blogPostId: string): Promise<BlogStatsSupabase | null> {
     try {
       const { data, error } = await supabase

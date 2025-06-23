@@ -7,6 +7,7 @@ import ViewCounter from '../components/ViewCounter';
 import CommentSection from '../components/CommentSection';
 import ShareButton from '../components/ShareButton';
 import { Menu, X } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
 
 interface BlogPost {
   id: string; // UUID
@@ -421,12 +422,41 @@ export default function Blog({ slug }: BlogProps = {}) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [userFingerprint, setUserFingerprint] = useState<string>('');
   
+  // Fetch blog posts from Supabase
+  const { data: blogPosts = [], isLoading } = useQuery({
+    queryKey: ['/api/blog/posts'],
+    select: (data) => data.map((post: any) => ({
+      id: post.id,
+      slug: post.slug,
+      title: post.title,
+      excerpt: post.excerpt,
+      content: post.content,
+      date: post.date,
+      readTime: post.read_time,
+      category: post.category,
+      image: post.image,
+      tags: post.tags
+    }))
+  });
+  
   // Use UUID from props or URL
   const currentId = slug || (() => {
     const currentPath = window.location.pathname;
     const idMatch = currentPath.match(/\/blog\/([^\/]+)/);
     return idMatch ? idMatch[1] : null;
   })();
+
+  // Show loading state while fetching blog posts
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-400">Loading blog posts...</p>
+        </div>
+      </div>
+    );
+  }
 
   // Generate user fingerprint and handle URL routing
   useEffect(() => {
@@ -708,7 +738,7 @@ export default function Blog({ slug }: BlogProps = {}) {
                   </div>
                   
                   <h2 
-                    className="text-xl font-bold mb-3 text-gray-900 dark:text-white cursor-pointer hover:text-green-600 dark:hover:text-green-400 transition-colors"
+                    className="text-xl font-bold mb-3 text-gray-900 dark:text-white cursor-pointer hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                     onClick={() => {
                       setSelectedPost(post);
                       window.history.pushState({}, '', `/blog/${post.id}`);
@@ -755,7 +785,7 @@ export default function Blog({ slug }: BlogProps = {}) {
                   </div>
                   
                   <button 
-                    className="inline-flex items-center text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 font-medium"
+                    className="inline-flex items-center text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-medium"
                     onClick={() => {
                       setSelectedPost(post);
                       window.history.pushState({}, '', `/blog/${post.slug}`);
