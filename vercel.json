@@ -25,10 +25,6 @@
     {
       "source": "/robots.txt",
       "destination": "/api/robots.txt"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/client/$1"
     }
   ]
 }
