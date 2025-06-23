@@ -13,32 +13,27 @@
       "use": "@vercel/node"
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
     },
     {
-      "src": "/sitemap.xml",
-      "dest": "/api/sitemap.xml"
+      "source": "/sitemap.xml",
+      "destination": "/api/sitemap.xml"
     },
     {
-      "src": "/robots.txt",
-      "dest": "/api/robots.txt"
+      "source": "/robots.txt",
+      "destination": "/api/robots.txt"
     },
     {
-      "src": "/(.*)",
-      "dest": "/client/$1"
+      "source": "/(.*)",
+      "destination": "/client/$1"
     }
   ],
-  "functions": {
-    "api/**/*.ts": {
-      "maxDuration": 30
-    }
-  },
   "env": {
-    "SUPABASE_URL": "@supabase_url",
-    "SUPABASE_ANON_KEY": "@supabase_anon_key",
+    "SUPABASE_URL": "@https://tphxfdxopxrohdjiugal.supabase.co",
+    "SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRwaHhmZHhvcHhyb2hkaml1Z2FsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA1NzI5ODgsImV4cCI6MjA2NjE0ODk4OH0.09vyrEzymys5q4tONt5I3iy7jtI-gvP3fmrFhaFW12Y",
     "SENDGRID_API_KEY": "@sendgrid_api_key"
   }
 }
