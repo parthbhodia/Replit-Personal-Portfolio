@@ -446,18 +446,6 @@ export default function Blog({ slug }: BlogProps = {}) {
     return idMatch ? idMatch[1] : null;
   })();
 
-  // Show loading state while fetching blog posts
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
-          <p className="text-gray-600 dark:text-gray-400">Loading blog posts...</p>
-        </div>
-      </div>
-    );
-  }
-
   // Generate user fingerprint and handle URL routing
   useEffect(() => {
     const generateFingerprint = () => {
@@ -479,7 +467,19 @@ export default function Blog({ slug }: BlogProps = {}) {
         setSelectedPost(post);
       }
     }
-  }, [currentId, selectedPost]);
+  }, [currentId, selectedPost, blogPosts]);
+
+  // Show loading state while fetching blog posts
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-400">Loading blog posts...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (selectedPost) {
     return (
