@@ -48,8 +48,8 @@ export default function App() {
           <Route path="/" component={Home} />
           <Route path="/skills" component={Skills} />
           <Route path="/blog" component={Blog} />
-          <Route path="/blog/:slug">
-            {(params) => <Blog slug={params.slug} />}
+          <Route path="/blog/:id">
+            {(params) => <Blog slug={params.id} />}
           </Route>
           <Route component={NotFound} />
         </Switch>

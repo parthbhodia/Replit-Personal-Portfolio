@@ -50,19 +50,10 @@ export default function HeartButton({ blogPostId, className = '', size = 24 }: H
 
   const isLiked = userInteraction?.hasLiked || false;
   
-  // Debug logging (remove after testing)
-  useEffect(() => {
-    if (statsData || userInteraction) {
-      console.log('HeartButton Debug:', {
-        blogPostId,
-        userFingerprint,
-        statsData,
-        userInteraction,
-        isLiked,
-        heartCount
-      });
-    }
-  }, [blogPostId, userFingerprint, statsData, userInteraction, isLiked, heartCount]);
+  // Remove debug logging since UUIDs are working
+  // useEffect(() => {
+  //   console.log('HeartButton Debug:', { blogPostId, userFingerprint, statsData, userInteraction, isLiked, heartCount });
+  // }, [blogPostId, userFingerprint, statsData, userInteraction, isLiked, heartCount]);
 
   useEffect(() => {
     setHeartCount(statsData?.hearts || 0);

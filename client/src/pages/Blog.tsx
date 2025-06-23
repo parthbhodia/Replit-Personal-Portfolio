@@ -413,7 +413,7 @@ Remember: Architecture should serve your business goals, not the other way aroun
 ];
 
 interface BlogProps {
-  slug?: string;
+  slug?: string; // Actually receives the UUID from router params
 }
 
 export default function Blog({ slug }: BlogProps = {}) {
@@ -421,11 +421,11 @@ export default function Blog({ slug }: BlogProps = {}) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [userFingerprint, setUserFingerprint] = useState<string>('');
   
-  // Use slug from props or URL
-  const currentSlug = slug || (() => {
+  // Use UUID from props or URL
+  const currentId = slug || (() => {
     const currentPath = window.location.pathname;
-    const slugMatch = currentPath.match(/\/blog\/([^\/]+)/);
-    return slugMatch ? slugMatch[1] : null;
+    const idMatch = currentPath.match(/\/blog\/([^\/]+)/);
+    return idMatch ? idMatch[1] : null;
   })();
 
   // Generate user fingerprint and handle URL routing
@@ -443,13 +443,13 @@ export default function Blog({ slug }: BlogProps = {}) {
     setUserFingerprint(fp);
     
     // Handle URL routing for direct blog post access
-    if (currentSlug && !selectedPost) {
-      const post = blogPosts.find(p => p.slug === currentSlug);
+    if (currentId && !selectedPost) {
+      const post = blogPosts.find(p => p.id === currentId);
       if (post) {
         setSelectedPost(post);
       }
     }
-  }, [currentSlug, selectedPost]);
+  }, [currentId, selectedPost]);
 
   if (selectedPost) {
     return (
@@ -666,7 +666,7 @@ export default function Blog({ slug }: BlogProps = {}) {
                   className="h-48 bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center cursor-pointer"
                   onClick={() => {
                     setSelectedPost(post);
-                    window.history.pushState({}, '', `/blog/${post.slug}`);
+                    window.history.pushState({}, '', `/blog/${post.id}`);
                   }}
                 >
                   <div className="text-white text-center p-4">
@@ -690,7 +690,7 @@ export default function Blog({ slug }: BlogProps = {}) {
                     className="text-xl font-bold mb-3 text-gray-900 dark:text-white cursor-pointer hover:text-green-600 dark:hover:text-green-400 transition-colors"
                     onClick={() => {
                       setSelectedPost(post);
-                      window.history.pushState({}, '', `/blog/${post.id}`);
+                      window.history.pushState({}, '', `/blog/${post.slug}`);
                     }}
                   >
                     {post.title}
@@ -737,7 +737,7 @@ export default function Blog({ slug }: BlogProps = {}) {
                     className="inline-flex items-center text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 font-medium"
                     onClick={() => {
                       setSelectedPost(post);
-                      window.history.pushState({}, '', `/blog/${post.id}`);
+                      window.history.pushState({}, '', `/blog/${post.slug}`);
                     }}
                   >
                     Read More
