@@ -419,6 +419,18 @@ interface BlogProps {
 }
 
 export default function Blog({ slug }: BlogProps = {}) {
+  // SEO optimization for blog pages
+  useSEO({
+    title: slug 
+      ? 'Blog Post - Parth Bhodia | Software Development Insights'
+      : 'Blog - Parth Bhodia | Software Development & Tech Insights',
+    description: slug
+      ? 'Read the latest software development insights and technical articles by Parth Bhodia, Full Stack Developer.'
+      : 'Explore technical articles, tutorials, and insights on software development, Vue.js, React, Node.js, Python, AWS, and more by Parth Bhodia.',
+    keywords: 'Parth Bhodia Blog, Software Development Blog, Tech Articles, Vue.js Tutorial, React Tips, Node.js Guide, Python Programming, AWS Tutorial, Web Development Blog',
+    url: slug ? `https://parthbhodia.com/blog/${slug}` : 'https://parthbhodia.com/blog',
+    type: slug ? 'article' : 'website'
+  });
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [userFingerprint, setUserFingerprint] = useState<string>('');

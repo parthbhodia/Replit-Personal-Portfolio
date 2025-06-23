@@ -6,6 +6,13 @@ import ViewCounter from '../components/ViewCounter';
 import { Menu, X } from 'lucide-react';
 
 export default function Skills() {
+  // SEO optimization for skills page
+  useSEO({
+    title: 'Skills & Expertise - Parth Bhodia | Vue.js React Node.js Python AWS',
+    description: 'Explore Parth Bhodia\'s technical skills and expertise in Full Stack Development, including Vue.js, React, Node.js, Python, AWS, Machine Learning, and Database technologies.',
+    keywords: 'Parth Bhodia Skills, Vue.js Expert, React Developer, Node.js Developer, Python Programming, AWS Cloud, Machine Learning, Database Design, Full Stack Skills, Software Development Skills',
+    url: 'https://parthbhodia.com/skills'
+  });
   // Mobile menu state
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   

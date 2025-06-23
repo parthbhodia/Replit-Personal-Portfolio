@@ -12,9 +12,17 @@ import AnimatedProjectCard from '../components/AnimatedProjectCard';
 import TypewriterText from '../components/TypewriterText';
 import ScrollProgress from '../components/ScrollProgress';
 import ViewCounter from '../components/ViewCounter';
+import { useSEO } from '../hooks/useSEO';
 import { Menu, X } from 'lucide-react';
 
 export default function Home() {
+  // SEO optimization for home page
+  useSEO({
+    title: 'Parth Bhodia - Full Stack Software Developer | Vue.js React Node.js Python AWS Expert',
+    description: 'Parth Bhodia is a skilled Full Stack Software Developer specializing in Vue.js, React, Node.js, Python, and AWS. UMBC graduate with expertise in AI/ML, microservices, and scalable web applications.',
+    keywords: 'Parth Bhodia, Software Developer, Full Stack Developer, Vue.js, React, Node.js, Python, AWS, Machine Learning, AI, UMBC, Jersey City, Web Development, Microservices, Software Engineer, Frontend Developer, Backend Developer',
+    url: 'https://parthbhodia.com'
+  });
 
 
   // Projects data based on resume
