@@ -338,42 +338,42 @@ export default function Home() {
               <div className="flex flex-col space-y-4 pt-4">
                 <a 
                   href="#companies" 
-                  className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors"
+                  className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Companies
                 </a>
                 <a 
                   href="#about" 
-                  className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors"
+                  className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   About
                 </a>
                 <Link 
                   href="/skills" 
-                  className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors"
+                  className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Skills
                 </Link>
                 <a 
                   href="#projects" 
-                  className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors"
+                  className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Projects
                 </a>
                 <Link 
                   href="/blog" 
-                  className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors"
+                  className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Blog
                 </Link>
                 <a 
                   href="#contact" 
-                  className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors"
+                  className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Contact
@@ -389,14 +389,14 @@ export default function Home() {
       <section className="min-h-screen flex items-center justify-center relative -mt-screen">
         <div className="container mx-auto px-4 flex flex-col items-center z-10">
           <ParallaxSection speed={0.4} className="mb-8">
-            <div className="w-32 h-32 rounded-full bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 flex items-center justify-center text-4xl text-white shadow-lg transform transition-all duration-500 hover:scale-110">
+            <div className="w-32 h-32 rounded-full bg-gradient-to-r from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600 flex items-center justify-center text-4xl text-white shadow-lg transform transition-all duration-500 hover:scale-110">
               PB
             </div>
           </ParallaxSection>
 
           <ParallaxSection speed={0.2} className="mb-4">
             <h1 className="text-4xl md:text-6xl font-bold text-center mb-4">
-              Hi, I'm <span className="bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text">Parth Bhodia</span>
+              Hi, I'm <span className="bg-gradient-to-r from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600 text-transparent bg-clip-text">Parth Bhodia</span>
             </h1>
           </ParallaxSection>
 
@@ -411,7 +411,7 @@ export default function Home() {
                   "AWS Cloud Specialist",
                   "Python Developer"
                 ]}
-                className="bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text font-semibold"
+                className="bg-gradient-to-r from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600 text-transparent bg-clip-text font-semibold"
               />
             </div>
           </ParallaxSection>
@@ -439,7 +439,7 @@ export default function Home() {
       <section id="companies" className="py-20">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold mb-12 text-center">
-            <span className="bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text">Companies I've Worked With</span>
+            <span className="bg-gradient-to-r from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600 text-transparent bg-clip-text">Companies I've Worked With</span>
           </h2>
           <div className="relative">
             <div className="overflow-hidden">
@@ -500,7 +500,7 @@ export default function Home() {
                         </DialogTitle>
                         <DialogDescription className="pt-4">
                           <div className="mb-4">
-                            <p className="font-semibold text-green-600 dark:text-green-400">{company.role}</p>
+                            <p className="font-semibold text-purple-600 dark:text-purple-400">{company.role}</p>
                             <p className="text-sm text-gray-500">{company.period}</p>
                           </div>
                           <p className="text-gray-700 dark:text-gray-300">{company.description}</p>
@@ -565,7 +565,7 @@ export default function Home() {
       <section id="about" className="py-20 bg-gray-50 dark:bg-gray-900/40 backdrop-blur-sm">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold mb-12 text-center relative">
-            <span className="bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text">About Me</span>
+            <span className="bg-gradient-to-r from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600 text-transparent bg-clip-text">About Me</span>
           </h2>
           <div className="max-w-3xl mx-auto text-gray-700 dark:text-gray-300 space-y-4 bg-white/80 dark:bg-black/40 p-6 rounded-lg shadow-md backdrop-blur-sm">
             <p>
@@ -593,7 +593,7 @@ export default function Home() {
       <section id="projects" className="py-20 bg-gray-50/80 dark:bg-gray-900/30 backdrop-blur-sm">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold mb-8 text-center">
-            <span className="bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text">My Projects</span>
+            <span className="bg-gradient-to-r from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600 text-transparent bg-clip-text">My Projects</span>
           </h2>
 
           {/* Category Tabs */}
@@ -644,7 +644,7 @@ export default function Home() {
       <section id="contact" className="py-20 bg-white/80 dark:bg-black/40 backdrop-blur-sm">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold mb-12 text-center">
-            <span className="bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text">Get In Touch</span>
+            <span className="bg-gradient-to-r from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600 text-transparent bg-clip-text">Get In Touch</span>
           </h2>
 
           <ParallaxSection speed={0.05}>
@@ -653,14 +653,14 @@ export default function Home() {
                 <h3 className="text-xl font-medium mb-6 text-gray-800 dark:text-gray-200">Contact Information</h3>
                 <div className="space-y-6 mb-6">
                   <div className="flex items-center transform transition-transform hover:translate-x-2">
-                    <div className="w-10 h-10 bg-green-100 dark:bg-green-900/60 rounded-full flex items-center justify-center mr-4 shadow-md">
-                      <span className="text-green-600 dark:text-green-400">📧</span>
+                    <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900/60 rounded-full flex items-center justify-center mr-4 shadow-md">
+                      <span className="text-purple-600 dark:text-purple-400">📧</span>
                     </div>
                     <span className="text-gray-700 dark:text-gray-300">parthbhodia08@gmail.com</span>
                   </div>
                   <div className="flex items-center transform transition-transform hover:translate-x-2">
-                    <div className="w-10 h-10 bg-green-100 dark:bg-green-900/60 rounded-full flex items-center justify-center mr-4 shadow-md">
-                      <span className="text-green-600 dark:text-green-400">📍</span>
+                    <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900/60 rounded-full flex items-center justify-center mr-4 shadow-md">
+                      <span className="text-purple-600 dark:text-purple-400">📍</span>
                     </div>
                     <span className="text-gray-700 dark:text-gray-300">Jersey City, NJ</span>
                   </div>
@@ -689,7 +689,7 @@ export default function Home() {
                     value={contactForm.email}
                     onChange={handleFormChange}
                     required
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-800/80 bg-white/80 backdrop-blur-sm"
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-800/80 bg-white/80 backdrop-blur-sm"
                   />
                 </div>
                 <div>
@@ -701,7 +701,7 @@ export default function Home() {
                     value={contactForm.subject}
                     onChange={handleFormChange}
                     required
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-800/80 bg-white/80 backdrop-blur-sm"
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-800/80 bg-white/80 backdrop-blur-sm"
                   />
                 </div>
                 <div>
@@ -798,10 +798,10 @@ export default function Home() {
             {/* Logo & About */}
             <div className="space-y-4">
               <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 flex items-center justify-center text-sm text-white font-bold">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600 flex items-center justify-center text-sm text-white font-bold">
                   PB
                 </div>
-                <h3 className="text-xl font-semibold bg-gradient-to-r from-green-600 to-green-800 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text">
+                <h3 className="text-xl font-semibold bg-gradient-to-r from-purple-600 to-purple-800 dark:from-purple-400 dark:to-purple-600 text-transparent bg-clip-text">
                   Parth Bhodia
                 </h3>
               </div>
