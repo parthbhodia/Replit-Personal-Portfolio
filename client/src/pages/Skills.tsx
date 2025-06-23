@@ -4,6 +4,7 @@ import ThreeBackground from '../components/ThreeBackground';
 import ThemeToggle from '../components/ThemeToggle';
 import ViewCounter from '../components/ViewCounter';
 import { useSEO } from '../hooks/useSEO';
+import { ChatMessage } from '../types';
 import { Menu, X } from 'lucide-react';
 
 export default function Skills() {
@@ -16,6 +17,57 @@ export default function Skills() {
   });
   // Mobile menu state
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  
+  // Chatbot state
+  const [chatbotOpen, setChatbotOpen] = useState(false);
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
+  const [inputMessage, setInputMessage] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  
+  const toggleChatbot = () => {
+    setChatbotOpen(!chatbotOpen);
+  };
+
+  const sendMessage = async () => {
+    if (!inputMessage.trim()) return;
+    
+    const userMessage: ChatMessage = {
+      text: inputMessage,
+      isUser: true,
+      timestamp: new Date()
+    };
+    
+    setChatMessages(prev => [...prev, userMessage]);
+    setInputMessage('');
+    setIsTyping(true);
+    
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: inputMessage })
+      });
+      
+      const data = await response.json();
+      
+      const botMessage: ChatMessage = {
+        text: data.response,
+        isUser: false,
+        timestamp: new Date()
+      };
+      
+      setChatMessages(prev => [...prev, botMessage]);
+    } catch (error) {
+      const errorMessage: ChatMessage = {
+        text: "Sorry, I'm having trouble connecting. Please try again.",
+        isUser: false,
+        timestamp: new Date()
+      };
+      setChatMessages(prev => [...prev, errorMessage]);
+    } finally {
+      setIsTyping(false);
+    }
+  };
   
   // Skills data based on resume
   const skills = [
@@ -301,14 +353,14 @@ export default function Skills() {
           <div className="p-4 border-t border-gray-200 dark:border-gray-700">
             <form onSubmit={(e) => {
               e.preventDefault();
-              if (chatInput.trim()) {
+              if (inputMessage.trim()) {
                 const userMessage: ChatMessage = {
-                  text: chatInput,
+                  text: inputMessage,
                   isUser: true,
                   timestamp: new Date()
                 };
                 setChatMessages(prev => [...prev, userMessage]);
-                setChatInput('');
+                setInputMessage('');
                 setIsTyping(true);
                 
                 // Simulate AI response
@@ -332,8 +384,8 @@ export default function Skills() {
             }} className="flex">
               <input
                 type="text"
-                value={chatInput}
-                onChange={(e) => setChatInput(e.target.value)}
+                value={inputMessage}
+                onChange={(e) => setInputMessage(e.target.value)}
                 placeholder="Ask about Parth's skills..."
                 className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-l-md focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white text-sm"
               />

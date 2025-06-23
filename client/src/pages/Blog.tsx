@@ -592,10 +592,6 @@ export default function Blog({ slug }: BlogProps = {}) {
               <Link
                 href="/blog"
                 className="inline-flex items-center text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 mb-6"
-                onClick={() => {
-                  setSelectedPost(null);
-                  window.history.pushState({}, '', '/blog');
-                }}
               >
                 ← Back to Blog
               </Link>
