@@ -54,7 +54,7 @@ export default function Skills() {
               <ThemeToggle />
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="p-2 text-gray-600 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors"
+                className="p-2 text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
               >
                 {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
@@ -111,7 +111,7 @@ export default function Skills() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-transparent bg-clip-text">Technical Skills</span>
+              <span className="bg-gradient-to-r from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600 text-transparent bg-clip-text">Technical Skills</span>
             </h1>
             <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
               Here's a comprehensive overview of my technical expertise and proficiency levels across various technologies and frameworks.
@@ -123,11 +123,11 @@ export default function Skills() {
               <div key={index} className="bg-white/90 dark:bg-black/40 p-6 rounded-lg shadow-lg backdrop-blur-sm transform transition-all duration-500 hover:scale-105">
                 <div className="flex justify-between items-center mb-3">
                   <span className="font-semibold text-lg">{skill.name}</span>
-                  <span className="text-sm font-medium text-green-600 dark:text-green-400">{skill.level}%</span>
+                  <span className="text-sm font-medium text-purple-600 dark:text-purple-400">{skill.level}%</span>
                 </div>
                 <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
                   <div
-                    className="bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 h-3 rounded-full transition-all duration-1000"
+                    className="bg-gradient-to-r from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600 h-3 rounded-full transition-all duration-1000"
                     style={{ width: `${skill.level}%` }}
                   ></div>
                 </div>
@@ -138,7 +138,7 @@ export default function Skills() {
           {/* Back to Home Button */}
           <div className="text-center mt-12">
             <Link href="/">
-              <button className="bg-gradient-to-r from-green-500 to-green-700 dark:from-green-400 dark:to-green-600 text-white px-8 py-3 rounded-lg font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+              <button className="bg-gradient-to-r from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600 text-white px-8 py-3 rounded-lg font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-300">
                 Back to Home
               </button>
             </Link>

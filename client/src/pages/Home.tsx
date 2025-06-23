@@ -311,12 +311,12 @@ export default function Home() {
             
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-6">
-              <a href="#companies" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">Companies</a>
-              <a href="#about" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">About</a>
-              <Link href="/skills" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">Skills</Link>
-              <a href="#projects" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">Projects</a>
-              <Link href="/blog" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">Blog</Link>
-              <a href="#contact" className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors">Contact</a>
+              <a href="#companies" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Companies</a>
+              <a href="#about" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">About</a>
+              <Link href="/skills" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Skills</Link>
+              <a href="#projects" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Projects</a>
+              <Link href="/blog" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Blog</Link>
+              <a href="#contact" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Contact</a>
               <ThemeToggle />
             </div>
 
@@ -325,7 +325,7 @@ export default function Home() {
               <ThemeToggle />
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="p-2 text-gray-600 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors"
+                className="p-2 text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
               >
                 {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
