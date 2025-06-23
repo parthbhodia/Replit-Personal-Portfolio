@@ -719,12 +719,12 @@ export default function Home() {
                 <button 
                   type="submit" 
                   disabled={submitting}
-                  className="w-full py-3 bg-gradient-to-r from-green-500 to-green-600 dark:from-green-400 dark:to-green-500 text-white rounded-md hover:from-green-600 hover:to-green-700 dark:hover:from-green-500 dark:hover:to-green-600 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-1 disabled:opacity-70 disabled:transform-none disabled:hover:shadow-md"
+                  className="w-full py-3 bg-gradient-to-r from-purple-500 to-purple-600 dark:from-purple-400 dark:to-purple-500 text-white rounded-md hover:from-purple-600 hover:to-purple-700 dark:hover:from-purple-500 dark:hover:to-purple-600 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-1 disabled:opacity-70 disabled:transform-none disabled:hover:shadow-md"
                 >
                   {submitting ? 'Sending...' : 'Send Message'}
                 </button>
                 {formMessage && (
-                  <p className={`text-center mt-4 ${formSuccess ? 'text-green-600' : 'text-red-600'}`}>
+                  <p className={`text-center mt-4 ${formSuccess ? 'text-purple-600' : 'text-red-600'}`}>
                     {formMessage}
                   </p>
                 )}
@@ -738,7 +738,7 @@ export default function Home() {
       <div className="fixed bottom-6 right-6 z-40">
         <button 
           onClick={toggleChatbot}
-          className="w-14 h-14 bg-gradient-to-r from-green-500 to-green-600 dark:from-green-400 dark:to-green-500 text-white rounded-full shadow-lg flex items-center justify-center hover:from-green-600 hover:to-green-700 dark:hover:from-green-500 dark:hover:to-green-600 transition-all transform hover:scale-110"
+          className="w-14 h-14 bg-gradient-to-r from-purple-500 to-purple-600 dark:from-purple-400 dark:to-purple-500 text-white rounded-full shadow-lg flex items-center justify-center hover:from-purple-600 hover:to-purple-700 dark:hover:from-purple-500 dark:hover:to-purple-600 transition-all transform hover:scale-110"
         >
           <span className="text-xl">{!chatbotOpen ? '💬' : '✕'}</span>
         </button>
