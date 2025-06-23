@@ -48,7 +48,9 @@ export default function App() {
           <Route path="/" component={Home} />
           <Route path="/skills" component={Skills} />
           <Route path="/blog" component={Blog} />
-          <Route path="/blog/:slug" component={Blog} />
+          <Route path="/blog/:slug">
+            {(params) => <Blog slug={params.slug} />}
+          </Route>
           <Route component={NotFound} />
         </Switch>
       </div>

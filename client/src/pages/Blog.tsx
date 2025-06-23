@@ -408,15 +408,21 @@ Remember: Architecture should serve your business goals, not the other way aroun
   }
 ];
 
-export default function Blog() {
+interface BlogProps {
+  slug?: string;
+}
+
+export default function Blog({ slug }: BlogProps = {}) {
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [userFingerprint, setUserFingerprint] = useState<string>('');
   
-  // Get slug from URL if exists
-  const currentPath = window.location.pathname;
-  const slugMatch = currentPath.match(/\/blog\/([^\/]+)/);
-  const currentSlug = slugMatch ? slugMatch[1] : null;
+  // Use slug from props or URL
+  const currentSlug = slug || (() => {
+    const currentPath = window.location.pathname;
+    const slugMatch = currentPath.match(/\/blog\/([^\/]+)/);
+    return slugMatch ? slugMatch[1] : null;
+  })();
 
   // Generate user fingerprint and handle URL routing
   useEffect(() => {
@@ -725,7 +731,10 @@ export default function Blog() {
                   
                   <button 
                     className="inline-flex items-center text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 font-medium"
-                    onClick={() => setSelectedPost(post)}
+                    onClick={() => {
+                      setSelectedPost(post);
+                      window.history.pushState({}, '', `/blog/${post.id}`);
+                    }}
                   >
                     Read More
                     <ArrowRight className="h-4 w-4 ml-1" />
