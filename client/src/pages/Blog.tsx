@@ -9,7 +9,8 @@ import ShareButton from '../components/ShareButton';
 import { Menu, X } from 'lucide-react';
 
 interface BlogPost {
-  id: string;
+  id: string; // UUID
+  slug: string; // URL-friendly slug
   title: string;
   excerpt: string;
   content: string;
@@ -22,7 +23,8 @@ interface BlogPost {
 
 const blogPosts: BlogPost[] = [
   {
-    id: 'aws-architecture-scalable-applications',
+    id: '550e8400-e29b-41d4-a716-446655440001',
+    slug: 'aws-architecture-scalable-applications',
     title: 'Building Scalable Applications with AWS Architecture',
     excerpt: 'Explore how to design and implement robust, scalable applications using AWS services including Lambda, API Gateway, RDS, and S3.',
     content: `
@@ -112,7 +114,8 @@ AWS provides the tools necessary to build applications that can handle millions 
     tags: ['AWS', 'Serverless', 'Scalability', 'Lambda', 'API Gateway']
   },
   {
-    id: 'generative-ai-modern-development',
+    id: '550e8400-e29b-41d4-a716-446655440002',
+    slug: 'generative-ai-modern-development',
     title: 'Integrating Generative AI into Modern Development Workflows',
     excerpt: 'Learn how to leverage AI tools like GPT, Copilot, and Claude to enhance productivity and code quality in software development.',
     content: `
@@ -221,7 +224,8 @@ Generative AI is not replacing developers but augmenting their capabilities. The
     tags: ['AI', 'GPT', 'Machine Learning', 'Development', 'Productivity']
   },
   {
-    id: 'microservices-vs-macroservices',
+    id: '550e8400-e29b-41d4-a716-446655440003',
+    slug: 'microservices-vs-macroservices',
     title: 'Microservices vs Macroservices: Choosing the Right Architecture',
     excerpt: 'A comprehensive comparison of microservices and macroservices architectures, including when to use each approach and implementation strategies.',
     content: `
@@ -440,7 +444,7 @@ export default function Blog({ slug }: BlogProps = {}) {
     
     // Handle URL routing for direct blog post access
     if (currentSlug && !selectedPost) {
-      const post = blogPosts.find(p => p.id === currentSlug);
+      const post = blogPosts.find(p => p.slug === currentSlug);
       if (post) {
         setSelectedPost(post);
       }
@@ -662,7 +666,7 @@ export default function Blog({ slug }: BlogProps = {}) {
                   className="h-48 bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center cursor-pointer"
                   onClick={() => {
                     setSelectedPost(post);
-                    window.history.pushState({}, '', `/blog/${post.id}`);
+                    window.history.pushState({}, '', `/blog/${post.slug}`);
                   }}
                 >
                   <div className="text-white text-center p-4">
