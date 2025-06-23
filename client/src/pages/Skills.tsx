@@ -67,35 +67,35 @@ export default function Skills() {
               <div className="flex flex-col space-y-4 pt-4">
                 <Link 
                   href="/#companies" 
-                  className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors"
+                  className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Companies
                 </Link>
                 <Link 
                   href="/#about" 
-                  className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors"
+                  className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   About
                 </Link>
                 <Link 
                   href="/skills" 
-                  className="font-medium text-green-600 dark:text-green-400"
+                  className="font-medium text-purple-600 dark:text-purple-400"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Skills
                 </Link>
                 <Link 
                   href="/#projects" 
-                  className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors"
+                  className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Projects
                 </Link>
                 <Link 
                   href="/#contact" 
-                  className="font-medium hover:text-green-600 dark:hover:text-green-400 transition-colors"
+                  className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Contact
