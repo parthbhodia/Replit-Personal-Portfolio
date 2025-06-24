@@ -37,7 +37,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const emailContent = formatContactEmail({
       name: messageData.name,
       email: messageData.email,
-      subject: messageData.subject,
+      subject: messageData.subject || 'No Subject',
       message: messageData.message
     });
     

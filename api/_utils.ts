@@ -436,7 +436,7 @@ export class MemStorage {
   async saveMessage(insertMessage: any): Promise<any> {
     const id = this.messageCurrentId++;
     const createdAt = new Date();
-    const subject = insertMessage.subject === undefined ? null : insertMessage.subject;
+    const subject = insertMessage.subject || null;
     const message = { ...insertMessage, subject, id, createdAt };
     this.messages.set(id, message);
     return message;
