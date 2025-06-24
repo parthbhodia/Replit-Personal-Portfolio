@@ -117,7 +117,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Blog stats endpoints
   app.get("/api/blog/:blogPostId/stats", async (req, res) => {
     try {
-      const { blogPostId } = req.params;
+      const blogPostId = req.params.blogPostId;
+      if (!blogPostId) {
+        return res.status(400).json({ message: "Blog post ID is required" });
+      }
       const stats = await supabaseService.getBlogStats(blogPostId);
       
       return res.json({
@@ -145,6 +148,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/blog/:blogPostId/user/:userFingerprint", async (req, res) => {
     try {
       const { blogPostId, userFingerprint } = req.params;
+      
+      if (!userFingerprint) {
+        return res.status(400).json({ message: "User fingerprint is required" });
+      }
+      
       const interaction = await supabaseService.getUserInteraction(userFingerprint, blogPostId);
       
       return res.json({
