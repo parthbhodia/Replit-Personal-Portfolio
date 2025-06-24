@@ -7,13 +7,6 @@ import { useSEO } from '../hooks/useSEO';
 import { ChatMessage } from '../types';
 import { Menu, X } from 'lucide-react';
 
-// Chat message type
-interface ChatMessage {
-  text: string;
-  isUser: boolean;
-  timestamp: Date;
-}
-
 export default function Skills() {
   // SEO optimization for skills page
   useSEO({

@@ -28,7 +28,7 @@ export default function CommentSection({ blogPostId, userFingerprint }: CommentS
   const [showCommentForm, setShowCommentForm] = useState(false);
   const [replyTo, setReplyTo] = useState<number | null>(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const [authUser, setAuthUser] = useState<{ name: string; email: string } | null>(null);
+  const [authUser, setAuthUser] = useState<{ name: string; email: string; avatar?: string } | null>(null);
   const [newComment, setNewComment] = useState({
     content: ''
   });
@@ -118,7 +118,7 @@ export default function CommentSection({ blogPostId, userFingerprint }: CommentS
     });
   };
 
-  const handleAuth = (user: { name: string; email: string }) => {
+  const handleAuth = (user: { name: string; email: string; avatar?: string }) => {
     setAuthUser(user);
   };
 

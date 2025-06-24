@@ -75,7 +75,7 @@ export default function ShareButton({ title, excerpt, url, className = '' }: Sha
       } else {
         setShowShareMenu(!showShareMenu);
       }
-    } catch (error) {
+    } catch (error: any) {
       if (error.name !== 'AbortError') {
         setShowShareMenu(!showShareMenu);
       }

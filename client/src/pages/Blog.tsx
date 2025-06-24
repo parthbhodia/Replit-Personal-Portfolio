@@ -449,7 +449,7 @@ export default function Blog({ slug }: BlogProps = {}) {
   // Fetch blog posts from Supabase
   const { data: blogPosts = [], isLoading } = useQuery({
     queryKey: ['/api/blog/posts'],
-    select: (data) => data.map((post: any) => ({
+    select: (data: any) => data.map((post: any) => ({
       id: post.id,
       slug: post.slug,
       title: post.title,
@@ -486,7 +486,7 @@ export default function Blog({ slug }: BlogProps = {}) {
 
     // Handle URL routing for direct blog post access
     if (currentId && !selectedPost) {
-      const post = blogPosts.find(p => p.id === currentId);
+      const post = blogPosts.find((p: any) => p.id === currentId);
       if (post) {
         setSelectedPost(post);
       }
@@ -791,7 +791,7 @@ export default function Blog({ slug }: BlogProps = {}) {
       <section className="py-12">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {blogPosts.map((post) => (
+            {blogPosts.map((post: any) => (
               <article
                 key={post.id}
                 className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
@@ -852,7 +852,7 @@ export default function Blog({ slug }: BlogProps = {}) {
                   </div>
 
                   <div className="flex flex-wrap gap-1 mb-4">
-                    {post.tags.slice(0, 3).map((tag, index) => (
+                    {post.tags.slice(0, 3).map((tag: string, index: number) => (
                       <span key={index} className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded text-xs">
                         #{tag}
                       </span>
