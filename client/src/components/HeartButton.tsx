@@ -27,7 +27,7 @@ export default function HeartButton({ blogPostId, className = '', size = 24 }: H
   const { data: statsData } = useQuery({
     queryKey: ['blog-stats', blogPostId],
     queryFn: async () => {
-      const response = await fetch(`/api/blog/${blogPostId}/stats`);
+      const response = await fetch(`/api/blog/${blogPostId}?action=stats`);
       if (!response.ok) {
         throw new Error(`Failed to fetch stats: ${response.status}`);
       }
@@ -55,7 +55,7 @@ export default function HeartButton({ blogPostId, className = '', size = 24 }: H
   // Mutation to toggle heart
   const heartMutation = useMutation({
     mutationFn: async () => {
-      const response = await fetch(`/api/blog/${blogPostId}/heart`, {
+      const response = await fetch(`/api/blog/${blogPostId}?action=heart`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userFingerprint }),

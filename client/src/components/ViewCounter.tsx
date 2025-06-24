@@ -16,7 +16,7 @@ export default function ViewCounter({ blogPostId, className = '', size = 16 }: V
   const { data: statsData } = useQuery({
     queryKey: ['blog-stats', blogPostId],
     queryFn: async () => {
-      const response = await fetch(`/api/blog/${blogPostId}/stats`);
+      const response = await fetch(`/api/blog/${blogPostId}?action=stats`);
       if (!response.ok) {
         throw new Error(`Failed to fetch stats: ${response.status}`);
       }
@@ -29,7 +29,7 @@ export default function ViewCounter({ blogPostId, className = '', size = 16 }: V
   // Mutation to record view
   const viewMutation = useMutation({
     mutationFn: async () => {
-      const response = await fetch(`/api/blog/${blogPostId}/view`, {
+      const response = await fetch(`/api/blog/${blogPostId}?action=view`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({}),
