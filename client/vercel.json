@@ -9,37 +9,29 @@
       }
     },
     {
-      "src": "server/api/**/*.ts",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "server/routes.ts",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "server/index.ts",
+      "src": "api/**/*.ts",
       "use": "@vercel/node"
     }
   ],
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "/server/api/$1"
+      "destination": "/api/$1"
     },
     {
       "source": "/sitemap.xml",
-      "destination": "/server/api/sitemap.xml"
+      "destination": "/api/sitemap.xml"
     },
     {
       "source": "/robots.txt",
-      "destination": "/server/api/robots.txt"
+      "destination": "/api/robots.txt"
     },
     {
       "source": "/(.*)",
       "destination": "/index.html"
     }
   ],
-  "headers": [
+  "headers": [q
     {
       "source": "/assets/(.*)",
       "headers": [
