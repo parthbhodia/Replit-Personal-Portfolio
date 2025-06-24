@@ -58,10 +58,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           return res.status(405).json({ error: 'Method not allowed', allowedMethods: ['POST'] });
         }
         
-        const viewResult = await supabaseService.incrementView(blogPostId);
+        await supabaseService.incrementViews(blogPostId);
         return res.status(200).json({
-          success: true,
-          views: viewResult.views
+          success: true
         });
 
       default:
