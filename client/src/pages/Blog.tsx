@@ -10,6 +10,7 @@ import { useSEO } from '../hooks/useSEO';
 import { Menu, X } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import type { ChatMessage } from '../types';
+import Navigation from '../components/Navigation';
 
 interface BlogPost {
   id: string; // UUID
@@ -509,89 +510,7 @@ export default function Blog({ slug }: BlogProps = {}) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
         {/* Navigation */}
-        <nav className="bg-white/90 dark:bg-black/90 backdrop-blur-sm sticky top-0 z-50 shadow-md">
-          <div className="container mx-auto px-4 py-4">
-            <div className="flex items-center justify-between">
-              <Link href="/">
-                <div className="text-xl font-bold bg-gradient-to-r from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600 text-transparent bg-clip-text cursor-pointer">
-                  Parth Bhodia
-                </div>
-              </Link>
-              
-              <div className="text-xl font-bold bg-gradient-to-r from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600 text-transparent bg-clip-text">
-                Parth Bhodia
-              </div>
-
-              {/* Desktop Navigation */}
-              <div className="hidden md:flex items-center space-x-6">
-                <Link href="/#companies" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Companies</Link>
-                <Link href="/#about" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">About</Link>
-                <Link href="/skills" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Skills</Link>
-                <Link href="/#projects" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Projects</Link>
-                <span className="font-medium text-purple-600 dark:text-purple-400">Blog</span>
-                <Link href="/#contact" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Contact</Link>
-                <ThemeToggle />
-              </div>
-
-              {/* Mobile Menu Button */}
-              <div className="md:hidden flex items-center space-x-4">
-                <ThemeToggle />
-                <button
-                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                  className="p-2 text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-                >
-                  {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-                </button>
-              </div>
-            </div>
-
-            {/* Mobile Navigation Drawer */}
-            {isMobileMenuOpen && (
-              <div className="md:hidden mt-4 pb-4 border-t border-gray-200 dark:border-gray-700">
-                <div className="flex flex-col space-y-4 pt-4">
-                  <Link 
-                    href="/#companies" 
-                    className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Companies
-                  </Link>
-                  <Link 
-                    href="/#about" 
-                    className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    About
-                  </Link>
-                  <Link 
-                    href="/skills" 
-                    className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Skills
-                  </Link>
-                  <Link 
-                    href="/#projects" 
-                    className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Projects
-                  </Link>
-                  <Link 
-                    href="/#contact" 
-                    className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Contact
-                  </Link>
-                  <span className="font-medium text-purple-600 dark:text-purple-400">
-                    Blog
-                  </span>
-                </div>
-              </div>
-            )}
-          </div>
-        </nav>
+        <Navigation currentPage="blog" />
 
         {/* Blog Post Content */}
         <article className="pt-8 pb-12">
@@ -689,100 +608,17 @@ export default function Blog({ slug }: BlogProps = {}) {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Navigation */}
-      <nav className="bg-white/90 dark:bg-black/90 backdrop-blur-sm sticky top-0 z-50 shadow-md">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Link href="/">
-              <div className="text-xl font-bold bg-gradient-to-r from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600 text-transparent bg-clip-text cursor-pointer">
-                Parth Bhodia
-              </div>
-            </Link>
-            
-            <div className="text-xl font-bold bg-gradient-to-r from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600 text-transparent bg-clip-text">
-              Parth Bhodia
-            </div>
+      <Navigation currentPage="blog" />
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-6">
-              <Link href="/#companies" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Companies</Link>
-              <Link href="/#about" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">About</Link>
-              <Link href="/skills" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Skills</Link>
-              <Link href="/#projects" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Projects</Link>
-              <span className="font-medium text-purple-600 dark:text-purple-400">Blog</span>
-              <Link href="/#contact" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Contact</Link>
-              <ThemeToggle />
-            </div>
-
-            {/* Mobile Menu Button */}
-            <div className="md:hidden flex items-center space-x-4">
-              <ThemeToggle />
-              <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="p-2 text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-              >
-                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-              </button>
-            </div>
-          </div>
-
-          {/* Mobile Navigation Drawer */}
-          {isMobileMenuOpen && (
-            <div className="md:hidden mt-4 pb-4 border-t border-gray-200 dark:border-gray-700">
-              <div className="flex flex-col space-y-4 pt-4">
-                <Link 
-                  href="/#companies" 
-                  className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Companies
-                </Link>
-                <Link 
-                  href="/#about" 
-                  className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  About
-                </Link>
-                <Link 
-                  href="/skills" 
-                  className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Skills
-                </Link>
-                <Link 
-                  href="/#projects" 
-                  className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Projects
-                </Link>
-                <Link 
-                  href="/#contact" 
-                  className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Contact
-                </Link>
-                <span className="font-medium text-purple-600 dark:text-purple-400">
-                  Blog
-                </span>
-              </div>
-            </div>
-          )}
-        </div>
-      </nav>
-
-      {/* Blog Header */}
-      <section className="pt-16 pb-12 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
+      {/* Hero Section */}
+      <section className="py-20 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-purple-600 to-purple-800 dark:from-purple-400 dark:to-purple-600 text-transparent bg-clip-text">
-              Tech Blog
-            </span>
+          <h1 className="text-4xl md:text-6xl font-bold mb-6">
+            <span className="bg-gradient-to-r from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600 text-transparent bg-clip-text">Tech Blog</span>
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Insights on cloud architecture, AI integration, and modern software development practices
+          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            Exploring cloud architecture, AI integration, and modern development practices. 
+            Sharing insights from building scalable solutions and working with cutting-edge technologies.
           </p>
         </div>
       </section>

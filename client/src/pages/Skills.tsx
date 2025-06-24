@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'wouter';
 import ThreeBackground from '../components/ThreeBackground';
 import ThemeToggle from '../components/ThemeToggle';
+import Navigation from '../components/Navigation';
 import ViewCounter from '../components/ViewCounter';
 import { useSEO } from '../hooks/useSEO';
 import { ChatMessage } from '../types';
@@ -90,89 +91,7 @@ export default function Skills() {
       <ThreeBackground />
       
       {/* Navigation */}
-      <nav className="bg-white/90 dark:bg-black/90 backdrop-blur-sm sticky top-0 z-50 shadow-md">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Link href="/">
-              <div className="text-xl font-bold bg-gradient-to-r from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600 text-transparent bg-clip-text cursor-pointer">
-                Parth Bhodia
-              </div>
-            </Link>
-            
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-6">
-              <Link href="/#companies" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Companies</Link>
-              <Link href="/#about" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">About</Link>
-              <Link href="/skills" className="font-medium text-purple-600 dark:text-purple-400">Skills</Link>
-              <Link href="/#projects" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Projects</Link>
-              <Link href="/blog" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Blog</Link>
-              <Link href="/#contact" className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors">Contact</Link>
-              <ThemeToggle />
-            </div>
-
-            {/* Mobile Menu Button */}
-            <div className="md:hidden flex items-center space-x-4">
-              <ThemeToggle />
-              <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="p-2 text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-              >
-                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-              </button>
-            </div>
-          </div>
-
-          {/* Mobile Navigation Drawer */}
-          {isMobileMenuOpen && (
-            <div className="md:hidden mt-4 pb-4 border-t border-gray-200 dark:border-gray-700">
-              <div className="flex flex-col space-y-4 pt-4">
-                <Link 
-                  href="/#companies" 
-                  className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Companies
-                </Link>
-                <Link 
-                  href="/#about" 
-                  className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  About
-                </Link>
-                <Link 
-                  href="/skills" 
-                  className="font-medium text-purple-600 dark:text-purple-400"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Skills
-                </Link>
-                <Link 
-                  href="/#projects" 
-                  className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Projects
-                </Link>
-                <Link 
-                  href="/blog" 
-                  className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Blog
-                </Link>
-                <Link 
-                  href="/#contact" 
-                  className="font-medium hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Contact
-                </Link>
-              </div>
-            </div>
-          )}
-        </div>
-      </nav>
+      <Navigation currentPage="skills" />
 
       {/* Skills Section */}
       <section className="py-20 relative z-10">
