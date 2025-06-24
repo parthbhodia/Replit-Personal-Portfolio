@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { supabaseService } from '../../_utils';
+import { supabaseService } from '../../../_utils';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Set CORS headers
@@ -13,16 +13,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return;
   }
 
-  const { postId } = req.query;
+  const { blogPostId } = req.query;
   
-  if (!postId || typeof postId !== 'string') {
-    return res.status(400).json({ error: 'Post ID is required' });
+  if (!blogPostId || typeof blogPostId !== 'string') {
+    return res.status(400).json({ error: 'Blog post ID is required' });
   }
 
   // GET - Fetch comments
   if (req.method === 'GET') {
     try {
-      const comments = await supabaseService.getComments(postId);
+      const comments = await supabaseService.getComments(blogPostId);
       res.status(200).json(comments);
     } catch (error) {
       console.error('Error fetching comments:', error);
@@ -39,7 +39,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
 
       const comment = await supabaseService.addComment({
-        blogPostId: postId,
+        blogPostId: blogPostId,
         parentId,
         authorName,
         authorEmail,
