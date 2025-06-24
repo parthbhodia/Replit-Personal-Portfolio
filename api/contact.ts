@@ -24,8 +24,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const validatedData = insertMessageSchema.safeParse(req.body);
     
     if (!validatedData.success) {
-      const validationError = fromZodError(validatedData.error);
-      return res.status(400).json({ message: validationError.message });
+      const errorMessage = validatedData.error.errors.map(err => err.message).join(', ');
+      return res.status(400).json({ message: errorMessage });
     }
     
     const messageData = validatedData.data;
