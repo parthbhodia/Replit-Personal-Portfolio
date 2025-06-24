@@ -8,5 +8,5 @@ if (!globalThis.crypto) {
 
 // Also ensure getRandomValues is available
 if (!globalThis.crypto.getRandomValues) {
-  globalThis.crypto.getRandomValues = webcrypto.getRandomValues.bind(webcrypto);
+  globalThis.crypto.getRandomValues = webcrypto.getRandomValues.bind(webcrypto) as any;
 } 

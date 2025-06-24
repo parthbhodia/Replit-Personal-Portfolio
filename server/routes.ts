@@ -23,6 +23,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/blog/posts/:id', async (req, res) => {
     try {
       const { id } = req.params;
+      
+      if (typeof id !== "string" || !id) {
+        return res.status(400).json({ error: "Blog post ID is required" });
+      }
+      
       const post = await supabaseService.getBlogPost(id);
       
       if (!post) {
@@ -88,7 +93,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const emailContent = formatContactEmail({
         name: messageData.name,
         email: messageData.email,
-        subject: messageData.subject,
+        subject: messageData.subject || 'No Subject',
         message: messageData.message
       });
       
@@ -136,6 +141,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/blog/:blogPostId/view", async (req, res) => {
     try {
       const { blogPostId } = req.params;
+      
+      if (typeof blogPostId !== "string" || !blogPostId) {
+        return res.status(400).json({ message: "Blog post ID is required" });
+      }
+      
       await supabaseService.incrementViews(blogPostId);
       
       return res.json({ success: true });
@@ -149,7 +159,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { blogPostId, userFingerprint } = req.params;
       
-      if (!userFingerprint) {
+      if (typeof blogPostId !== "string" || !blogPostId) {
+        return res.status(400).json({ message: "Blog post ID is required" });
+      }
+      
+      if (typeof userFingerprint !== "string" || !userFingerprint) {
         return res.status(400).json({ message: "User fingerprint is required" });
       }
       
@@ -169,6 +183,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { blogPostId } = req.params;
       const { userFingerprint } = req.body;
+      
+      if (typeof blogPostId !== "string" || !blogPostId) {
+        return res.status(400).json({ message: "Blog post ID is required" });
+      }
       
       if (!userFingerprint) {
         return res.status(400).json({ message: "User fingerprint is required" });
@@ -191,6 +209,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/blog/:postId/comments', async (req, res) => {
     try {
       const { postId } = req.params;
+      
+      if (typeof postId !== "string" || !postId) {
+        return res.status(400).json({ error: "Post ID is required" });
+      }
+      
       const comments = await supabaseService.getComments(postId);
       res.json(comments);
     } catch (error) {
@@ -203,6 +226,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { postId } = req.params;
       const { parentId, authorName, authorEmail, content, userFingerprint } = req.body;
+      
+      if (typeof postId !== "string" || !postId) {
+        return res.status(400).json({ error: "Post ID is required" });
+      }
       
       if (!authorName || !authorEmail || !content || !userFingerprint) {
         return res.status(400).json({ error: 'All fields are required' });
