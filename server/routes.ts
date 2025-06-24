@@ -118,7 +118,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/blog/:blogPostId/stats", async (req, res) => {
     try {
       const blogPostId = req.params.blogPostId;
-      if (!blogPostId) {
+      if (typeof blogPostId !== "string" || !blogPostId) {
         return res.status(400).json({ message: "Blog post ID is required" });
       }
       const stats = await supabaseService.getBlogStats(blogPostId);

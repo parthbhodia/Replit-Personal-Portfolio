@@ -25,11 +25,11 @@ export async function sendEmail(params: EmailParams): Promise<boolean> {
 
   try {
     await mailService.send({
-      to: params.to,
-      from: params.from,
-      subject: params.subject,
-      text: params.text,
-      html: params.html,
+      to: params.to || '',
+      from: params.from || '',
+      subject: params.subject || '',
+      text: params.text || '',
+      html: params.html || '',
     });
     console.log('Email sent successfully');
     return true;
