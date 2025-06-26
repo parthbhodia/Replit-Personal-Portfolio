@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Switch, Route, Router } from 'wouter';
+import { Analytics } from '@vercel/analytics/react';
 import Home from './pages/Home';
 import Skills from './pages/Skills';
 import Blog from './pages/Blog';
@@ -58,6 +59,7 @@ export default function App() {
           </Switch>
         </div>
       </Router>
+      <Analytics />
     </QueryClientProvider>
   );
 }
