@@ -13,6 +13,7 @@ import AnimatedProjectCard from '../components/AnimatedProjectCard';
 import TypewriterText from '../components/TypewriterText';
 import ScrollProgress from '../components/ScrollProgress';
 import ViewCounter from '../components/ViewCounter';
+import InteractiveProfilePhoto from '../components/InteractiveProfilePhoto';
 import { useSEO } from '../hooks/useSEO';
 import { Menu, X } from 'lucide-react';
 import Layout from '../components/Layout';
@@ -458,22 +459,35 @@ export default function Home() {
           <h2 className="text-3xl font-bold mb-12 text-center relative">
             <span className="bg-gradient-to-r from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600 text-transparent bg-clip-text">About Me</span>
           </h2>
-          <div className="max-w-3xl mx-auto text-gray-700 dark:text-gray-300 space-y-4 bg-white/80 dark:bg-black/40 p-6 rounded-lg shadow-md backdrop-blur-sm">
-            <p>
-              I'm a Software Developer with over 5 years of experience in HTML, CSS, SASS, SCSS, TypeScript, 
-              JavaScript, Node.js, Python, and AWS. I'm proficient with modern frameworks such as Vue.js, 
-              Nuxt, and React, with extensive experience in REST APIs and GraphQL.
-            </p>
-            <p>
-              Currently based in Jersey City, NJ, I'm on F1 OPT status and graduated with a Master's in 
-              Computer Science from UMBC in May 2023. My expertise spans from building ChatBOTs with GPT 
-              and vector databases to designing systems for 100K+ users.
-            </p>
-            <p>
-              I've led projects that reduced information retrieval time by 50% and increased revenue by 36% 
-              through automation. I'm passionate about creating efficient, scalable solutions and stay current 
-              with emerging technologies in cloud computing and AI/ML.
-            </p>
+          <div className="max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+              {/* Photo with interactive hover effect */}
+              <div className="flex justify-center md:justify-start">
+                <InteractiveProfilePhoto
+                  src="/profile-photo.jpg"
+                  alt="Parth Bhodia"
+                />
+              </div>
+
+              {/* About text */}
+              <div className="text-gray-700 dark:text-gray-300 space-y-4 bg-white/80 dark:bg-black/40 p-6 rounded-lg shadow-md backdrop-blur-sm">
+                <p>
+                  I'm a Software Developer with over 5 years of experience in HTML, CSS, SASS, SCSS, TypeScript,
+                  JavaScript, Node.js, Python, and AWS. I'm proficient with modern frameworks such as Vue.js,
+                  Nuxt, and React, with extensive experience in REST APIs and GraphQL.
+                </p>
+                <p>
+                  Currently based in Jersey City, NJ, I'm on F1 OPT status and graduated with a Master's in
+                  Computer Science from UMBC in May 2023. My expertise spans from building ChatBOTs with GPT
+                  and vector databases to designing systems for 100K+ users.
+                </p>
+                <p>
+                  I've led projects that reduced information retrieval time by 50% and increased revenue by 36%
+                  through automation. I'm passionate about creating efficient, scalable solutions and stay current
+                  with emerging technologies in cloud computing and AI/ML.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
