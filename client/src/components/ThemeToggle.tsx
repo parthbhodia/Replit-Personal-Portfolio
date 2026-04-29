@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
 export default function ThemeToggle() {
-  const [darkMode, setDarkMode] = useState(false);
-  
-  // On mount, check system/localStorage preferences
+  const [darkMode, setDarkMode] = useState(true);
+
+  // On mount, check localStorage; default to dark if nothing saved
   useEffect(() => {
-    // Check for saved theme preference or use system preference
-    const isDark = 
-      localStorage.getItem('theme') === 'dark' || 
-      (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
-    
+    const saved = localStorage.getItem('theme');
+    const isDark = saved ? saved === 'dark' : true;
     setDarkMode(isDark);
   }, []);
   

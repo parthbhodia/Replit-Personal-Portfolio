@@ -126,6 +126,9 @@ export default function Home() {
       category: 'Personal',
       liveUrl: 'https://parthbhodia.github.io/Trading-bot-algo/',
       codeUrl: 'https://github.com/parthbhodia/Trading-bot-algo',
+      image: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=500&fit=crop',
+      stats: { value: '1.2K+', label: 'daily active users' },
+      hideCode: true,
       featured: true
     },
     {
@@ -135,6 +138,9 @@ export default function Home() {
       category: 'Personal',
       liveUrl: 'https://vibeimg.xyz',
       codeUrl: '#',
+      image: 'https://images.unsplash.com/photo-1686191128892-f5b66b8b5b1a?w=800&h=500&fit=crop',
+      stats: { value: '3.4K+', label: 'daily active users' },
+      hideCode: true,
       featured: true
     },
     {
@@ -144,15 +150,21 @@ export default function Home() {
       category: 'Personal',
       liveUrl: 'https://resunova.io',
       codeUrl: '#',
+      image: 'https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=800&h=500&fit=crop',
+      stats: { value: '2.8K+', label: 'daily active users' },
+      hideCode: true,
       featured: true
     },
     {
-      title: 'Claude Code Browser Extension',
-      description: 'Chrome extension that brings Claude Code AI capabilities directly into the browser — context-aware code assistance, inline suggestions, and seamless integration with web-based IDEs.',
-      tags: ['Chrome Extension', 'TypeScript', 'Claude AI', 'Manifest V3', 'React'],
+      title: 'Cat Lockscreen — Focus Extension',
+      description: 'Chrome extension that helps you stay focused with a playful cat lockscreen. Tracks active-tab time across MV3 service-worker cycles using chrome.storage.session, pauses any visible playing videos during breaks (resuming them after), and supports Esc-to-emergency-shoo + popup dismissal. Features a centered, oversized digital-calendar timer overlay.',
+      tags: ['Chrome Extension', 'Manifest V3', 'JavaScript', 'Service Worker', 'Productivity'],
       category: 'Personal',
       liveUrl: 'https://chromewebstore.google.com/detail/claude-code-lockscreen',
       codeUrl: '#',
+      image: 'https://images.unsplash.com/photo-1574144611937-0df059b5ef3e?w=800&h=500&fit=crop',
+      stats: { value: 'Coming Soon', label: 'in approval' },
+      hideCode: true,
       featured: true
     }
   ];
@@ -453,7 +465,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* About Section */}
+      {/* About Section with Photo */}
       <section id="about" className="py-20 bg-gray-50 dark:bg-gray-900/40 backdrop-blur-sm">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold mb-12 text-center relative">
@@ -492,6 +504,7 @@ export default function Home() {
         </div>
       </section>
 
+
       {/* Projects Section */}
       <section id="projects" className="py-20 bg-gray-50/80 dark:bg-gray-900/30 backdrop-blur-sm">
         <div className="container mx-auto px-4">
@@ -522,13 +535,16 @@ export default function Home() {
                 {projects
                   .filter(project => selectedCategory === 'All' || project.category === selectedCategory)
                   .map((project, index) => (
-                    <AnimatedProjectCard 
+                    <AnimatedProjectCard
                       key={`${selectedCategory}-${index}`}
                       title={project.title}
                       description={project.description}
                       tags={project.tags}
                       liveUrl={project.liveUrl}
                       codeUrl={project.codeUrl}
+                      image={(project as any).image}
+                      stats={(project as any).stats}
+                      hideCode={(project as any).hideCode}
                       index={index}
                     />
                 ))}

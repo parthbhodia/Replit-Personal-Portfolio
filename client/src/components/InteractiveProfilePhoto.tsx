@@ -1,217 +1,174 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 
 interface InteractiveProfilePhotoProps {
   src: string;
   alt: string;
 }
 
-interface TrailPoint {
-  x: number;
-  y: number;
-  age: number;
-}
+const hobbies = [
+  { emoji: '🎾', label: 'Tennis', glow: 'from-lime-400/30 to-green-500/30' },
+  { emoji: '📚', label: 'Reading', glow: 'from-orange-400/30 to-amber-500/30' },
+  { emoji: '💻', label: 'Coding', glow: 'from-purple-400/30 to-indigo-500/30' },
+  { emoji: '💪', label: 'Fitness', glow: 'from-red-400/30 to-rose-500/30' },
+  { emoji: '🏓', label: 'Pickleball', glow: 'from-yellow-400/30 to-orange-500/30' },
+  { emoji: '🎮', label: 'Gaming', glow: 'from-cyan-400/30 to-blue-500/30' },
+];
 
 export default function InteractiveProfilePhoto({ src, alt }: InteractiveProfilePhotoProps) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const imgRef = useRef<HTMLImageElement>(null);
-  const originalCanvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const trailRef = useRef<TrailPoint[]>([]);
-  const animationFrameRef = useRef<number>();
-  const [cursorSize, setCursorSize] = useState(0);
-  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(false);
+  const [isFlipped, setIsFlipped] = useState(false);
+  const [transform, setTransform] = useState({ rx: 0, ry: 0, tx: 0, ty: 0 });
+  const [spotlight, setSpotlight] = useState({ x: 50, y: 50 });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!containerRef.current || !imgRef.current || !canvasRef.current) return;
-
+    if (!containerRef.current || isFlipped) return;
     const rect = containerRef.current.getBoundingClientRect();
-    const canvas = canvasRef.current;
-
-    const scaleX = canvas.width / rect.width;
-    const scaleY = canvas.height / rect.height;
-
-    const x = (e.clientX - rect.left) * scaleX;
-    const y = (e.clientY - rect.top) * scaleY;
-
-    setCursorPos({ x, y });
-
-    trailRef.current.push({ x, y, age: 0 });
-
-    if (trailRef.current.length > 25) {
-      trailRef.current.shift();
-    }
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const cx = rect.width / 2;
+    const cy = rect.height / 2;
+    const nx = (x - cx) / cx;
+    const ny = (y - cy) / cy;
+    setTransform({ rx: -ny * 12, ry: nx * 12, tx: nx * 6, ty: ny * 6 });
+    setSpotlight({ x: (x / rect.width) * 100, y: (y / rect.height) * 100 });
   };
 
-  const handleMouseEnter = () => {
-    setCursorSize(120);
-  };
-
+  const handleMouseEnter = () => setIsHovering(true);
   const handleMouseLeave = () => {
-    setCursorSize(0);
-    trailRef.current = [];
+    setIsHovering(false);
+    setTransform({ rx: 0, ry: 0, tx: 0, ty: 0 });
+    setSpotlight({ x: 50, y: 50 });
   };
 
-  const handleImageLoad = () => {
-    if (!canvasRef.current || !imgRef.current || !originalCanvasRef.current) return;
-
-    const canvas = canvasRef.current;
-    const originalCanvas = originalCanvasRef.current;
-    const img = imgRef.current;
-
-    canvas.width = img.naturalWidth;
-    canvas.height = img.naturalHeight;
-    originalCanvas.width = img.naturalWidth;
-    originalCanvas.height = img.naturalHeight;
-
-    // Store original color image
-    const originalCtx = originalCanvas.getContext('2d');
-    if (originalCtx) {
-      originalCtx.drawImage(img, 0, 0);
-    }
-
-    // Draw initial grayscale image
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    ctx.filter = 'grayscale(85%)';
-    ctx.drawImage(img, 0, 0);
-    ctx.filter = 'none';
-  };
-
-  useEffect(() => {
-    if (!canvasRef.current || !imgRef.current || !originalCanvasRef.current) return;
-
-    const canvas = canvasRef.current;
-    const originalCanvas = originalCanvasRef.current;
-    const img = imgRef.current;
-    const ctx = canvas.getContext('2d');
-    const originalCtx = originalCanvas.getContext('2d');
-
-    if (!ctx || !originalCtx) return;
-
-    const animate = () => {
-      // Redraw base grayscale image
-      ctx.filter = 'grayscale(85%)';
-      ctx.drawImage(img, 0, 0);
-      ctx.filter = 'none';
-
-      // Update trail points
-      trailRef.current = trailRef.current
-        .map(point => ({
-          ...point,
-          age: point.age + 1
-        }))
-        .filter(point => point.age < 50);
-
-      // Draw trail - reveal original color
-      trailRef.current.forEach(point => {
-        const progress = point.age / 50;
-        const radius = 100 * (1 - progress * 0.4);
-        const alpha = 1 - progress;
-
-        // Get original color image data for this area
-        const imageData = originalCtx.getImageData(
-          Math.max(0, point.x - radius),
-          Math.max(0, point.y - radius),
-          Math.min(canvas.width, radius * 2),
-          Math.min(canvas.height, radius * 2)
-        );
-
-        // Apply soft circular mask to fade at edges
-        const data = imageData.data;
-        for (let i = 0; i < data.length; i += 4) {
-          const pixelIndex = i / 4;
-          const pixelX = pixelIndex % (radius * 2);
-          const pixelY = Math.floor(pixelIndex / (radius * 2));
-          const distToCenter = Math.sqrt(
-            Math.pow(pixelX - radius, 2) + Math.pow(pixelY - radius, 2)
-          );
-
-          if (distToCenter < radius) {
-            // Smooth falloff at edges
-            const falloff = Math.max(0, 1 - distToCenter / radius);
-            const blendAlpha = falloff * alpha;
-
-            // Reveal the color from original by blending
-            data[i + 3] = Math.round(255 * blendAlpha);
-          } else {
-            data[i + 3] = 0;
-          }
-        }
-
-        ctx.putImageData(
-          imageData,
-          Math.max(0, point.x - radius),
-          Math.max(0, point.y - radius)
-        );
-      });
-
-      // Draw cursor circle with glow
-      if (cursorSize > 0) {
-        const gradient = ctx.createRadialGradient(
-          cursorPos.x,
-          cursorPos.y,
-          0,
-          cursorPos.x,
-          cursorPos.y,
-          cursorSize
-        );
-        gradient.addColorStop(0, 'rgba(168, 85, 247, 0.25)');
-        gradient.addColorStop(0.5, 'rgba(168, 85, 247, 0.08)');
-        gradient.addColorStop(1, 'rgba(168, 85, 247, 0)');
-
-        ctx.fillStyle = gradient;
-        ctx.beginPath();
-        ctx.arc(cursorPos.x, cursorPos.y, cursorSize, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Cursor ring
-        ctx.strokeStyle = 'rgba(168, 85, 247, 0.8)';
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        ctx.arc(cursorPos.x, cursorPos.y, cursorSize, 0, Math.PI * 2);
-        ctx.stroke();
-      }
-
-      animationFrameRef.current = requestAnimationFrame(animate);
-    };
-
-    animationFrameRef.current = requestAnimationFrame(animate);
-
-    return () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-    };
-  }, [cursorSize, cursorPos]);
+  const flipRotation = isFlipped ? 180 : 0;
 
   return (
     <div
       ref={containerRef}
-      className="relative mx-auto mb-8 max-w-sm"
+      className="relative mx-auto max-w-sm cursor-pointer select-none"
+      style={{ perspective: '1500px' }}
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={() => setIsFlipped((v) => !v)}
     >
-      <div className="relative overflow-hidden rounded-2xl shadow-2xl bg-gradient-to-br from-purple-400/20 to-purple-600/20 p-1">
-        <img
-          ref={imgRef}
-          src={src}
-          alt={alt}
-          className="w-full h-auto rounded-2xl"
-          onLoad={handleImageLoad}
-          style={{ display: 'none' }}
-        />
-        <canvas
-          ref={canvasRef}
-          className="w-full h-auto rounded-2xl block"
-          style={{ cursor: cursorSize > 0 ? 'none' : 'default' }}
-        />
-        <canvas
-          ref={originalCanvasRef}
-          style={{ display: 'none' }}
-        />
+      {/* Animated glow halo */}
+      <div
+        className={`absolute -inset-6 rounded-3xl transition-opacity duration-500 ${
+          isHovering ? 'opacity-100' : 'opacity-60'
+        }`}
+        style={{
+          background: `radial-gradient(circle at ${spotlight.x}% ${spotlight.y}%, rgba(168, 85, 247, 0.5), rgba(139, 92, 246, 0.2) 40%, transparent 70%)`,
+          filter: 'blur(40px)',
+          transition: 'background 0.15s ease-out, opacity 0.5s',
+        }}
+      />
+
+      {/* Flip wrapper */}
+      <div
+        className="relative transition-transform ease-out"
+        style={{
+          transform: isFlipped
+            ? `rotateY(${flipRotation}deg)`
+            : `rotateX(${transform.rx}deg) rotateY(${transform.ry}deg) translate3d(${transform.tx}px, ${transform.ty}px, 0)`,
+          transformStyle: 'preserve-3d',
+          transitionDuration: isFlipped ? '700ms' : '200ms',
+        }}
+      >
+        {/* FRONT */}
+        <div
+          className="relative rounded-2xl p-[2px] bg-gradient-to-br from-purple-400 via-pink-400 to-purple-600 shadow-2xl"
+          style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}
+        >
+          <div className="relative overflow-hidden rounded-2xl bg-black">
+            <img
+              src={src}
+              alt={alt}
+              className={`block w-full h-auto rounded-2xl transition-all duration-500 ${
+                isHovering && !isFlipped ? 'scale-105 saturate-150' : 'scale-100 saturate-100'
+              }`}
+              draggable={false}
+            />
+            <div
+              className="absolute inset-0 pointer-events-none transition-opacity duration-300"
+              style={{
+                background: `radial-gradient(circle 200px at ${spotlight.x}% ${spotlight.y}%, rgba(255,255,255,0.25), transparent 60%)`,
+                opacity: isHovering && !isFlipped ? 1 : 0,
+                mixBlendMode: 'overlay',
+              }}
+            />
+            <div
+              className="absolute inset-0 pointer-events-none transition-opacity duration-300"
+              style={{
+                background: `radial-gradient(circle 250px at ${spotlight.x}% ${spotlight.y}%, rgba(168,85,247,0.18), rgba(236,72,153,0.1) 40%, transparent 70%)`,
+                opacity: isHovering && !isFlipped ? 1 : 0,
+                mixBlendMode: 'screen',
+              }}
+            />
+            <div
+              className="absolute inset-0 pointer-events-none transition-opacity duration-300"
+              style={{
+                background: `linear-gradient(${135 + (spotlight.x - 50) * 0.5}deg, transparent 30%, rgba(255,255,255,0.15) 50%, transparent 70%)`,
+                opacity: isHovering && !isFlipped ? 1 : 0,
+              }}
+            />
+
+            {/* Bottom hint */}
+            <div
+              className={`absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/85 via-black/50 to-transparent transition-all duration-500 ${
+                isHovering && !isFlipped ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
+              }`}
+            >
+              <p className="text-white font-semibold text-lg drop-shadow-lg">Parth Bhodia</p>
+              <p className="text-purple-200 text-sm">Click to see my hobbies →</p>
+            </div>
+          </div>
+        </div>
+
+        {/* BACK */}
+        <div
+          className="absolute inset-0 rounded-2xl p-[2px] bg-gradient-to-br from-purple-600 via-pink-500 to-purple-400 shadow-2xl"
+          style={{
+            backfaceVisibility: 'hidden',
+            WebkitBackfaceVisibility: 'hidden',
+            transform: 'rotateY(180deg)',
+          }}
+        >
+          <div className="relative w-full h-full rounded-2xl bg-gradient-to-br from-gray-900 via-purple-950 to-gray-900 p-6 flex flex-col">
+            <h3 className="text-2xl font-bold mb-1 bg-gradient-to-r from-purple-300 to-pink-300 text-transparent bg-clip-text">
+              Off the clock
+            </h3>
+            <p className="text-purple-200/70 text-xs mb-5">When I'm not building things, I'm…</p>
+
+            <div className="grid grid-cols-3 gap-3 flex-1">
+              {hobbies.map(({ emoji, label, glow }, i) => (
+                <div
+                  key={i}
+                  className={`group relative flex flex-col items-center justify-center text-center gap-1.5 p-3 rounded-xl bg-gradient-to-br ${glow} border border-white/10 hover:border-purple-400/50 transition-all overflow-hidden`}
+                  style={{
+                    animation: isFlipped ? `fadeInUp 0.5s ease-out ${0.3 + i * 0.05}s both` : 'none',
+                  }}
+                >
+                  <span className="text-3xl group-hover:scale-125 transition-transform duration-300">
+                    {emoji}
+                  </span>
+                  <span className="text-[11px] font-medium text-white/90 leading-tight">{label}</span>
+                </div>
+              ))}
+            </div>
+
+            <p className="text-center text-purple-300/60 text-xs mt-4">Click to flip back</p>
+          </div>
+        </div>
       </div>
+
+      <style>{`
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
     </div>
   );
 }

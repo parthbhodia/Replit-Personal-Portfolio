@@ -6,15 +6,21 @@ interface ProjectCardProps {
   tags: string[];
   liveUrl: string;
   codeUrl: string;
+  image?: string;
+  stats?: { label: string; value: string };
+  hideCode?: boolean;
   index?: number;
 }
 
-export default function AnimatedProjectCard({ 
-  title, 
-  description, 
-  tags, 
-  liveUrl, 
+export default function AnimatedProjectCard({
+  title,
+  description,
+  tags,
+  liveUrl,
   codeUrl,
+  image,
+  stats,
+  hideCode,
   index = 0
 }: ProjectCardProps) {
   const [isHovered, setIsHovered] = useState(false);
@@ -81,15 +87,38 @@ export default function AnimatedProjectCard({
         transformStyle: 'preserve-3d'
       }}
     >
-      {/* Card Header with Title */}
-      <div 
-        className="h-48 bg-gradient-to-r from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600 flex items-center justify-center p-6 transform transition-transform duration-300"
-        style={{ 
+      {/* Card Header with Image or Gradient */}
+      <div
+        className="relative h-48 overflow-hidden rounded-t-xl flex items-center justify-center transform transition-transform duration-300"
+        style={{
           transform: `translateZ(${isHovered ? '20px' : '0px'})`,
           transformStyle: 'preserve-3d'
         }}
       >
-        <h3 className="text-white text-xl font-medium text-center">{title}</h3>
+        {image ? (
+          <>
+            <img
+              src={image}
+              alt={title}
+              className={`absolute inset-0 w-full h-full object-cover transition-transform duration-500 ${
+                isHovered ? 'scale-110' : 'scale-100'
+              }`}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+          </>
+        ) : (
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-purple-700 dark:from-purple-400 dark:to-purple-600" />
+        )}
+
+        <div className="relative z-10 text-center px-6 w-full flex flex-col items-center">
+          <h3 className="text-white text-xl font-semibold drop-shadow-lg">{title}</h3>
+          {stats && (
+            <div className="mt-2 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md border border-white/20">
+              <span className="text-white font-bold text-sm">{stats.value}</span>
+              <span className="text-white/80 text-xs">{stats.label}</span>
+            </div>
+          )}
+        </div>
       </div>
       
       {/* Card Body */}
@@ -124,18 +153,24 @@ export default function AnimatedProjectCard({
             transform: `translateZ(${isHovered ? '60px' : '0px'})`,
           }}
         >
-          <a 
-            href={liveUrl} 
+          <a
+            href={liveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             className="px-3 py-1 bg-purple-600 dark:bg-purple-500 text-white rounded hover:bg-purple-700 dark:hover:bg-purple-600 transition-colors"
           >
             View Live
           </a>
-          <a 
-            href={codeUrl} 
-            className="px-3 py-1 border border-purple-600 dark:border-purple-500 text-purple-600 dark:text-purple-500 rounded hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-colors"
-          >
-            Source Code
-          </a>
+          {!hideCode && (
+            <a
+              href={codeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3 py-1 border border-purple-600 dark:border-purple-500 text-purple-600 dark:text-purple-500 rounded hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-colors"
+            >
+              Source Code
+            </a>
+          )}
         </div>
       </div>
       
