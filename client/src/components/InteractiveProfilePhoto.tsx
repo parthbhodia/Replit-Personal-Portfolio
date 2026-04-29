@@ -9,120 +9,166 @@ interface TrailPoint {
   x: number;
   y: number;
   age: number;
-  maxAge: number;
 }
 
 export default function InteractiveProfilePhoto({ src, alt }: InteractiveProfilePhotoProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
-  const colorCanvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isHovering, setIsHovering] = useState(false);
-  const [trail, setTrail] = useState<TrailPoint[]>([]);
+  const trailRef = useRef<TrailPoint[]>([]);
   const animationFrameRef = useRef<number>();
+  const [cursorSize, setCursorSize] = useState(0);
+  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!canvasRef.current || !imgRef.current || !containerRef.current) return;
+    if (!containerRef.current || !imgRef.current || !canvasRef.current) return;
 
     const rect = containerRef.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left) * (imgRef.current.width / rect.width);
-    const y = (e.clientY - rect.top) * (imgRef.current.height / rect.height);
+    const canvas = canvasRef.current;
 
-    // Add new trail point
-    setTrail(prevTrail => [
-      ...prevTrail,
-      { x, y, age: 0, maxAge: 30 }
-    ].slice(-15)); // Keep last 15 points for smooth trail
+    // Calculate position relative to canvas
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+
+    const x = (e.clientX - rect.left) * scaleX;
+    const y = (e.clientY - rect.top) * scaleY;
+
+    setCursorPos({ x, y });
+
+    // Add trail point
+    trailRef.current.push({ x, y, age: 0 });
+
+    // Keep only last 20 points
+    if (trailRef.current.length > 20) {
+      trailRef.current.shift();
+    }
+  };
+
+  const handleMouseEnter = () => {
+    setCursorSize(150);
   };
 
   const handleMouseLeave = () => {
-    setIsHovering(false);
-    setTrail([]);
+    setCursorSize(0);
+    trailRef.current = [];
   };
 
   const handleImageLoad = () => {
-    if (!canvasRef.current || !imgRef.current || !colorCanvasRef.current) return;
+    if (!canvasRef.current || !imgRef.current) return;
+
     const canvas = canvasRef.current;
-    const colorCanvas = colorCanvasRef.current;
     const img = imgRef.current;
 
-    canvas.width = img.width;
-    canvas.height = img.height;
-    colorCanvas.width = img.width;
-    colorCanvas.height = img.height;
+    // Set canvas size to match image
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
 
-    // Draw grayscale image on main canvas
+    // Draw initial grayscale image
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    ctx.filter = 'grayscale(85%)';
+    ctx.filter = 'grayscale(80%)';
     ctx.drawImage(img, 0, 0);
     ctx.filter = 'none';
-
-    // Draw color version on hidden canvas
-    const colorCtx = colorCanvas.getContext('2d');
-    if (!colorCtx) return;
-    colorCtx.drawImage(img, 0, 0);
   };
 
-  // Animation loop for trail effect
+  // Animation loop
   useEffect(() => {
-    if (!canvasRef.current || !colorCanvasRef.current || !imgRef.current) return;
+    if (!canvasRef.current || !imgRef.current) return;
+
+    const canvas = canvasRef.current;
+    const img = imgRef.current;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
     const animate = () => {
-      const canvas = canvasRef.current;
-      const colorCanvas = colorCanvasRef.current;
-      const img = imgRef.current;
-
-      if (!canvas || !colorCanvas || !img) return;
-
-      const ctx = canvas.getContext('2d');
-      const colorCtx = colorCanvas.getContext('2d');
-
-      if (!ctx || !colorCtx) return;
-
       // Redraw base grayscale image
-      ctx.filter = 'grayscale(85%)';
+      ctx.filter = 'grayscale(80%)';
       ctx.drawImage(img, 0, 0);
       ctx.filter = 'none';
 
-      // Update trail ages and draw color overlay for each point
-      setTrail(prevTrail => {
-        const newTrail = prevTrail
-          .map(point => ({ ...point, age: point.age + 1 }))
-          .filter(point => point.age < point.maxAge);
+      // Update trail points
+      trailRef.current = trailRef.current.map(point => ({
+        ...point,
+        age: point.age + 1
+      })).filter(point => point.age < 40);
 
-        // Draw color trail
-        newTrail.forEach(point => {
-          const progress = point.age / point.maxAge;
-          const radius = 80 * (1 - progress * 0.3);
-          const alpha = 0.6 * (1 - progress);
+      // Draw trail with color overlay
+      trailRef.current.forEach((point, index) => {
+        const progress = point.age / 40;
+        const radius = 100 * (1 - progress * 0.5);
+        const alpha = 0.8 * (1 - progress);
 
-          const gradient = ctx.createRadialGradient(point.x, point.y, 0, point.x, point.y, radius);
-          gradient.addColorStop(0, `rgba(168, 85, 247, ${alpha})`);
-          gradient.addColorStop(0.5, `rgba(139, 92, 246, ${alpha * 0.6})`);
-          gradient.addColorStop(1, 'rgba(139, 92, 246, 0)');
+        // Create radial gradient with vibrant colors
+        const gradient = ctx.createRadialGradient(point.x, point.y, 0, point.x, point.y, radius);
+        gradient.addColorStop(0, `rgba(168, 85, 247, ${alpha})`);
+        gradient.addColorStop(0.4, `rgba(139, 92, 246, ${alpha * 0.8})`);
+        gradient.addColorStop(1, `rgba(168, 85, 247, 0)`);
 
-          // Get color data from original image at this point
-          const imageData = colorCtx.getImageData(point.x - radius, point.y - radius, radius * 2, radius * 2);
-          const data = imageData.data;
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(point.x, point.y, radius, 0, Math.PI * 2);
+        ctx.fill();
 
-          for (let i = 0; i < data.length; i += 4) {
-            const pixelX = Math.floor((i / 4) % (radius * 2));
-            const pixelY = Math.floor((i / 4) / (radius * 2));
-            const distToCenter = Math.sqrt(Math.pow(pixelX - radius, 2) + Math.pow(pixelY - radius, 2));
+        // Apply vibrant color boost to pixels under the trail
+        const imageData = ctx.getImageData(
+          Math.max(0, point.x - radius),
+          Math.max(0, point.y - radius),
+          Math.min(canvas.width, radius * 2),
+          Math.min(canvas.height, radius * 2)
+        );
+
+        const data = imageData.data;
+        for (let i = 0; i < data.length; i += 4) {
+          const pixelIndex = i / 4;
+          const pixelX = (pixelIndex % (radius * 2));
+          const pixelY = Math.floor(pixelIndex / (radius * 2));
+          const distToCenter = Math.sqrt(
+            Math.pow(pixelX - radius, 2) + Math.pow(pixelY - radius, 2)
+          );
+
+          if (distToCenter < radius) {
             const vibrancyFactor = Math.max(0, 1 - distToCenter / radius) * alpha;
-
-            data[i] = Math.min(255, data[i] + vibrancyFactor * 50);
-            data[i + 1] = Math.min(255, data[i + 1] + vibrancyFactor * 30);
-            data[i + 2] = Math.min(255, data[i + 2] + vibrancyFactor * 60);
+            data[i] = Math.min(255, data[i] + vibrancyFactor * 60); // Red
+            data[i + 1] = Math.min(255, data[i + 1] + vibrancyFactor * 40); // Green
+            data[i + 2] = Math.min(255, data[i + 2] + vibrancyFactor * 80); // Blue
+            data[i + 3] = 255; // Alpha
           }
+        }
 
-          ctx.putImageData(imageData, point.x - radius, point.y - radius);
-        });
-
-        return newTrail;
+        ctx.putImageData(
+          imageData,
+          Math.max(0, point.x - radius),
+          Math.max(0, point.y - radius)
+        );
       });
+
+      // Draw cursor circle
+      if (cursorSize > 0) {
+        const gradient = ctx.createRadialGradient(
+          cursorPos.x,
+          cursorPos.y,
+          0,
+          cursorPos.x,
+          cursorPos.y,
+          cursorSize
+        );
+        gradient.addColorStop(0, 'rgba(168, 85, 247, 0.3)');
+        gradient.addColorStop(0.6, 'rgba(168, 85, 247, 0.1)');
+        gradient.addColorStop(1, 'rgba(168, 85, 247, 0)');
+
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(cursorPos.x, cursorPos.y, cursorSize, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Draw cursor ring
+        ctx.strokeStyle = 'rgba(168, 85, 247, 0.6)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(cursorPos.x, cursorPos.y, cursorSize, 0, Math.PI * 2);
+        ctx.stroke();
+      }
 
       animationFrameRef.current = requestAnimationFrame(animate);
     };
@@ -134,14 +180,14 @@ export default function InteractiveProfilePhoto({ src, alt }: InteractiveProfile
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, []);
+  }, [cursorSize, cursorPos]);
 
   return (
     <div
       ref={containerRef}
       className="relative mx-auto mb-8 max-w-sm"
       onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovering(true)}
+      onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       <div className="relative overflow-hidden rounded-2xl shadow-2xl bg-gradient-to-br from-purple-400/20 to-purple-600/20 p-1">
@@ -155,11 +201,8 @@ export default function InteractiveProfilePhoto({ src, alt }: InteractiveProfile
         />
         <canvas
           ref={canvasRef}
-          className="w-full h-auto rounded-2xl transition-all duration-300 cursor-crosshair"
-        />
-        <canvas
-          ref={colorCanvasRef}
-          style={{ display: 'none' }}
+          className="w-full h-auto rounded-2xl block"
+          style={{ cursor: cursorSize > 0 ? 'none' : 'default' }}
         />
       </div>
     </div>
