@@ -1,0 +1,50 @@
+[
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440001",
+    "slug": "aws-architecture-scalable-applications",
+    "title": "Building Scalable Applications with AWS Architecture",
+    "excerpt": "Learn practical patterns for building resilient, scalable apps with Lambda, API Gateway, and managed data services.",
+    "content": "# Building Scalable Applications with AWS Architecture\n\nScalable systems are not just about handling traffic spikes; they are about staying fast, reliable, and easy to evolve.\n\n## Core Building Blocks\n\n- **API Gateway** to front your APIs securely\n- **Lambda** for burst-friendly compute\n- **RDS + read replicas** for transactional workloads\n- **S3 + CloudFront** for static and media delivery\n\n## Design Tips\n\n1. Start with stateless services.\n2. Cache expensive reads.\n3. Design for failure across AZs.\n4. Add observability from day one.\n\n## Closing\n\nYou do not need every AWS service to scale. A small, well-observed architecture beats a complex one every time.",
+    "date": "2025-01-15",
+    "readTime": "8 min read",
+    "category": "Cloud Architecture",
+    "image": "/blog-aws.jpg",
+    "tags": ["AWS", "Serverless", "Scalability", "Lambda", "API Gateway"]
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440002",
+    "slug": "generative-ai-modern-development",
+    "title": "Integrating Generative AI into Modern Development Workflows",
+    "excerpt": "A grounded guide to using AI copilots for coding, review, and documentation while keeping quality and security high.",
+    "content": "# Integrating Generative AI into Modern Development Workflows\n\nAI tools are strongest when used as accelerators, not autopilots.\n\n## High-Value Use Cases\n\n- Drafting boilerplate and tests\n- Explaining unfamiliar code\n- Suggesting refactors\n- Producing first-pass docs\n\n## Guardrails That Matter\n\n- Review generated code like a teammate PR\n- Keep secrets out of prompts\n- Run linters, tests, and security checks\n\n## Closing\n\nAI can compress iteration loops, but engineering judgment remains the differentiator.",
+    "date": "2025-01-12",
+    "readTime": "10 min read",
+    "category": "Artificial Intelligence",
+    "image": "/blog-ai.jpg",
+    "tags": ["AI", "GPT", "Productivity", "Code Review", "Developer Tools"]
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440003",
+    "slug": "microservices-vs-macroservices",
+    "title": "Microservices vs Modular Monolith: Choosing the Right Architecture",
+    "excerpt": "How to decide between microservices and modular monoliths based on team size, operational maturity, and product complexity.",
+    "content": "# Microservices vs Modular Monolith\n\nArchitecture should fit your constraints, not trends.\n\n## When Modular Monolith Wins\n\n- Small to medium teams\n- Frequent domain changes\n- Limited platform/ops bandwidth\n\n## When Microservices Win\n\n- Independent scaling requirements\n- High organizational maturity\n- Clear bounded contexts\n\n## Migration Advice\n\nStart modular. Extract services only where coupling and scale pressure justify the overhead.\n\n## Closing\n\nThe best architecture is the one your team can operate confidently and evolve safely.",
+    "date": "2025-01-10",
+    "readTime": "12 min read",
+    "category": "Software Architecture",
+    "image": "/blog-architecture.jpg",
+    "tags": ["Microservices", "Monolith", "Architecture", "DDD", "Scalability"]
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440004",
+    "slug": "identity-is-diachronic-ai-context",
+    "title": "Identity Is Diachronic: Why AI Context Must Evolve Over Time",
+    "excerpt": "A deep look at identity over time in AI systems, and what software engineers and everyday users should expect from systems that remember, adapt, and change.",
+    "content": "# Identity Is Diachronic\n\nMost people think of AI quality as a model problem. In practice, it is often a context problem.\n\nA model can only reason with what it can see at inference time. If the context is thin, stale, or fragmented, even a strong model can produce shallow output. If the context is rich, relevant, and timely, the same model can feel insightful and personal.\n\nThat sounds simple, but it creates a hard design tension: **how do we preserve continuity while allowing change?**\n\n---\n\n## Continuity vs. Change\n\nEvery useful system has to hold two truths at once:\n\n- Some information should remain stable (name, preferences, long-term goals, identity anchors).\n- Some information should change constantly (mood, current task, recent failures, shifting priorities).\n\nIf we only optimize for stability, systems become rigid and outdated.\nIf we only optimize for change, systems become noisy and inconsistent.\n\nThe challenge is not choosing one side. The challenge is modeling a single identity that can remain itself **while becoming different over time**.\n\nIn philosophy and cognitive science, this is called **diachronic identity**: identity-through-time.\n\n---\n\n## Why This Matters for Software Engineers\n\nFor SDEs, this idea changes how we design AI products:\n\n### 1. Context is a data architecture problem\n\nContext should be layered, not dumped:\n\n- **Core layer:** durable identity facts and constraints\n- **Session layer:** short-lived interaction state\n- **Event layer:** high-frequency signals and behavior traces\n- **Reflection layer:** synthesized insights and updates\n\nWithout layers, retrieval becomes either too broad or too brittle.\n\n### 2. Memory needs conflict resolution, not just storage\n\nUsers contradict themselves over time. Systems must decide:\n\n- What supersedes what?\n- What decays naturally?\n- What requires explicit confirmation before overwrite?\n\nA memory system without policies is just a log.\n\n### 3. Personalization must be reversible\n\nAny system that adapts should also support correction:\n\n- "That is no longer true."\n- "Forget this preference."\n- "Use this only for work conversations."\n\nGood identity systems are editable, inspectable, and scoped.\n\n### 4. Evaluation should include temporal coherence\n\nWe already measure latency and accuracy. We should also measure:\n\n- **Drift quality:** does adaptation improve or degrade relevance over time?\n- **Stability quality:** does the assistant retain key identity anchors?\n- **Repair quality:** how quickly does the system recover after a mistaken assumption?\n\nIf you do not test over time, you are not testing identity.\n\n---\n\n## Why This Matters for Everyday Users\n\nFor normal users, diachronic identity is less technical but more personal.\n\nYou do not just want an AI that answers questions. You want one that:\n\n- remembers what matters,\n- updates when your life changes,\n- and does not trap you inside an old version of yourself.\n\nA student becomes a job seeker. A freelancer becomes a manager. A beginner becomes an expert.\n\nIf the system cannot evolve with you, it eventually feels like a stranger holding outdated notes.\n\n---\n\n## The Deeper Risk: Frozen Selves\n\nThere is an ethical risk in context systems that gets less attention: they can freeze people into static profiles.\n\nWhen identity is treated as fixed, systems can overfit to who you were yesterday and under-serve who you are trying to become today.\n\nThat affects recommendations, opportunities, and even self-perception.\n\nA responsible AI system should not only predict from your past; it should make room for your future.\n\n---\n\n## A Practical Mental Model\n\nThink of identity in AI as a versioned narrative, not a static record:\n\n- Records hold facts.\n- Narratives hold meaning across time.\n\nThe goal is not "perfect memory." The goal is **useful continuity**: enough persistence to be coherent, enough adaptability to stay truthful.\n\n---\n\n## Closing Thought\n\nThe next generation of AI products will not be defined only by bigger models. They will be defined by better identity systems.\n\nThe frontier is not just intelligence. It is temporal intelligence: the ability to understand who someone is, who they were, and who they are becoming, without collapsing those into a single frozen snapshot.",
+    "date": "2025-09-18",
+    "readTime": "7 min read",
+    "category": "Philosophy of AI",
+    "image": "/blog-identity.jpg",
+    "tags": ["philosophy", "cogsci", "ml", "identity", "context engineering"]
+  }
+]
