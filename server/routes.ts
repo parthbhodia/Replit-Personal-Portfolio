@@ -7,6 +7,88 @@ import { sendEmail, formatContactEmail } from "./email";
 import { generatePlaceholder } from "./api/placeholder";
 import { supabaseService } from "./supabase";
 import { generateSitemap, generateRobots } from "./seo";
+import Anthropic from "@anthropic-ai/sdk";
+
+const anthropic = new Anthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY,
+});
+
+// Simple in-memory rate limiter
+const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
+const RATE_LIMIT = 10; // 10 requests per minute
+const RATE_LIMIT_WINDOW = 60000; // 1 minute
+
+function checkRateLimit(clientId: string): boolean {
+  const now = Date.now();
+  const clientLimit = rateLimitMap.get(clientId);
+
+  if (!clientLimit || now > clientLimit.resetTime) {
+    rateLimitMap.set(clientId, { count: 1, resetTime: now + RATE_LIMIT_WINDOW });
+    return true;
+  }
+
+  if (clientLimit.count >= RATE_LIMIT) {
+    return false;
+  }
+
+  clientLimit.count++;
+  return true;
+}
+
+const resumeContext = `
+Parth Bhodia's Professional Resume:
+
+ABOUT
+Software Developer with over 5 years of experience in HTML, CSS, SASS, SCSS, Typescript, Javascript, Node.js, Python, AWS, Java (Spring Boot). Proficient with Vue.js, Nuxt, React.js, REST APIs, and GraphQL.
+
+CURRENT LOCATION: Jersey City, NJ, United States
+EMAIL: parthbhodia08@gmail.com
+PHONE: +1 443-929-4371
+
+EXPERIENCE
+
+1. Fullstack Developer at Eccalon LLC (May 2022 - Present, Remote)
+   - Developed a personalized knowledge assistant ChatBOT using GPT and Pinecone vector databases, reducing time-to-information retrieval by 50%
+   - Designed PostgreSQL schema for CMS managing 100K+ users
+   - Built secure Login/Registration system with JWT, AWS Amplify, Cognito, API Gateway, Lambda
+   - Developed dynamic AWS Lambda functions for HTML content generation with Open Graph metadata
+   - Integrated Stripe payment processing for NLSE Sports Entertainment website
+   - Implemented HTMX and Vue.js frontend solutions for Project Spectrum (Government website)
+
+2. Research Assistant - Software Developer at University of Maryland, Baltimore County (Jan 2022 - Dec 2022)
+   - Developed GIS-based visualization framework for detecting enemy objects using Elastic Search and Kibana
+   - Used Java Spring Boot to control servers and communicate with edge devices via RabbitMQ
+
+3. Software Developer at Tata Communications Ltd (July 2018 - May 2021, Mumbai)
+   - Led development of IPT Tool dashboard for 10,000+ users using Django, Python, JavaScript, React
+   - Developed automation application for Back-Bone Cost Map using Python3 and Leaflet Maps
+   - Increased APAC region revenue by 36% through automation
+
+EDUCATION
+- Master of Science in Computer Science, University of Maryland, Baltimore County (Aug 2021 - May 2023)
+- Bachelor of Engineering in Information Technology, University of Mumbai (Aug 2014 - May 2018)
+
+CERTIFICATIONS
+- Harvard University: Data Science: Machine Learning
+- JP Morgan Chase: Advanced Software Engineering with Kafka and H2
+
+KEY PROJECTS
+- Nutri AI Scan: Award-winning PWA using OCR for allergen detection (2nd place CBIC Entrepreneurship at UMBC)
+- Stock Trader: Full-stack stock trading platform with real-time market data
+- VibeImg: AI-powered image generation with Stable Diffusion
+- ResuNova: Intelligent resume builder with ATS scoring
+- Claude Code Browser Extension: Chrome extension (in approval process)
+
+TECHNICAL SKILLS
+Frontend: Vue.js, React, JavaScript, TypeScript, HTML5, CSS3, SASS, SCSS, HTMX
+Backend: Node.js, Python, Java (Spring Boot), PostgreSQL, MongoDB, REST APIs, GraphQL
+Cloud: AWS (Amplify, Cognito, API Gateway, Lambda, S3)
+Databases: PostgreSQL, MongoDB, Pinecone (Vector DB), Elastic Search, H2
+AI/ML: GPT Integration, Vector databases, OCR, TensorFlow
+Other: Stripe, JWT, Docker, RabbitMQ, Kafka
+
+VISA STATUS: F1 OPT (authorized to work in the US)
+`;
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Blog posts API
@@ -44,17 +126,62 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Placeholder image API endpoint
   app.get("/api/placeholder/:width/:height", generatePlaceholder);
   
-  // Chatbot API endpoint
+  // Chatbot API endpoint with Claude AI
   app.post("/api/chat", async (req, res) => {
     try {
       const { message } = req.body;
+      const clientId = req.ip || "unknown";
+
       if (!message) {
         return res.status(400).json({ message: "Message is required" });
       }
 
-      // Process the message and get a response
-      const botResponse = getBotResponse(message);
-      
+      // Check rate limit
+      if (!checkRateLimit(clientId)) {
+        return res.status(429).json({ message: "Too many requests. Please wait a moment." });
+      }
+
+      // Use Claude API if key is available, otherwise fallback to hardcoded responses
+      let botResponse: string;
+
+      if (process.env.ANTHROPIC_API_KEY) {
+        try {
+          const response = await anthropic.messages.create({
+            model: "claude-3-5-sonnet-20241022",
+            max_tokens: 1024,
+            system: `You are a friendly and informative assistant helping people learn about Parth Bhodia, a talented Full Stack Software Developer.
+
+Use the following resume information to answer questions accurately and comprehensively:
+
+${resumeContext}
+
+When answering:
+- Be conversational and helpful
+- Reference specific projects and achievements when relevant
+- Highlight technical expertise and accomplishments
+- If asked about skills, provide concrete examples from the resume
+- If asked for contact, provide: email (parthbhodia08@gmail.com) or phone (+1 443-929-4371)
+- Be honest about what you know from the resume
+- Ask clarifying questions if needed`,
+            messages: [
+              {
+                role: "user",
+                content: message,
+              },
+            ],
+          });
+
+          botResponse = response.content[0].type === "text" ? response.content[0].text : "I couldn't generate a response.";
+        } catch (apiError: any) {
+          console.error("Claude API error:", apiError);
+          // Fallback to hardcoded response if API fails
+          botResponse = getBotResponse(message);
+        }
+      } else {
+        // Fallback to hardcoded responses when API key is not available
+        botResponse = getBotResponse(message);
+      }
+
       // Save the chat history
       try {
         const chatHistoryData = insertChatHistorySchema.parse({
@@ -66,7 +193,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         console.error("Failed to save chat history:", err);
         // Continue even if saving fails
       }
-      
+
       return res.json({ response: botResponse });
     } catch (error) {
       console.error("Chat API error:", error);
