@@ -117,14 +117,50 @@ export default function Home() {
       liveUrl: '#',
       codeUrl: '#',
       featured: true
+    },
+    {
+      title: 'Stock Trader',
+      description: 'Full-stack stock trading platform with real-time market data, portfolio tracking, and AI-powered trade recommendations. Features live charts, watchlists, and automated alerts.',
+      tags: ['React', 'Node.js', 'WebSocket', 'Finance API', 'AI'],
+      category: 'Personal',
+      liveUrl: 'https://parthbhodia.github.io/Trading-bot-algo/',
+      codeUrl: 'https://github.com/parthbhodia/Trading-bot-algo',
+      featured: true
+    },
+    {
+      title: 'VibeImg',
+      description: 'AI-powered image generation platform that creates stunning visuals from text prompts and mood/vibe descriptors. Supports style transfers, image editing, and social sharing.',
+      tags: ['React', 'Python', 'Stable Diffusion', 'AWS S3', 'AI/ML'],
+      category: 'Personal',
+      liveUrl: 'https://vibeimg.xyz',
+      codeUrl: '#',
+      featured: true
+    },
+    {
+      title: 'ResuNova',
+      description: 'Intelligent resume builder powered by AI that tailors resumes to job descriptions, scores ATS compatibility, and provides actionable improvement suggestions for job seekers.',
+      tags: ['React', 'Node.js', 'OpenAI', 'PDF Generation', 'ATS'],
+      category: 'Personal',
+      liveUrl: 'https://resunova.io',
+      codeUrl: '#',
+      featured: true
+    },
+    {
+      title: 'Claude Code Browser Extension',
+      description: 'Chrome extension that brings Claude Code AI capabilities directly into the browser — context-aware code assistance, inline suggestions, and seamless integration with web-based IDEs.',
+      tags: ['Chrome Extension', 'TypeScript', 'Claude AI', 'Manifest V3', 'React'],
+      category: 'Personal',
+      liveUrl: 'https://chromewebstore.google.com/detail/claude-code-lockscreen',
+      codeUrl: '#',
+      featured: true
     }
   ];
 
   // Project categories
-  const categories = ['All', 'AI/ML', 'Backend', 'Cloud/Security', 'Cloud', 'E-commerce', 'Government', 'Research', 'Enterprise'];
+  const categories = ['All', 'Personal', 'AI/ML', 'Backend', 'Cloud/Security', 'Cloud', 'E-commerce', 'Government', 'Research', 'Enterprise'];
 
   // Selected category state
-  const [selectedCategory, setSelectedCategory] = useState('AI/ML');
+  const [selectedCategory, setSelectedCategory] = useState('Personal');
   
   // Mobile menu state
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
