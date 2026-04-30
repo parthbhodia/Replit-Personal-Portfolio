@@ -10,7 +10,13 @@
     "views": 0,
     "category": "Cloud Architecture",
     "image": "/blog-aws.jpg",
-    "tags": ["AWS", "Serverless", "Scalability", "Lambda", "API Gateway"]
+    "tags": [
+      "AWS",
+      "Serverless",
+      "Scalability",
+      "Lambda",
+      "API Gateway"
+    ]
   },
   {
     "id": "550e8400-e29b-41d4-a716-446655440002",
@@ -23,7 +29,13 @@
     "views": 0,
     "category": "Artificial Intelligence",
     "image": "/blog-ai.jpg",
-    "tags": ["AI", "GPT", "Productivity", "Code Review", "Developer Tools"]
+    "tags": [
+      "AI",
+      "GPT",
+      "Productivity",
+      "Code Review",
+      "Developer Tools"
+    ]
   },
   {
     "id": "550e8400-e29b-41d4-a716-446655440003",
@@ -36,7 +48,13 @@
     "views": 0,
     "category": "Software Architecture",
     "image": "/blog-architecture.jpg",
-    "tags": ["Microservices", "Monolith", "Architecture", "DDD", "Scalability"]
+    "tags": [
+      "Microservices",
+      "Monolith",
+      "Architecture",
+      "DDD",
+      "Scalability"
+    ]
   },
   {
     "id": "550e8400-e29b-41d4-a716-446655440004",
@@ -49,7 +67,13 @@
     "views": 0,
     "category": "Philosophy of AI",
     "image": "/blog-identity.jpg",
-    "tags": ["philosophy", "cogsci", "ml", "identity", "context engineering"]
+    "tags": [
+      "philosophy",
+      "cogsci",
+      "ml",
+      "identity",
+      "context engineering"
+    ]
   },
   {
     "id": "550e8400-e29b-41d4-a716-446655440005",
@@ -62,7 +86,13 @@
     "views": 0,
     "category": "Productivity",
     "image": "/blog-2pm-reset.jpg",
-    "tags": ["productivity", "focus", "habits", "energy", "workflows"]
+    "tags": [
+      "productivity",
+      "focus",
+      "habits",
+      "energy",
+      "workflows"
+    ]
   },
   {
     "id": "550e8400-e29b-41d4-a716-446655440006",
@@ -75,20 +105,32 @@
     "views": 0,
     "category": "Case Study",
     "image": "/blog-jiobase-case-study.jpg",
-    "tags": ["case study", "cloudflare", "supabase", "india", "developer story"]
+    "tags": [
+      "case study",
+      "cloudflare",
+      "supabase",
+      "india",
+      "developer story"
+    ]
   },
   {
     "id": "550e8400-e29b-41d4-a716-446655440007",
     "slug": "enterprise-rag-evidence-over-context-window",
-    "title": "Enterprise RAG Design: Evidence Over Context Window",
-    "excerpt": "How to design LLM retrieval systems when you have millions of tokens available but only a limited context window at inference time.",
-    "content": "# Enterprise RAG Design: Evidence Over Context Window\n\nIf you have 300 relevant documents and only 128k context per model call, this is not mainly a model problem. It is a retrieval, ranking, and evidence-selection problem.\n\nYou are not trying to stuff documents into an LLM. You are trying to send the smallest set of trustworthy evidence that answers the query.\n\n## System Diagram\n\n```text\nUser Query\n   -> Access + Metadata Filters\n   -> Hybrid Retrieval (Keyword + Vector)\n   -> Candidate Set (high recall)\n   -> Reranker (high precision)\n   -> Evidence Pack Builder\n   -> LLM (grounded prompt + citations)\n   -> Answer or Safe No-Answer\n```\n\n## 1) Reduce Search Space Before Retrieval\n\nIn enterprise systems, every query should not search every document equally.\n\nBefore semantic retrieval, apply hard filters:\n\n- user permissions\n- team / department\n- source system\n- document type\n- time range\n- project / customer / ticket metadata\n- freshness constraints\n\nIf a user asks pricing decisions for last quarter, your system should not pull HR pages or random old chat logs.\n\nGood retrieval starts by removing what should never be considered.\n\n## 2) Use Hybrid Retrieval\n\nVector search captures meaning. Keyword search captures exact identifiers. Enterprise traffic needs both.\n\nPure semantic retrieval often misses:\n\n- acronyms\n- Jira IDs\n- customer names\n- invoice numbers\n- internal codenames\n- release versions\n\nA practical first pass:\n\n- metadata + ACL filters\n- keyword retrieval\n- vector retrieval\n- merge + dedupe candidates\n\nAt this point, 300 docs are still not context. They are candidates.\n\n## 3) Rerank for Precision\n\nInitial retrieval optimizes recall. Reranking optimizes precision.\n\nReranker scoring should include:\n\n- query relevance\n- freshness\n- source authority\n- chunk answer-likelihood\n- stale/outdated penalties\n- redundancy penalties\n\nSending 30 high-signal chunks is almost always better than sending 300 mediocre ones.\n\n## 4) Pack Evidence, Not Full Documents\n\nA common failure mode is dropping whole documents into prompt context. That wastes tokens and still misses key passages.\n\nBuild chunk-level evidence packets with context fields:\n\n- document title\n- section heading\n- adjacent paragraphs\n- timestamp\n- source URL\n- owner/team\n- permission markers\n\nThen structure the prompt payload:\n\n- direct answer evidence\n- supporting evidence\n- recent updates\n- authoritative decision records\n- conflicting evidence when present\n\nThe target is not to fill 128k tokens. The target is to ground the answer safely.\n\n## 5) Make No-Answer a First-Class Output\n\nIn enterprise search, a confident wrong answer is worse than no answer.\n\nPrompt and policy should allow:\n\n- answer only from provided evidence\n- cite sources\n- state uncertainty\n- ask clarification for ambiguous queries\n- refuse to invent missing details\n\nIf confidence is low, return: related docs found, but insufficient evidence for a confident answer.\n\nThat is a better product than polished hallucination.\n\n## 6) Monitor Retrieval Quality, Not Just LLM Quality\n\nTrack the full pipeline, not only final text quality:\n\n- retrieval recall\n- reranker precision\n- citation accuracy\n- source click-through\n- stale-document usage\n- permission leakage\n- no-answer rate\n- latency + cost per query\n\nIf these metrics are weak, better prompts alone will not save the system.\n\n## My 2 Cents\n\nMost teams over-invest in model swapping and under-invest in retrieval engineering.\n\nIf your retrieval layer is weak, a stronger model just hallucinates more fluently. If your retrieval layer is strong, even smaller models can produce reliable enterprise answers.\n\nTreat retrieval and evidence packing as core product infrastructure, not glue code. That's usually where the real quality step-change comes from.",
+    "title": "How Enterprise RAG Prioritizes Evidence Over Context Window",
+    "excerpt": "Enterprise RAG systems fail when they push 300 documents into a 128k window. Learn a retrieval-first design that improves precision, citations, and trust.",
+    "content": "# Enterprise RAG Design: Evidence Over Context Window\n\nIf you have 300 relevant documents and only 128k context per model call, this is not mainly a model problem. It is a retrieval, ranking, and evidence-selection problem.\n\nYou are not trying to stuff documents into an LLM. You are trying to send the smallest set of trustworthy evidence that answers the query.\n\n## System Diagram\n\n```text\nUser Query\n   -> Access + Metadata Filters\n   -> Hybrid Retrieval (Keyword + Vector)\n   -> Candidate Set (high recall)\n   -> Reranker (high precision)\n   -> Evidence Pack Builder\n   -> LLM (grounded prompt + citations)\n   -> Answer or Safe No-Answer\n```\n\n## 1) How should enterprise RAG reduce search space before retrieval?\n\nIn enterprise systems, every query should not search every document equally.\n\nBefore semantic retrieval, apply hard filters:\n\n- user permissions\n- team / department\n- source system\n- document type\n- time range\n- project / customer / ticket metadata\n- freshness constraints\n\nIf a user asks pricing decisions for last quarter, your system should not pull HR pages or random old chat logs.\n\nGood retrieval starts by removing what should never be considered.\n\n## 2) Why should enterprise RAG use hybrid retrieval?\n\nVector search captures meaning. Keyword search captures exact identifiers. Enterprise traffic needs both.\n\nPure semantic retrieval often misses:\n\n- acronyms\n- Jira IDs\n- customer names\n- invoice numbers\n- internal codenames\n- release versions\n\nA practical first pass:\n\n- metadata + ACL filters\n- keyword retrieval\n- vector retrieval\n- merge + dedupe candidates\n\nAt this point, 300 docs are still not context. They are candidates.\n\n## 3) How do you rerank enterprise RAG results for precision?\n\nInitial retrieval optimizes recall. Reranking optimizes precision.\n\nReranker scoring should include:\n\n- query relevance\n- freshness\n- source authority\n- chunk answer-likelihood\n- stale/outdated penalties\n- redundancy penalties\n\nSending 30 high-signal chunks is almost always better than sending 300 mediocre ones.\n\n## 4) Why pack evidence instead of full documents?\n\nA common failure mode is dropping whole documents into prompt context. That wastes tokens and still misses key passages.\n\nBuild chunk-level evidence packets with context fields:\n\n- document title\n- section heading\n- adjacent paragraphs\n- timestamp\n- source URL\n- owner/team\n- permission markers\n\nThen structure the prompt payload:\n\n- direct answer evidence\n- supporting evidence\n- recent updates\n- authoritative decision records\n- conflicting evidence when present\n\nThe target is not to fill 128k tokens. The target is to ground the answer safely.\n\n## 5) When should enterprise RAG return no-answer?\n\nIn enterprise search, a confident wrong answer is worse than no answer.\n\nPrompt and policy should allow:\n\n- answer only from provided evidence\n- cite sources\n- state uncertainty\n- ask clarification for ambiguous queries\n- refuse to invent missing details\n\nIf confidence is low, return: related docs found, but insufficient evidence for a confident answer.\n\nThat is a better product than polished hallucination.\n\n## 6) Monitor Retrieval Quality, Not Just LLM Quality\n\nTrack the full pipeline, not only final text quality:\n\n- retrieval recall\n- reranker precision\n- citation accuracy\n- source click-through\n- stale-document usage\n- permission leakage\n- no-answer rate\n- latency + cost per query\n\nIf these metrics are weak, better prompts alone will not save the system.\n\n## My 2 Cents\n\nMost teams over-invest in model swapping and under-invest in retrieval engineering.\n\nIf your retrieval layer is weak, a stronger model just hallucinates more fluently. If your retrieval layer is strong, even smaller models can produce reliable enterprise answers.\n\nTreat retrieval and evidence packing as core product infrastructure, not glue code. That's usually where the real quality step-change comes from.\n\n### References and Further Reading\n\n- [How Username Availability Works at Scale](/blog/username-availability-system-design-at-scale)\n- [Microservices vs Macroservices: Architecture Trade-offs](/blog/microservices-vs-macroservices)\n- [Generative AI in Modern Development](/blog/generative-ai-modern-development)\n- [BM25 and Beyond: SIGIR Tutorial](https://sigir.org/sigir2021/tutorials/TOIS_BM25_Beyond.pdf)\n- [Attention Is All You Need](https://arxiv.org/abs/1706.03762)\n- [NIST Information Retrieval Overview](https://www.nist.gov/itl/iad/mig/information-retrieval)",
     "date": "2026-04-30",
     "readTime": "8 min read",
     "views": 0,
     "category": "System Design",
     "image": "/blog-enterprise-rag.jpg",
-    "tags": ["system design", "rag", "retrieval", "llm", "enterprise"]
+    "tags": [
+      "system design",
+      "rag",
+      "retrieval",
+      "llm",
+      "enterprise"
+    ]
   },
   {
     "id": "550e8400-e29b-41d4-a716-446655440008",
@@ -101,6 +143,12 @@
     "views": 0,
     "category": "System Design",
     "image": "/blog-username-availability.jpg",
-    "tags": ["system design", "scalability", "backend", "caching", "security"]
+    "tags": [
+      "system design",
+      "scalability",
+      "backend",
+      "caching",
+      "security"
+    ]
   }
 ]
