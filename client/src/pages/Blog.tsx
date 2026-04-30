@@ -1,9 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'wouter';
-import { ArrowRight, Calendar, Clock } from 'lucide-react';
-import HeartButton from '../components/HeartButton';
-import ViewCounter from '../components/ViewCounter';
-import CommentSection from '../components/CommentSection';
+import { ArrowRight, Calendar, Clock, Eye } from 'lucide-react';
 import ShareButton from '../components/ShareButton';
 import Layout from '../components/Layout';
 import { useSEO } from '../hooks/useSEO';
@@ -20,6 +17,7 @@ interface BlogPost {
   category: string;
   image: string;
   tags: string[];
+  views: number;
 }
 
 interface BlogProps {
@@ -28,11 +26,105 @@ interface BlogProps {
 
 const blogPosts = blogPostsData as BlogPost[];
 
+const getStoredViewCounts = (): Record<string, number> => {
+  if (typeof window === 'undefined') return {};
+  const raw = localStorage.getItem('blog-views');
+  if (!raw) return {};
+  try {
+    return JSON.parse(raw) as Record<string, number>;
+  } catch {
+    return {};
+  }
+};
+
+const saveStoredViewCounts = (counts: Record<string, number>) => {
+  if (typeof window === 'undefined') return;
+  localStorage.setItem('blog-views', JSON.stringify(counts));
+};
+
+const formatCount = (count: number) => {
+  if (count >= 1000000) return `${(count / 1000000).toFixed(1)}M`;
+  if (count >= 1000) return `${(count / 1000).toFixed(1)}K`;
+  return count.toString();
+};
+
 const renderContent = (content: string) => {
-  return content
-    .replace(/\n/g, '<br />')
-    .replace(/```([^`]+)```/g, '<pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto"><code>$1</code></pre>')
-    .replace(/`([^`]+)`/g, '<code class="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">$1</code>');
+  const lines = content.split('\n');
+  const html: string[] = [];
+  let inUl = false;
+  let inOl = false;
+
+  const closeLists = () => {
+    if (inUl) {
+      html.push('</ul>');
+      inUl = false;
+    }
+    if (inOl) {
+      html.push('</ol>');
+      inOl = false;
+    }
+  };
+
+  const inline = (line: string) =>
+    line
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/`([^`]+)`/g, '<code class="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">$1</code>');
+
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
+    if (!line) {
+      closeLists();
+      continue;
+    }
+
+    if (line.startsWith('### ')) {
+      closeLists();
+      html.push(`<h3>${inline(line.slice(4))}</h3>`);
+      continue;
+    }
+    if (line.startsWith('## ')) {
+      closeLists();
+      html.push(`<h2>${inline(line.slice(3))}</h2>`);
+      continue;
+    }
+    if (line.startsWith('# ')) {
+      closeLists();
+      html.push(`<h1>${inline(line.slice(2))}</h1>`);
+      continue;
+    }
+
+    if (line.startsWith('- ')) {
+      if (inOl) {
+        html.push('</ol>');
+        inOl = false;
+      }
+      if (!inUl) {
+        html.push('<ul>');
+        inUl = true;
+      }
+      html.push(`<li>${inline(line.slice(2))}</li>`);
+      continue;
+    }
+
+    if (/^\d+\.\s/.test(line)) {
+      if (inUl) {
+        html.push('</ul>');
+        inUl = false;
+      }
+      if (!inOl) {
+        html.push('<ol>');
+        inOl = true;
+      }
+      html.push(`<li>${inline(line.replace(/^\d+\.\s/, ''))}</li>`);
+      continue;
+    }
+
+    closeLists();
+    html.push(`<p>${inline(line)}</p>`);
+  }
+
+  closeLists();
+  return html.join('');
 };
 
 export default function Blog({ slug }: BlogProps = {}) {
@@ -50,7 +142,7 @@ export default function Blog({ slug }: BlogProps = {}) {
   });
 
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
-  const [userFingerprint, setUserFingerprint] = useState('');
+  const [viewCounts, setViewCounts] = useState<Record<string, number>>({});
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedTag, setSelectedTag] = useState('all');
 
@@ -86,13 +178,7 @@ export default function Blog({ slug }: BlogProps = {}) {
   }, [slug]);
 
   useEffect(() => {
-    const generateFingerprint = () => `fp-${Math.random().toString(36).slice(2, 11)}-${Date.now()}`;
-    let fp = localStorage.getItem('userFingerprint');
-    if (!fp) {
-      fp = generateFingerprint();
-      localStorage.setItem('userFingerprint', fp);
-    }
-    setUserFingerprint(fp);
+    setViewCounts(getStoredViewCounts());
   }, []);
 
   useEffect(() => {
@@ -103,6 +189,16 @@ export default function Blog({ slug }: BlogProps = {}) {
     const post = sortedPosts.find((p) => p.slug === currentId) ?? null;
     setSelectedPost(post);
   }, [currentId, sortedPosts]);
+
+  useEffect(() => {
+    if (!selectedPost) return;
+    const existing = getStoredViewCounts();
+    const next = { ...existing, [selectedPost.slug]: (existing[selectedPost.slug] ?? selectedPost.views ?? 0) + 1 };
+    saveStoredViewCounts(next);
+    setViewCounts(next);
+  }, [selectedPost?.slug]);
+
+  const getPostViews = (post: BlogPost) => viewCounts[post.slug] ?? post.views ?? 0;
 
   if (selectedPost) {
     return (
@@ -138,9 +234,11 @@ export default function Blog({ slug }: BlogProps = {}) {
                     <Clock className="h-4 w-4" />
                     <span>{selectedPost.readTime}</span>
                   </div>
-                  <ViewCounter blogPostId={selectedPost.id} />
+                  <div className="inline-flex items-center space-x-1">
+                    <Eye className="h-4 w-4" />
+                    <span>{formatCount(getPostViews(selectedPost))}</span>
+                  </div>
                 </div>
-                <HeartButton blogPostId={selectedPost.id} size={24} />
               </div>
 
               <div className="flex flex-wrap gap-2 mb-8">
@@ -159,16 +257,10 @@ export default function Blog({ slug }: BlogProps = {}) {
             <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
               <div className="flex items-center justify-between flex-wrap gap-4">
                 <div className="flex items-center space-x-6">
-                  <HeartButton
-                    blogPostId={selectedPost.id}
-                    className="flex items-center space-x-2 px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-                    size={20}
-                  />
-                  <ViewCounter
-                    blogPostId={selectedPost.id}
-                    className="flex items-center space-x-2 px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-800"
-                    size={16}
-                  />
+                  <div className="flex items-center space-x-2 px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300">
+                    <Eye className="h-4 w-4" />
+                    <span className="text-sm font-medium">{formatCount(getPostViews(selectedPost))}</span>
+                  </div>
                 </div>
 
                 <ShareButton
@@ -179,8 +271,6 @@ export default function Blog({ slug }: BlogProps = {}) {
                 />
               </div>
             </div>
-
-            {userFingerprint && <CommentSection blogPostId={selectedPost.id} userFingerprint={userFingerprint} />}
           </div>
         </article>
       </Layout>
@@ -287,7 +377,10 @@ export default function Blog({ slug }: BlogProps = {}) {
                         <span>{post.readTime}</span>
                       </div>
                     </div>
-                    <ViewCounter blogPostId={post.id} />
+                    <div className="inline-flex items-center space-x-1">
+                      <Eye className="h-4 w-4" />
+                      <span>{formatCount(getPostViews(post))}</span>
+                    </div>
                   </div>
 
                   <div className="flex items-center justify-between">
@@ -298,7 +391,7 @@ export default function Blog({ slug }: BlogProps = {}) {
                         </span>
                       ))}
                     </div>
-                    <HeartButton blogPostId={post.id} size={20} />
+                    <span className="text-xs text-gray-500 dark:text-gray-400">{formatCount(getPostViews(post))} views</span>
                   </div>
 
                   <div className="mt-4">
