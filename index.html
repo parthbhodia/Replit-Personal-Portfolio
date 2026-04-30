@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <style data-vite-theme="" data-inject-first="">:root {
     --background: 0 0% 100%;
@@ -94,6 +94,21 @@
 }</style>
 
     <meta charset="UTF-8" />
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem('theme');
+          var isDark = saved ? saved === 'dark' : true;
+          if (isDark) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
@@ -293,8 +308,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
-    <script type="module" crossorigin src="/assets/index-d1efe778.js"></script>
-    <link rel="stylesheet" href="/assets/index-909eacc0.css">
+    <script type="module" crossorigin src="/assets/index-9bbab06b.js"></script>
+    <link rel="stylesheet" href="/assets/index-cd24dfdd.css">
   </head>
   <body>
     <div id="root"></div>
