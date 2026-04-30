@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'wouter';
 import { ArrowRight, Calendar, Clock, Eye, List, X } from 'lucide-react';
 import ShareButton from '../components/ShareButton';
@@ -32,6 +32,7 @@ interface SectionEstimate {
 interface TocItem {
   id: string;
   title: string;
+  minutes: number;
 }
 
 const blogPosts = blogPostsData as BlogPost[];
@@ -77,12 +78,13 @@ const getTableOfContents = (content: string): TocItem[] => {
   const lines = content.split('\n');
   const counts: Record<string, number> = {};
   const items: TocItem[] = [];
+  const sectionMinutes = new Map(getSectionEstimates(content).map((section) => [section.title, section.minutes]));
 
   for (const line of lines) {
     if (!line.startsWith('## ')) continue;
     const title = line.slice(3).trim();
     if (!title) continue;
-    items.push({ id: createHeadingId(title, counts), title });
+    items.push({ id: createHeadingId(title, counts), title, minutes: sectionMinutes.get(title) ?? 1 });
   }
 
   return items.slice(0, 10);
@@ -333,6 +335,8 @@ export default function Blog({ slug }: BlogProps = {}) {
   const [selectedTag, setSelectedTag] = useState('all');
   const [activeSectionId, setActiveSectionId] = useState<string | null>(null);
   const [isMobileTocOpen, setIsMobileTocOpen] = useState(false);
+  const [tocDesktopOffset, setTocDesktopOffset] = useState(0);
+  const articleHeaderRef = useRef<HTMLElement | null>(null);
 
   const sortedPosts = useMemo(() => {
     return [...blogPosts].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -387,7 +391,6 @@ export default function Blog({ slug }: BlogProps = {}) {
   }, [selectedPost?.slug]);
 
   const getPostViews = (post: BlogPost) => viewCounts[post.slug] ?? post.views ?? 0;
-  const sectionEstimates = selectedPost ? getSectionEstimates(selectedPost.content) : [];
   const tableOfContents = selectedPost ? getTableOfContents(selectedPost.content) : [];
 
   const scrollToHeading = (id: string) => {
@@ -412,31 +415,58 @@ export default function Blog({ slug }: BlogProps = {}) {
 
     if (headingElements.length === 0) return;
 
-    setActiveSectionId(headingElements[0].id);
+    const navOffset = 112;
+    const updateActiveHeading = () => {
+      let currentId = headingElements[0].id;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-        if (visible.length > 0) {
-          setActiveSectionId(visible[0].target.id);
+      for (const element of headingElements) {
+        const top = element.getBoundingClientRect().top;
+        if (top - navOffset <= 0) {
+          currentId = element.id;
+        } else {
+          break;
         }
-      },
-      {
-        rootMargin: '-20% 0px -65% 0px',
-        threshold: [0.1, 0.4, 0.7]
       }
-    );
 
-    headingElements.forEach((element) => observer.observe(element));
+      setActiveSectionId(currentId);
+    };
 
-    return () => observer.disconnect();
+    updateActiveHeading();
+
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(() => {
+        updateActiveHeading();
+        ticking = false;
+      });
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
   }, [selectedPost, tableOfContents]);
 
   useEffect(() => {
     setIsMobileTocOpen(false);
   }, [selectedPost?.slug]);
+
+  useEffect(() => {
+    if (!selectedPost) return;
+
+    const updateOffset = () => {
+      setTocDesktopOffset(articleHeaderRef.current?.offsetHeight ?? 0);
+    };
+
+    updateOffset();
+    window.addEventListener('resize', updateOffset);
+    return () => window.removeEventListener('resize', updateOffset);
+  }, [selectedPost?.slug, selectedPost?.content]);
 
   if (selectedPost) {
     return (
@@ -445,7 +475,7 @@ export default function Blog({ slug }: BlogProps = {}) {
           <div className="container mx-auto px-4 max-w-6xl">
             <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,72ch)_260px] gap-8 lg:gap-10 justify-center">
             <div className="min-w-0">
-            <header className="mb-7 md:mb-8">
+            <header ref={articleHeaderRef} className="mb-7 md:mb-8">
               <Link href="/blog" className="inline-flex items-center text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 mb-6">
                 ← Back to Blog
               </Link>
@@ -494,22 +524,6 @@ export default function Blog({ slug }: BlogProps = {}) {
                 <p className="text-[1.02rem] leading-7 text-gray-800 dark:text-gray-200">{selectedPost.excerpt}</p>
               </div>
 
-              {sectionEstimates.length > 0 && (
-                <div className="mb-9 md:mb-12">
-                  <p className="text-xs uppercase tracking-wide font-semibold text-gray-500 dark:text-gray-400 mb-3">Section Read Times</p>
-                  <div className="flex gap-2 overflow-x-auto pb-1">
-                    {sectionEstimates.map((section) => (
-                      <div
-                        key={section.title}
-                        className="shrink-0 rounded-full border border-gray-200 dark:border-gray-700 px-3 py-1.5 bg-white/80 dark:bg-gray-800/80"
-                      >
-                        <span className="text-xs text-gray-700 dark:text-gray-200 font-medium">{section.title}</span>
-                        <span className="text-xs text-gray-500 dark:text-gray-400 ml-2">{section.minutes} min</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
             </header>
 
             <div className="prose prose-neutral dark:prose-invert max-w-none prose-p:leading-7 md:prose-p:leading-8 prose-p:text-[1rem] md:prose-p:text-[1.12rem] prose-headings:tracking-tight prose-h2:text-[1.55rem] md:prose-h2:text-[1.75rem] prose-h2:mt-12 md:prose-h2:mt-14 prose-h2:mb-4 md:prose-h2:mb-5 prose-h3:text-[1.22rem] md:prose-h3:text-[1.35rem] prose-h3:mt-8 md:prose-h3:mt-10 prose-h3:mb-2 md:prose-h3:mb-3 prose-pre:rounded-xl prose-pre:border prose-pre:border-gray-200 dark:prose-pre:border-gray-700 prose-li:my-1 prose-ul:my-5 md:prose-ul:my-6 prose-ol:my-5 md:prose-ol:my-6">
@@ -536,7 +550,7 @@ export default function Blog({ slug }: BlogProps = {}) {
             </div>
 
             {tableOfContents.length > 0 && (
-              <aside className="hidden lg:block">
+              <aside className="hidden lg:block" style={{ paddingTop: tocDesktopOffset }}>
                 <div className="sticky top-24 rounded-xl border border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-900/70 backdrop-blur px-4 py-4">
                   <p className="text-xs uppercase tracking-wide font-semibold text-gray-500 dark:text-gray-400 mb-3">On this page</p>
                   <nav className="space-y-1.5">
@@ -556,7 +570,8 @@ export default function Blog({ slug }: BlogProps = {}) {
                               : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
                           }`}
                         >
-                          {item.title}
+                          <span className="block">{item.title}</span>
+                          <span className="block text-xs opacity-80 mt-0.5">{item.minutes} min</span>
                         </a>
                       );
                     })}
@@ -587,7 +602,8 @@ export default function Blog({ slug }: BlogProps = {}) {
                                 : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
                             }`}
                           >
-                            {item.title}
+                            <span className="block">{item.title}</span>
+                            <span className="block text-xs opacity-80 mt-0.5">{item.minutes} min</span>
                           </a>
                         );
                       })}
