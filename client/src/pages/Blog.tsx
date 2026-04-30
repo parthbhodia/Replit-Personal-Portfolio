@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'wouter';
-import { ArrowRight, Calendar, Clock, Eye } from 'lucide-react';
+import { ArrowRight, Calendar, Clock, Eye, List, X } from 'lucide-react';
 import ShareButton from '../components/ShareButton';
 import Layout from '../components/Layout';
 import { useSEO } from '../hooks/useSEO';
@@ -29,6 +29,11 @@ interface SectionEstimate {
   minutes: number;
 }
 
+interface TocItem {
+  id: string;
+  title: string;
+}
+
 const blogPosts = blogPostsData as BlogPost[];
 
 const getStoredViewCounts = (): Record<string, number> => {
@@ -51,6 +56,36 @@ const formatCount = (count: number) => {
   if (count >= 1000000) return `${(count / 1000000).toFixed(1)}M`;
   if (count >= 1000) return `${(count / 1000).toFixed(1)}K`;
   return count.toString();
+};
+
+const slugify = (value: string) =>
+  value
+    .toLowerCase()
+    .replace(/<[^>]*>/g, '')
+    .replace(/[^a-z0-9\s-]/g, '')
+    .trim()
+    .replace(/\s+/g, '-');
+
+const createHeadingId = (title: string, counts: Record<string, number>) => {
+  const base = slugify(title) || 'section';
+  const seen = counts[base] ?? 0;
+  counts[base] = seen + 1;
+  return seen === 0 ? base : `${base}-${seen + 1}`;
+};
+
+const getTableOfContents = (content: string): TocItem[] => {
+  const lines = content.split('\n');
+  const counts: Record<string, number> = {};
+  const items: TocItem[] = [];
+
+  for (const line of lines) {
+    if (!line.startsWith('## ')) continue;
+    const title = line.slice(3).trim();
+    if (!title) continue;
+    items.push({ id: createHeadingId(title, counts), title });
+  }
+
+  return items.slice(0, 10);
 };
 
 const getSectionEstimates = (content: string): SectionEstimate[] => {
@@ -100,6 +135,9 @@ const renderContent = (content: string) => {
   const codeBlockLines: string[] = [];
   let inDiagramBlock = false;
   const diagramLines: string[] = [];
+  const headingIdCounts: Record<string, number> = {};
+  let inReferencesSection = false;
+  let inReferenceCards = false;
 
   const escapeHtml = (value: string) =>
     value
@@ -116,6 +154,12 @@ const renderContent = (content: string) => {
       html.push('</ol>');
       inOl = false;
     }
+  };
+
+  const closeReferenceCards = () => {
+    if (!inReferenceCards) return;
+    html.push('</div>');
+    inReferenceCards = false;
   };
 
   const closeDiagramBlock = () => {
@@ -138,6 +182,7 @@ const renderContent = (content: string) => {
 
   const inline = (line: string) =>
     line
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-purple-700 dark:text-purple-300 underline decoration-purple-300 dark:decoration-purple-700 hover:text-purple-900 dark:hover:text-purple-200" target="_blank" rel="noopener noreferrer">$1</a>')
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
       .replace(/`([^`]+)`/g, '<code class="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">$1</code>');
 
@@ -150,6 +195,7 @@ const renderContent = (content: string) => {
     }
 
     if (trimmedRaw.startsWith('```') || trimmedRaw.startsWith('``text')) {
+      closeReferenceCards();
       closeDiagramBlock();
       closeLists();
       if (inCodeBlock) {
@@ -171,6 +217,7 @@ const renderContent = (content: string) => {
       /^\s*\+[-+\s]+\+\s*$/.test(rawLine);
 
     if (isDiagramLine) {
+      closeReferenceCards();
       closeLists();
       inDiagramBlock = true;
       diagramLines.push(rawLine);
@@ -181,27 +228,53 @@ const renderContent = (content: string) => {
 
     const line = rawLine.trim();
     if (!line) {
+      closeReferenceCards();
       closeLists();
       continue;
     }
 
     if (line.startsWith('### ')) {
+      closeReferenceCards();
       closeLists();
-      html.push(`<h3>${inline(line.slice(4))}</h3>`);
+      const title = line.slice(4).trim();
+      inReferencesSection = /references and further reading/i.test(title);
+      html.push(`<h3 id="${createHeadingId(title, headingIdCounts)}" class="scroll-mt-24">${inline(title)}</h3>`);
       continue;
     }
     if (line.startsWith('## ')) {
+      closeReferenceCards();
       closeLists();
-      html.push(`<h2>${inline(line.slice(3))}</h2>`);
+      const title = line.slice(3).trim();
+      inReferencesSection = /references and further reading/i.test(title);
+      html.push(`<h2 id="${createHeadingId(title, headingIdCounts)}" class="scroll-mt-24">${inline(title)}</h2>`);
       continue;
     }
     if (line.startsWith('# ')) {
+      closeReferenceCards();
       closeLists();
       html.push(`<h1>${inline(line.slice(2))}</h1>`);
       continue;
     }
 
     if (line.startsWith('- ')) {
+      const linkMatch = line.slice(2).trim().match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+      if (inReferencesSection && linkMatch) {
+        closeLists();
+        if (!inReferenceCards) {
+          html.push('<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 my-5">');
+          inReferenceCards = true;
+        }
+        const [, label, url] = linkMatch;
+        const isInternal = url.startsWith('/');
+        html.push(
+          `<a href="${url}" class="block rounded-xl border border-purple-200/70 dark:border-purple-800/60 bg-purple-50/70 dark:bg-purple-900/20 px-4 py-3 no-underline hover:border-purple-400 dark:hover:border-purple-500 hover:bg-purple-100/70 dark:hover:bg-purple-900/30 transition-colors" ${
+            isInternal ? '' : 'target="_blank" rel="noopener noreferrer"'
+          }><span class="text-sm font-semibold text-purple-800 dark:text-purple-200">${label}</span><span class="block text-xs text-gray-500 dark:text-gray-400 mt-1">${isInternal ? 'Read related blog' : 'Open external reference'}</span></a>`
+        );
+        continue;
+      }
+
+      closeReferenceCards();
       if (inOl) {
         html.push('</ol>');
         inOl = false;
@@ -215,6 +288,7 @@ const renderContent = (content: string) => {
     }
 
     if (/^\d+\.\s/.test(line)) {
+      closeReferenceCards();
       if (inUl) {
         html.push('</ul>');
         inUl = false;
@@ -227,10 +301,12 @@ const renderContent = (content: string) => {
       continue;
     }
 
+    closeReferenceCards();
     closeLists();
     html.push(`<p class="whitespace-pre-wrap">${inline(line)}</p>`);
   }
 
+  closeReferenceCards();
   closeCodeBlock();
   closeDiagramBlock();
   closeLists();
@@ -255,6 +331,8 @@ export default function Blog({ slug }: BlogProps = {}) {
   const [viewCounts, setViewCounts] = useState<Record<string, number>>({});
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedTag, setSelectedTag] = useState('all');
+  const [activeSectionId, setActiveSectionId] = useState<string | null>(null);
+  const [isMobileTocOpen, setIsMobileTocOpen] = useState(false);
 
   const sortedPosts = useMemo(() => {
     return [...blogPosts].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -310,13 +388,63 @@ export default function Blog({ slug }: BlogProps = {}) {
 
   const getPostViews = (post: BlogPost) => viewCounts[post.slug] ?? post.views ?? 0;
   const sectionEstimates = selectedPost ? getSectionEstimates(selectedPost.content) : [];
+  const tableOfContents = selectedPost ? getTableOfContents(selectedPost.content) : [];
+
+  const scrollToHeading = (id: string) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const navOffset = 96;
+    const top = el.getBoundingClientRect().top + window.scrollY - navOffset;
+    window.scrollTo({ top, behavior: 'smooth' });
+    setActiveSectionId(id);
+    setIsMobileTocOpen(false);
+  };
+
+  useEffect(() => {
+    if (!selectedPost || tableOfContents.length === 0) {
+      setActiveSectionId(null);
+      return;
+    }
+
+    const headingElements = tableOfContents
+      .map((item) => document.getElementById(item.id))
+      .filter((element): element is HTMLElement => Boolean(element));
+
+    if (headingElements.length === 0) return;
+
+    setActiveSectionId(headingElements[0].id);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (visible.length > 0) {
+          setActiveSectionId(visible[0].target.id);
+        }
+      },
+      {
+        rootMargin: '-20% 0px -65% 0px',
+        threshold: [0.1, 0.4, 0.7]
+      }
+    );
+
+    headingElements.forEach((element) => observer.observe(element));
+
+    return () => observer.disconnect();
+  }, [selectedPost, tableOfContents]);
+
+  useEffect(() => {
+    setIsMobileTocOpen(false);
+  }, [selectedPost?.slug]);
 
   if (selectedPost) {
     return (
       <Layout showHero={false} currentPage="blog">
         <article className="pt-8 md:pt-10 pb-14 md:pb-16">
           <div className="container mx-auto px-4 max-w-6xl">
-            <div className="max-w-[72ch] mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,72ch)_260px] gap-8 lg:gap-10 justify-center">
+            <div className="min-w-0">
             <header className="mb-7 md:mb-8">
               <Link href="/blog" className="inline-flex items-center text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 mb-6">
                 ← Back to Blog
@@ -403,8 +531,81 @@ export default function Blog({ slug }: BlogProps = {}) {
                   url={window.location.href}
                   className="px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
                 />
-              </div>
             </div>
+            </div>
+
+            {tableOfContents.length > 0 && (
+              <aside className="hidden lg:block">
+                <div className="sticky top-24 rounded-xl border border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-900/70 backdrop-blur px-4 py-4">
+                  <p className="text-xs uppercase tracking-wide font-semibold text-gray-500 dark:text-gray-400 mb-3">On this page</p>
+                  <nav className="space-y-1.5">
+                    {tableOfContents.map((item) => {
+                      const isActive = item.id === activeSectionId;
+                      return (
+                        <a
+                          key={item.id}
+                          href={`#${item.id}`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            scrollToHeading(item.id);
+                          }}
+                          className={`block text-sm leading-5 rounded-md px-2.5 py-1.5 transition-colors ${
+                            isActive
+                              ? 'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-200 font-medium'
+                              : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                          }`}
+                        >
+                          {item.title}
+                        </a>
+                      );
+                    })}
+                  </nav>
+                </div>
+              </aside>
+            )}
+
+            {tableOfContents.length > 0 && (
+              <div className="lg:hidden fixed right-4 bottom-5 z-40">
+                {isMobileTocOpen && (
+                  <div className="mb-3 w-[min(86vw,320px)] max-h-[55vh] overflow-y-auto rounded-xl border border-gray-200 dark:border-gray-700 bg-white/95 dark:bg-gray-900/95 shadow-xl backdrop-blur p-3">
+                    <p className="text-xs uppercase tracking-wide font-semibold text-gray-500 dark:text-gray-400 mb-2">On this page</p>
+                    <nav className="space-y-1.5">
+                      {tableOfContents.map((item) => {
+                        const isActive = item.id === activeSectionId;
+                        return (
+                          <a
+                            key={item.id}
+                            href={`#${item.id}`}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              scrollToHeading(item.id);
+                            }}
+                            className={`block text-sm leading-5 rounded-md px-2.5 py-1.5 transition-colors ${
+                              isActive
+                                ? 'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-200 font-medium'
+                                : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                            }`}
+                          >
+                            {item.title}
+                          </a>
+                        );
+                      })}
+                    </nav>
+                  </div>
+                )}
+
+                <button
+                  type="button"
+                  onClick={() => setIsMobileTocOpen((v) => !v)}
+                  className="inline-flex items-center gap-2 rounded-full bg-purple-600 text-white px-4 py-2.5 shadow-lg hover:bg-purple-700 transition-colors"
+                  aria-expanded={isMobileTocOpen}
+                  aria-label="Toggle table of contents"
+                >
+                  {isMobileTocOpen ? <X className="h-4 w-4" /> : <List className="h-4 w-4" />}
+                  <span className="text-sm font-medium">TOC</span>
+                </button>
+              </div>
+            )}
             </div>
           </div>
         </article>
