@@ -53,6 +53,16 @@ const renderContent = (content: string) => {
   const html: string[] = [];
   let inUl = false;
   let inOl = false;
+  let inCodeBlock = false;
+  const codeBlockLines: string[] = [];
+  let inDiagramBlock = false;
+  const diagramLines: string[] = [];
+
+  const escapeHtml = (value: string) =>
+    value
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
 
   const closeLists = () => {
     if (inUl) {
@@ -65,12 +75,60 @@ const renderContent = (content: string) => {
     }
   };
 
+  const closeDiagramBlock = () => {
+    if (!inDiagramBlock) return;
+    html.push(
+      `<pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto"><code>${escapeHtml(diagramLines.join('\n'))}</code></pre>`
+    );
+    inDiagramBlock = false;
+    diagramLines.length = 0;
+  };
+
+  const closeCodeBlock = () => {
+    if (!inCodeBlock) return;
+    html.push(
+      `<pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto"><code>${escapeHtml(codeBlockLines.join('\n'))}</code></pre>`
+    );
+    inCodeBlock = false;
+    codeBlockLines.length = 0;
+  };
+
   const inline = (line: string) =>
     line
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
       .replace(/`([^`]+)`/g, '<code class="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">$1</code>');
 
   for (const rawLine of lines) {
+    if (rawLine.trim().startsWith('```')) {
+      closeDiagramBlock();
+      closeLists();
+      if (inCodeBlock) {
+        closeCodeBlock();
+      } else {
+        inCodeBlock = true;
+      }
+      continue;
+    }
+
+    if (inCodeBlock) {
+      codeBlockLines.push(rawLine);
+      continue;
+    }
+
+    const isDiagramLine =
+      rawLine.includes('->') ||
+      /^\s*\|/.test(rawLine) ||
+      /^\s*\+[-+\s]+\+\s*$/.test(rawLine);
+
+    if (isDiagramLine) {
+      closeLists();
+      inDiagramBlock = true;
+      diagramLines.push(rawLine);
+      continue;
+    }
+
+    closeDiagramBlock();
+
     const line = rawLine.trim();
     if (!line) {
       closeLists();
@@ -120,9 +178,11 @@ const renderContent = (content: string) => {
     }
 
     closeLists();
-    html.push(`<p>${inline(line)}</p>`);
+    html.push(`<p class="whitespace-pre-wrap">${inline(line)}</p>`);
   }
 
+  closeCodeBlock();
+  closeDiagramBlock();
   closeLists();
   return html.join('');
 };
