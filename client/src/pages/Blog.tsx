@@ -51,6 +51,32 @@ export default function Blog({ slug }: BlogProps = {}) {
 
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
   const [userFingerprint, setUserFingerprint] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedTag, setSelectedTag] = useState('all');
+
+  const sortedPosts = useMemo(() => {
+    return [...blogPosts].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  }, []);
+
+  const featuredPost = sortedPosts[0] ?? null;
+
+  const categories = useMemo(() => {
+    const set = new Set(sortedPosts.map((post) => post.category));
+    return ['all', ...Array.from(set)];
+  }, [sortedPosts]);
+
+  const tags = useMemo(() => {
+    const set = new Set(sortedPosts.flatMap((post) => post.tags));
+    return ['all', ...Array.from(set)];
+  }, [sortedPosts]);
+
+  const filteredPosts = useMemo(() => {
+    return sortedPosts.filter((post) => {
+      const categoryMatch = selectedCategory === 'all' || post.category === selectedCategory;
+      const tagMatch = selectedTag === 'all' || post.tags.includes(selectedTag);
+      return categoryMatch && tagMatch;
+    });
+  }, [sortedPosts, selectedCategory, selectedTag]);
 
   const currentId = useMemo(() => {
     if (slug) return slug;
@@ -74,9 +100,9 @@ export default function Blog({ slug }: BlogProps = {}) {
       setSelectedPost(null);
       return;
     }
-    const post = blogPosts.find((p) => p.id === currentId || p.slug === currentId) ?? null;
+    const post = sortedPosts.find((p) => p.slug === currentId) ?? null;
     setSelectedPost(post);
-  }, [currentId]);
+  }, [currentId, sortedPosts]);
 
   if (selectedPost) {
     return (
@@ -179,8 +205,63 @@ export default function Blog({ slug }: BlogProps = {}) {
 
       <section className="py-20">
         <div className="container mx-auto px-4">
+          {featuredPost && selectedCategory === 'all' && selectedTag === 'all' && (
+            <article className="mb-10 bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden border border-purple-100 dark:border-purple-900/40">
+              <div className="p-8">
+                <span className="inline-block px-3 py-1 mb-4 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 rounded-full text-sm font-semibold">
+                  Featured Post
+                </span>
+                <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-3">
+                  <Link href={`/blog/${featuredPost.slug}`}>{featuredPost.title}</Link>
+                </h2>
+                <p className="text-gray-600 dark:text-gray-400 mb-5">{featuredPost.excerpt}</p>
+                <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
+                  <div className="flex items-center space-x-1">
+                    <Calendar className="h-4 w-4" />
+                    <span>{new Date(featuredPost.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <Clock className="h-4 w-4" />
+                    <span>{featuredPost.readTime}</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+          )}
+
+          <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div className="flex flex-wrap gap-2">
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
+                  className={`px-3 py-1.5 rounded-full text-sm border transition-colors ${
+                    selectedCategory === category
+                      ? 'bg-purple-600 text-white border-purple-600'
+                      : 'bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-purple-400'
+                  }`}
+                >
+                  {category === 'all' ? 'All Categories' : category}
+                </button>
+              ))}
+            </div>
+            <div>
+              <select
+                value={selectedTag}
+                onChange={(e) => setSelectedTag(e.target.value)}
+                className="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300"
+              >
+                {tags.map((tag) => (
+                  <option key={tag} value={tag}>
+                    {tag === 'all' ? 'All Tags' : `#${tag}`}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {blogPosts.map((post) => (
+            {filteredPosts.map((post) => (
               <article key={post.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
                 <div className="p-6">
                   <div className="mb-4">
@@ -190,7 +271,7 @@ export default function Blog({ slug }: BlogProps = {}) {
                   </div>
 
                   <h2 className="text-xl font-bold mb-3 text-gray-900 dark:text-white hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
-                    <Link href={`/blog/${post.id}`}>{post.title}</Link>
+                    <Link href={`/blog/${post.slug}`}>{post.title}</Link>
                   </h2>
 
                   <p className="text-gray-600 dark:text-gray-400 mb-4 line-clamp-3">{post.excerpt}</p>
@@ -221,7 +302,7 @@ export default function Blog({ slug }: BlogProps = {}) {
                   </div>
 
                   <div className="mt-4">
-                    <Link href={`/blog/${post.id}`} className="inline-flex items-center text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-medium">
+                    <Link href={`/blog/${post.slug}`} className="inline-flex items-center text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-medium">
                       Read More
                       <ArrowRight className="h-4 w-4 ml-1" />
                     </Link>
@@ -231,9 +312,9 @@ export default function Blog({ slug }: BlogProps = {}) {
             ))}
           </div>
 
-          {blogPosts.length === 0 && (
+          {filteredPosts.length === 0 && (
             <div className="text-center py-20">
-              <p className="text-gray-600 dark:text-gray-400 text-lg">No blog posts available at the moment. Check back soon for new content!</p>
+              <p className="text-gray-600 dark:text-gray-400 text-lg">No posts match your current filters. Try a different category or tag.</p>
             </div>
           )}
         </div>
