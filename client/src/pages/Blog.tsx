@@ -99,7 +99,14 @@ const renderContent = (content: string) => {
       .replace(/`([^`]+)`/g, '<code class="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">$1</code>');
 
   for (const rawLine of lines) {
-    if (rawLine.trim().startsWith('```')) {
+    const trimmedRaw = rawLine.trim();
+
+    if (trimmedRaw === '`' && inCodeBlock) {
+      closeCodeBlock();
+      continue;
+    }
+
+    if (trimmedRaw.startsWith('```') || trimmedRaw.startsWith('``text')) {
       closeDiagramBlock();
       closeLists();
       if (inCodeBlock) {
