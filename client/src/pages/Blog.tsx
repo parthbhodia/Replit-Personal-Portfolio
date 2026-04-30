@@ -415,32 +415,31 @@ export default function Blog({ slug }: BlogProps = {}) {
 
     if (headingElements.length === 0) return;
 
-    const navOffset = 112;
+    const navOffset = 96;
     const updateActiveHeading = () => {
+      const triggerLine = navOffset + 72;
       let currentId = headingElements[0].id;
 
-      for (const element of headingElements) {
+      for (let i = 0; i < headingElements.length; i += 1) {
+        const element = headingElements[i];
         const top = element.getBoundingClientRect().top;
-        if (top - navOffset <= 0) {
+        if (top <= triggerLine) {
           currentId = element.id;
-        } else {
-          break;
+          continue;
         }
+
+        if (i > 0) {
+          currentId = headingElements[i - 1].id;
+        }
+        break;
       }
 
-      setActiveSectionId(currentId);
+      setActiveSectionId((prev) => (prev === currentId ? prev : currentId));
     };
 
     updateActiveHeading();
-
-    let ticking = false;
     const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      window.requestAnimationFrame(() => {
-        updateActiveHeading();
-        ticking = false;
-      });
+      updateActiveHeading();
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
