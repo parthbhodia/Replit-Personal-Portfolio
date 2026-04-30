@@ -24,6 +24,11 @@ interface BlogProps {
   slug?: string;
 }
 
+interface SectionEstimate {
+  title: string;
+  minutes: number;
+}
+
 const blogPosts = blogPostsData as BlogPost[];
 
 const getStoredViewCounts = (): Record<string, number> => {
@@ -46,6 +51,44 @@ const formatCount = (count: number) => {
   if (count >= 1000000) return `${(count / 1000000).toFixed(1)}M`;
   if (count >= 1000) return `${(count / 1000).toFixed(1)}K`;
   return count.toString();
+};
+
+const getSectionEstimates = (content: string): SectionEstimate[] => {
+  const lines = content.split('\n');
+  const sections: Array<{ title: string; words: number }> = [];
+  let currentTitle = 'Overview';
+  let currentWords = 0;
+
+  const flush = () => {
+    if (currentWords === 0 && sections.length > 0) return;
+    sections.push({ title: currentTitle, words: currentWords });
+  };
+
+  for (const line of lines) {
+    if (line.startsWith('## ')) {
+      flush();
+      currentTitle = line.slice(3).trim();
+      currentWords = 0;
+      continue;
+    }
+
+    const words = line
+      .replace(/[`#>*\-]/g, ' ')
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean).length;
+    currentWords += words;
+  }
+
+  flush();
+
+  return sections
+    .filter((section) => section.words > 10)
+    .map((section) => ({
+      title: section.title,
+      minutes: Math.max(1, Math.round(section.words / 180))
+    }))
+    .slice(0, 8);
 };
 
 const renderContent = (content: string) => {
@@ -266,14 +309,15 @@ export default function Blog({ slug }: BlogProps = {}) {
   }, [selectedPost?.slug]);
 
   const getPostViews = (post: BlogPost) => viewCounts[post.slug] ?? post.views ?? 0;
+  const sectionEstimates = selectedPost ? getSectionEstimates(selectedPost.content) : [];
 
   if (selectedPost) {
     return (
       <Layout showHero={false} currentPage="blog">
-        <article className="pt-10 pb-16">
+        <article className="pt-8 md:pt-10 pb-14 md:pb-16">
           <div className="container mx-auto px-4 max-w-6xl">
             <div className="max-w-[72ch] mx-auto">
-            <header className="mb-8">
+            <header className="mb-7 md:mb-8">
               <Link href="/blog" className="inline-flex items-center text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 mb-6">
                 ← Back to Blog
               </Link>
@@ -317,13 +361,30 @@ export default function Blog({ slug }: BlogProps = {}) {
                 ))}
               </div>
 
-              <div className="mb-10 p-5 rounded-xl border border-purple-200/70 dark:border-purple-800/60 bg-purple-50/70 dark:bg-purple-900/15">
+              <div className="mb-7 md:mb-10 p-4 md:p-5 rounded-xl border border-purple-200/70 dark:border-purple-800/60 bg-purple-50/70 dark:bg-purple-900/15">
                 <p className="text-xs uppercase tracking-wide font-semibold text-purple-700 dark:text-purple-300 mb-2">2-Minute Takeaway</p>
                 <p className="text-[1.02rem] leading-7 text-gray-800 dark:text-gray-200">{selectedPost.excerpt}</p>
               </div>
+
+              {sectionEstimates.length > 0 && (
+                <div className="mb-9 md:mb-12">
+                  <p className="text-xs uppercase tracking-wide font-semibold text-gray-500 dark:text-gray-400 mb-3">Section Read Times</p>
+                  <div className="flex gap-2 overflow-x-auto pb-1">
+                    {sectionEstimates.map((section) => (
+                      <div
+                        key={section.title}
+                        className="shrink-0 rounded-full border border-gray-200 dark:border-gray-700 px-3 py-1.5 bg-white/80 dark:bg-gray-800/80"
+                      >
+                        <span className="text-xs text-gray-700 dark:text-gray-200 font-medium">{section.title}</span>
+                        <span className="text-xs text-gray-500 dark:text-gray-400 ml-2">{section.minutes} min</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </header>
 
-            <div className="prose prose-neutral dark:prose-invert max-w-none prose-p:leading-8 prose-p:text-[1.07rem] md:prose-p:text-[1.12rem] prose-headings:tracking-tight prose-h2:text-[1.75rem] prose-h2:mt-14 prose-h2:mb-5 prose-h3:text-[1.35rem] prose-h3:mt-10 prose-h3:mb-3 prose-pre:rounded-xl prose-pre:border prose-pre:border-gray-200 dark:prose-pre:border-gray-700 prose-li:my-1 prose-ul:my-6 prose-ol:my-6">
+            <div className="prose prose-neutral dark:prose-invert max-w-none prose-p:leading-7 md:prose-p:leading-8 prose-p:text-[1rem] md:prose-p:text-[1.12rem] prose-headings:tracking-tight prose-h2:text-[1.55rem] md:prose-h2:text-[1.75rem] prose-h2:mt-12 md:prose-h2:mt-14 prose-h2:mb-4 md:prose-h2:mb-5 prose-h3:text-[1.22rem] md:prose-h3:text-[1.35rem] prose-h3:mt-8 md:prose-h3:mt-10 prose-h3:mb-2 md:prose-h3:mb-3 prose-pre:rounded-xl prose-pre:border prose-pre:border-gray-200 dark:prose-pre:border-gray-700 prose-li:my-1 prose-ul:my-5 md:prose-ul:my-6 prose-ol:my-5 md:prose-ol:my-6">
               <div dangerouslySetInnerHTML={{ __html: renderContent(selectedPost.content) }} />
             </div>
 
