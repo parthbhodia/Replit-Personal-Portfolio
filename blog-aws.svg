@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Building Scalable AWS Architecture">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1220"/>
+      <stop offset="1" stop-color="#1f2937"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff9900"/>
+      <stop offset="1" stop-color="#ffb74d"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <g opacity="0.18" stroke="#ff9900" stroke-width="1.2" fill="none">
+    <path d="M-50 150 L1250 150"/>
+    <path d="M-50 280 L1250 280"/>
+    <path d="M-50 410 L1250 410"/>
+    <path d="M150 -50 L150 680"/>
+    <path d="M380 -50 L380 680"/>
+    <path d="M610 -50 L610 680"/>
+    <path d="M840 -50 L840 680"/>
+    <path d="M1070 -50 L1070 680"/>
+  </g>
+  <g transform="translate(950 130)" opacity="0.85">
+    <path d="M0 60 q-30 0 -30 -30 q0 -28 26 -32 q4 -34 38 -34 q34 0 42 34 q30 4 30 32 q0 30 -30 30z" fill="#ff9900" opacity="0.9"/>
+    <path d="M-40 80 h160" stroke="#ff9900" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <text x="80" y="138" font-family="Inter, Helvetica, Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="6" fill="#ff9900">CLOUD ARCHITECTURE</text>
+  <text x="80" y="260" font-family="Inter, Helvetica, Arial, sans-serif" font-size="78" font-weight="800" fill="#ffffff">Scalable AWS</text>
+  <text x="80" y="350" font-family="Inter, Helvetica, Arial, sans-serif" font-size="78" font-weight="800" fill="#ffffff">Architecture</text>
+  <text x="80" y="430" font-family="Inter, Helvetica, Arial, sans-serif" font-size="32" font-weight="500" fill="#cbd5e1">Lambda · API Gateway · RDS · S3</text>
+  <line x1="80" y1="540" x2="220" y2="540" stroke="url(#accent)" stroke-width="4"/>
+  <text x="80" y="580" font-family="Inter, Helvetica, Arial, sans-serif" font-size="22" font-weight="600" fill="#94a3b8">Parth Bhodia · parthbhodia.com</text>
+</svg>

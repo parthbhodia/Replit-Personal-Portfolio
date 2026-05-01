@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Enterprise RAG: Evidence Over Context">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0c1220"/>
+      <stop offset="1" stop-color="#0e7490"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#a78bfa"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <g transform="translate(900 180)" opacity="0.9">
+    <rect x="0" y="0" width="180" height="40" rx="6" fill="#22d3ee" opacity="0.55"/>
+    <rect x="0" y="55" width="180" height="40" rx="6" fill="#22d3ee" opacity="0.4"/>
+    <rect x="0" y="110" width="180" height="40" rx="6" fill="#a78bfa" opacity="0.85"/>
+    <rect x="0" y="165" width="180" height="40" rx="6" fill="#22d3ee" opacity="0.4"/>
+    <rect x="0" y="220" width="180" height="40" rx="6" fill="#22d3ee" opacity="0.3"/>
+    <text x="90" y="138" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#0c1220">EVIDENCE</text>
+  </g>
+  <text x="80" y="138" font-family="Inter, Helvetica, Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="6" fill="#67e8f9">ENTERPRISE · RAG</text>
+  <text x="80" y="260" font-family="Inter, Helvetica, Arial, sans-serif" font-size="78" font-weight="800" fill="#ffffff">Evidence Over</text>
+  <text x="80" y="350" font-family="Inter, Helvetica, Arial, sans-serif" font-size="78" font-weight="800" fill="#ffffff">Context Window</text>
+  <text x="80" y="430" font-family="Inter, Helvetica, Arial, sans-serif" font-size="32" font-weight="500" fill="#a5f3fc">Designing RAG that holds up in production.</text>
+  <line x1="80" y1="540" x2="220" y2="540" stroke="url(#accent)" stroke-width="4"/>
+  <text x="80" y="580" font-family="Inter, Helvetica, Arial, sans-serif" font-size="22" font-weight="600" fill="#67e8f9">Parth Bhodia · parthbhodia.com</text>
+</svg>
