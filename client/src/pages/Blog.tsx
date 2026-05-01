@@ -185,7 +185,7 @@ const renderContent = (content: string, onSetReferenceCards?: (cards: Array<{ la
 
   const inline = (line: string) =>
     line
-      .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<div class="cursor-zoom-in inline-block w-full" data-image="$2" data-alt="$1"><img src="$2" alt="$1" class="w-full rounded-lg my-6 border border-gray-200 dark:border-gray-700 hover:opacity-90 transition-opacity" /></div>')
+      .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="w-full rounded-lg my-6 border border-gray-200 dark:border-gray-700 hover:opacity-90 transition-opacity cursor-pointer" data-expandable="true" />')
       .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-purple-700 dark:text-purple-300 underline decoration-purple-300 dark:decoration-purple-700 hover:text-purple-900 dark:hover:text-purple-200" target="_blank" rel="noopener noreferrer">$1</a>')
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
       .replace(/`([^`]+)`/g, '<code class="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">$1</code>');
@@ -569,9 +569,9 @@ export default function Blog({ slug }: BlogProps = {}) {
 
             <div className="prose prose-neutral dark:prose-invert max-w-none prose-p:leading-7 md:prose-p:leading-8 prose-p:text-[1rem] md:prose-p:text-[1.12rem] prose-headings:tracking-tight prose-h2:text-[1.55rem] md:prose-h2:text-[1.75rem] prose-h2:mt-12 md:prose-h2:mt-14 prose-h2:mb-4 md:prose-h2:mb-5 prose-h3:text-[1.22rem] md:prose-h3:text-[1.35rem] prose-h3:mt-8 md:prose-h3:mt-10 prose-h3:mb-2 md:prose-h3:mb-3 prose-pre:rounded-xl prose-pre:border prose-pre:border-gray-200 dark:prose-pre:border-gray-700 prose-li:my-1 prose-ul:my-5 md:prose-ul:my-6 prose-ol:my-5 md:prose-ol:my-6"
               onClick={(e) => {
-                const target = (e.target as HTMLElement).closest('[data-image]');
-                if (target) {
-                  const src = target.getAttribute('data-image');
+                const target = e.target as HTMLElement;
+                if (target.tagName === 'IMG' && target.getAttribute('data-expandable') === 'true') {
+                  const src = target.getAttribute('src');
                   if (src) setExpandedImage(src);
                 }
               }}>
