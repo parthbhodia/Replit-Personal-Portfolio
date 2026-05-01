@@ -1,66 +1,80 @@
 import type { Request, Response } from 'express';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-// Generate dynamic sitemap for blog posts
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+interface BlogPostMeta {
+  slug: string;
+  date: string; // ISO YYYY-MM-DD
+}
+
+const BLOG_JSON_PATH = path.resolve(__dirname, '..', 'client', 'src', 'data', 'blogPosts.json');
+
+function loadBlogPosts(): BlogPostMeta[] {
+  try {
+    const raw = fs.readFileSync(BLOG_JSON_PATH, 'utf-8');
+    const json = JSON.parse(raw) as Array<{ slug: string; date: string }>;
+    return json
+      .filter((p) => p && p.slug && p.date)
+      .map((p) => ({ slug: p.slug, date: p.date }));
+  } catch (err) {
+    console.error('Failed to load blogPosts.json for sitemap:', err);
+    return [];
+  }
+}
+
+// Generate dynamic sitemap including real blog posts
 export function generateSitemap(req: Request, res: Response) {
   const baseUrl = `${req.protocol}://${req.get('host')}`;
-  const currentDate = new Date().toISOString().split('T')[0];
-  
-  // You can fetch dynamic blog posts from your database here
-  const dynamicBlogPosts = [
-    {
-      slug: 'getting-started-with-vue-3',
-      lastmod: '2025-01-15',
-      priority: '0.7'
-    },
-    {
-      slug: 'building-scalable-apis', 
-      lastmod: '2025-01-10',
-      priority: '0.7'
-    },
-    {
-      slug: 'aws-lambda-best-practices',
-      lastmod: '2025-01-05', 
-      priority: '0.7'
-    }
+  const today = new Date().toISOString().split('T')[0];
+  const posts = loadBlogPosts();
+
+  const xmlEscape = (s: string) =>
+    s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+
+  const staticUrls = [
+    { loc: '/', changefreq: 'weekly', priority: '1.0' },
+    { loc: '/skills', changefreq: 'monthly', priority: '0.8' },
+    { loc: '/blog', changefreq: 'weekly', priority: '0.9' },
   ];
 
-  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  const urls = [
+    ...staticUrls.map(
+      (u) => `
   <url>
-    <loc>${baseUrl}/</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
+    <loc>${xmlEscape(`${baseUrl}${u.loc}`)}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>${u.changefreq}</changefreq>
+    <priority>${u.priority}</priority>
+  </url>`,
+    ),
+    ...posts.map(
+      (p) => `
   <url>
-    <loc>${baseUrl}/skills</loc>
-    <lastmod>${currentDate}</lastmod>
+    <loc>${xmlEscape(`${baseUrl}/blog/${p.slug}`)}</loc>
+    <lastmod>${p.date}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/blog</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  ${dynamicBlogPosts.map(post => `
-  <url>
-    <loc>${baseUrl}/blog/${post.slug}</loc>
-    <lastmod>${post.lastmod}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>${post.priority}</priority>
-  </url>`).join('')}
+  </url>`,
+    ),
+  ].join('');
+
+  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls}
 </urlset>`;
 
   res.set('Content-Type', 'application/xml');
+  res.set('Cache-Control', 'public, max-age=3600');
   res.send(sitemap);
 }
 
 // Generate robots.txt
 export function generateRobots(req: Request, res: Response) {
   const baseUrl = `${req.protocol}://${req.get('host')}`;
-  
+
   const robots = `User-agent: *
 Allow: /
 Allow: /skills
@@ -72,7 +86,7 @@ Sitemap: ${baseUrl}/sitemap.xml
 User-agent: Googlebot
 Allow: /
 
-User-agent: Bingbot  
+User-agent: Bingbot
 Allow: /
 
 User-agent: LinkedInBot
@@ -90,7 +104,7 @@ Crawl-delay: 1`;
   res.send(robots);
 }
 
-// SEO meta tags helper for dynamic pages
+// SEO meta tags helper for dynamic pages (kept for backwards compat)
 export function generateMetaTags(options: {
   title: string;
   description: string;
@@ -105,7 +119,7 @@ export function generateMetaTags(options: {
     url,
     image = 'https://parthbhodia.com/og-image.jpg',
     type = 'website',
-    keywords = 'Parth Bhodia, Software Developer, Full Stack Developer'
+    keywords = 'Parth Bhodia, Software Developer, Full Stack Developer',
   } = options;
 
   return {
@@ -122,7 +136,7 @@ export function generateMetaTags(options: {
       { name: 'twitter:card', content: 'summary_large_image' },
       { name: 'twitter:title', content: title },
       { name: 'twitter:description', content: description },
-      { name: 'twitter:image', content: image }
-    ]
+      { name: 'twitter:image', content: image },
+    ],
   };
 }

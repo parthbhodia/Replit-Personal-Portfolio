@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Microservices vs Modular Monolith">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f172a"/>
+      <stop offset="1" stop-color="#134e4a"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#34d399"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <g transform="translate(880 110)" opacity="0.95">
+    <rect x="0" y="0" width="64" height="64" rx="8" fill="#22d3ee" opacity="0.55"/>
+    <rect x="80" y="0" width="64" height="64" rx="8" fill="#22d3ee" opacity="0.45"/>
+    <rect x="160" y="0" width="64" height="64" rx="8" fill="#22d3ee" opacity="0.35"/>
+    <rect x="0" y="80" width="64" height="64" rx="8" fill="#22d3ee" opacity="0.45"/>
+    <rect x="80" y="80" width="64" height="64" rx="8" fill="#34d399" opacity="0.85"/>
+    <rect x="160" y="80" width="64" height="64" rx="8" fill="#22d3ee" opacity="0.45"/>
+    <rect x="0" y="160" width="64" height="64" rx="8" fill="#22d3ee" opacity="0.35"/>
+    <rect x="80" y="160" width="64" height="64" rx="8" fill="#22d3ee" opacity="0.45"/>
+    <rect x="160" y="160" width="64" height="64" rx="8" fill="#22d3ee" opacity="0.55"/>
+  </g>
+  <text x="80" y="138" font-family="Inter, Helvetica, Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="6" fill="#34d399">SOFTWARE ARCHITECTURE</text>
+  <text x="80" y="260" font-family="Inter, Helvetica, Arial, sans-serif" font-size="78" font-weight="800" fill="#ffffff">Microservices</text>
+  <text x="80" y="350" font-family="Inter, Helvetica, Arial, sans-serif" font-size="78" font-weight="800" fill="#ffffff">vs Monolith</text>
+  <text x="80" y="430" font-family="Inter, Helvetica, Arial, sans-serif" font-size="32" font-weight="500" fill="#cbd5e1">When boundaries help — and when they hurt.</text>
+  <line x1="80" y1="540" x2="220" y2="540" stroke="url(#accent)" stroke-width="4"/>
+  <text x="80" y="580" font-family="Inter, Helvetica, Arial, sans-serif" font-size="22" font-weight="600" fill="#94a3b8">Parth Bhodia · parthbhodia.com</text>
+</svg>

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="AI Identity Over Time">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1a1033"/>
+      <stop offset="1" stop-color="#581c87"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#c084fc"/>
+      <stop offset="1" stop-color="#fb7185"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <g transform="translate(870 270)" opacity="0.85">
+    <line x1="0" y1="60" x2="220" y2="60" stroke="#c084fc" stroke-width="3"/>
+    <circle cx="0" cy="60" r="10" fill="#c084fc"/>
+    <circle cx="55" cy="60" r="8" fill="#c084fc" opacity="0.7"/>
+    <circle cx="110" cy="60" r="10" fill="#fb7185"/>
+    <circle cx="165" cy="60" r="8" fill="#c084fc" opacity="0.7"/>
+    <circle cx="220" cy="60" r="10" fill="#c084fc"/>
+    <text x="0" y="100" font-family="Inter, sans-serif" font-size="14" fill="#e9d5ff">t1</text>
+    <text x="100" y="100" font-family="Inter, sans-serif" font-size="14" fill="#e9d5ff">t2</text>
+    <text x="210" y="100" font-family="Inter, sans-serif" font-size="14" fill="#e9d5ff">t3</text>
+  </g>
+  <text x="80" y="138" font-family="Inter, Helvetica, Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="6" fill="#c084fc">AI · CONTEXT ENGINEERING</text>
+  <text x="80" y="260" font-family="Inter, Helvetica, Arial, sans-serif" font-size="78" font-weight="800" fill="#ffffff">Identity Is</text>
+  <text x="80" y="350" font-family="Inter, Helvetica, Arial, sans-serif" font-size="78" font-weight="800" fill="#ffffff">Diachronic</text>
+  <text x="80" y="430" font-family="Inter, Helvetica, Arial, sans-serif" font-size="32" font-weight="500" fill="#e9d5ff">How AI context evolves across time.</text>
+  <line x1="80" y1="540" x2="220" y2="540" stroke="url(#accent)" stroke-width="4"/>
+  <text x="80" y="580" font-family="Inter, Helvetica, Arial, sans-serif" font-size="22" font-weight="600" fill="#d8b4fe">Parth Bhodia · parthbhodia.com</text>
+</svg>

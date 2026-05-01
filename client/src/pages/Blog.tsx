@@ -315,21 +315,62 @@ const renderContent = (content: string) => {
   return html.join('');
 };
 
-export default function Blog({ slug }: BlogProps = {}) {
-  useSEO({
-    title: slug
-      ? 'Blog Post - Parth Bhodia | Software Development Insights'
-      : 'Blog - Parth Bhodia | Software Development & Tech Insights',
-    description: slug
-      ? 'Read the latest software development insights and technical articles by Parth Bhodia, Full Stack Developer.'
-      : 'Explore technical articles, tutorials, and insights on software development, Vue.js, React, Node.js, Python, AWS, and more by Parth Bhodia.',
-    keywords:
-      'Parth Bhodia Blog, Software Development Blog, Tech Articles, Vue.js Tutorial, React Tips, Node.js Guide, Python Programming, AWS Tutorial, Web Development Blog',
-    url: slug ? `https://parthbhodia.com/blog/${slug}` : 'https://parthbhodia.com/blog',
-    type: slug ? 'article' : 'website'
-  });
+const trimDescription = (text: string, max = 155) => {
+  const cleaned = text.replace(/\s+/g, ' ').trim();
+  if (cleaned.length <= max) return cleaned;
+  const cut = cleaned.slice(0, max);
+  const lastSpace = cut.lastIndexOf(' ');
+  return `${cut.slice(0, lastSpace > 80 ? lastSpace : max).trimEnd()}…`;
+};
 
+const countWords = (markdown: string) =>
+  markdown
+    .replace(/```[\s\S]*?```/g, ' ')
+    .replace(/`[^`]*`/g, ' ')
+    .replace(/[#>*_\-]/g, ' ')
+    .split(/\s+/)
+    .filter(Boolean).length;
+
+export default function Blog({ slug }: BlogProps = {}) {
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
+
+  // Per-post SEO when an article is selected; site-level SEO otherwise.
+  const seoOptions = useMemo(() => {
+    if (selectedPost) {
+      return {
+        title: selectedPost.title,
+        description: trimDescription(selectedPost.excerpt),
+        keywords: [
+          ...selectedPost.tags,
+          selectedPost.category,
+          'Parth Bhodia',
+          'Software Engineering Blog',
+        ].join(', '),
+        image: selectedPost.image,
+        url: `https://parthbhodia.com/blog/${selectedPost.slug}`,
+        type: 'article',
+        article: {
+          publishedTime: new Date(selectedPost.date).toISOString(),
+          author: 'Parth Bhodia',
+          section: selectedPost.category,
+          tags: selectedPost.tags,
+          wordCount: countWords(selectedPost.content),
+        },
+      };
+    }
+    return {
+      title: 'Blog - Parth Bhodia | Software Development & Tech Insights',
+      description:
+        'Technical writing on AWS architecture, AI-assisted development, distributed systems, and engineering practices by Parth Bhodia.',
+      keywords:
+        'Parth Bhodia Blog, Software Engineering Blog, AWS, Generative AI, Microservices, System Design, Web Development',
+      url: 'https://parthbhodia.com/blog',
+      type: 'website',
+    };
+  }, [selectedPost]);
+
+  useSEO(seoOptions);
+
   const [viewCounts, setViewCounts] = useState<Record<string, number>>({});
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedTag, setSelectedTag] = useState('all');
