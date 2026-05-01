@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'wouter';
-import { ArrowRight, Calendar, Clock, Eye, List, X, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';
+import { ArrowRight, Calendar, Clock, Eye, List, X } from 'lucide-react';
 import ShareButton from '../components/ShareButton';
 import Layout from '../components/Layout';
 import { useSEO } from '../hooks/useSEO';
@@ -128,7 +128,7 @@ const getSectionEstimates = (content: string): SectionEstimate[] => {
     .slice(0, 8);
 };
 
-const renderContent = (content: string, onSetReferenceCards?: (cards: Array<{ label: string; url: string }>) => void) => {
+const renderContent = (content: string) => {
   const lines = content.split('\n');
   const html: string[] = [];
   let inUl = false;
@@ -140,7 +140,6 @@ const renderContent = (content: string, onSetReferenceCards?: (cards: Array<{ la
   const headingIdCounts: Record<string, number> = {};
   let inReferencesSection = false;
   let inReferenceCards = false;
-  const collectedReferences: Array<{ label: string; url: string }> = [];
 
   const escapeHtml = (value: string) =>
     value
@@ -264,8 +263,17 @@ const renderContent = (content: string, onSetReferenceCards?: (cards: Array<{ la
       const linkMatch = line.slice(2).trim().match(/^\[([^\]]+)\]\(([^)]+)\)$/);
       if (inReferencesSection && linkMatch) {
         closeLists();
+        if (!inReferenceCards) {
+          html.push('<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 my-5">');
+          inReferenceCards = true;
+        }
         const [, label, url] = linkMatch;
-        collectedReferences.push({ label, url });
+        const isInternal = url.startsWith('/');
+        html.push(
+          `<a href="${url}" class="block rounded-xl border border-purple-200/70 dark:border-purple-800/60 bg-purple-50/70 dark:bg-purple-900/20 px-4 py-3 no-underline hover:border-purple-400 dark:hover:border-purple-500 hover:bg-purple-100/70 dark:hover:bg-purple-900/30 transition-colors" ${
+            isInternal ? '' : 'target="_blank" rel="noopener noreferrer"'
+          }><span class="text-sm font-semibold text-purple-800 dark:text-purple-200">${label}</span><span class="block text-xs text-gray-500 dark:text-gray-400 mt-1">${isInternal ? 'Read related blog' : 'Open external reference'}</span></a>`
+        );
         continue;
       }
 
@@ -305,11 +313,6 @@ const renderContent = (content: string, onSetReferenceCards?: (cards: Array<{ la
   closeCodeBlock();
   closeDiagramBlock();
   closeLists();
-
-  if (onSetReferenceCards && collectedReferences.length > 0) {
-    onSetReferenceCards(collectedReferences);
-  }
-
   return html.join('');
 };
 
@@ -332,8 +335,6 @@ const countWords = (markdown: string) =>
 export default function Blog({ slug }: BlogProps = {}) {
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
   const [expandedImage, setExpandedImage] = useState<string | null>(null);
-  const [referenceCarouselPos, setReferenceCarouselPos] = useState(0);
-  const [referenceCards, setReferenceCards] = useState<Array<{ label: string; url: string }>>([]);
 
   // Per-post SEO when an article is selected; site-level SEO otherwise.
   const seoOptions = useMemo(() => {
@@ -575,55 +576,8 @@ export default function Blog({ slug }: BlogProps = {}) {
                   if (src) setExpandedImage(src);
                 }
               }}>
-              <div dangerouslySetInnerHTML={{ __html: renderContent(selectedPost.content, setReferenceCards) }} />
+              <div dangerouslySetInnerHTML={{ __html: renderContent(selectedPost.content) }} />
             </div>
-
-            {referenceCards.length > 0 && (
-              <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">References & Further Reading</h3>
-                <div className="relative">
-                  <div className="flex items-center gap-4">
-                    <button
-                      onClick={() => setReferenceCarouselPos(Math.max(0, referenceCarouselPos - 1))}
-                      disabled={referenceCarouselPos === 0}
-                      className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                      aria-label="Previous references"
-                    >
-                      <ChevronLeft className="h-5 w-5" />
-                    </button>
-
-                    <div className="flex-1 overflow-hidden">
-                      <div className="flex gap-3 transition-transform duration-300" style={{ transform: `translateX(-${referenceCarouselPos * 312}px)` }}>
-                        {referenceCards.map((card, idx) => {
-                          const isInternal = card.url.startsWith('/');
-                          return (
-                            <a
-                              key={idx}
-                              href={card.url}
-                              target={isInternal ? undefined : '_blank'}
-                              rel={isInternal ? undefined : 'noopener noreferrer'}
-                              className="flex-shrink-0 w-full sm:w-1/2 md:w-[300px] rounded-xl border border-purple-200/70 dark:border-purple-800/60 bg-purple-50/70 dark:bg-purple-900/20 px-4 py-3 no-underline hover:border-purple-400 dark:hover:border-purple-500 hover:bg-purple-100/70 dark:hover:bg-purple-900/30 transition-colors"
-                            >
-                              <span className="text-sm font-semibold text-purple-800 dark:text-purple-200 block">{card.label}</span>
-                              <span className="block text-xs text-gray-500 dark:text-gray-400 mt-1">{isInternal ? 'Read related blog' : 'Open external reference'}</span>
-                            </a>
-                          );
-                        })}
-                      </div>
-                    </div>
-
-                    <button
-                      onClick={() => setReferenceCarouselPos(Math.min(Math.max(0, referenceCards.length - 2), referenceCarouselPos + 1))}
-                      disabled={referenceCarouselPos >= referenceCards.length - 2}
-                      className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                      aria-label="Next references"
-                    >
-                      <ChevronRight className="h-5 w-5" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
 
             <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
               <div className="flex items-center justify-between flex-wrap gap-4">
