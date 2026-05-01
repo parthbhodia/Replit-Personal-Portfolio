@@ -4385,6 +4385,8 @@ When we import this frame into software systems, the design problem changes:
 
 When you design a system that tracks diachronic identity, it is not one monolithic store. It is a layered architecture:
 
+![Three-Layer Identity Architecture](/identity-architecture.svg)
+
 ### Layer 1: The Stable Identity Core
 This is what persists. Core values, fundamental preferences, long-term constraints, unchanging facts.
 
@@ -4453,6 +4455,10 @@ Temporal retrieval uses these signals:
 - **Trajectory**: Does this fit the direction they are heading? (Aligned signals matter more.)
 - **Decay**: How much should old signals still influence us? (Not all old information is obsolete.)
 - **Conflict**: Do we have contradicting information? (When goals shift, old signals may become noise.)
+
+![Temporal Retrieval Weighting](/temporal-retrieval.svg)
+
+![Diachronic Identity Timeline](/identity-timeline.svg)
 
 ## 5) The Architecture of Update and Conflict Resolution
 
@@ -4574,6 +4580,8 @@ Metric: Recovery Speed
 Single-turn benchmarks miss all of this. A system could score 95/100 on GPT-Eval and still be unusable because it has no memory, no understanding of trajectory, and no way to correct itself.
 
 ## 8) Real-World Failure Modes and How They Surface
+
+![Identity Failure Modes](/failure-modes.svg)
 
 ### Failure 1: The Forgetting Problem
 The system loses important durable context.
