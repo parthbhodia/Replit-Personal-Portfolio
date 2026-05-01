@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'wouter';
-import { ArrowRight, Calendar, Clock, Eye, List, X } from 'lucide-react';
+import { ArrowRight, Calendar, Clock, Eye, List, X, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';
 import ShareButton from '../components/ShareButton';
 import Layout from '../components/Layout';
 import { useSEO } from '../hooks/useSEO';
@@ -128,7 +128,7 @@ const getSectionEstimates = (content: string): SectionEstimate[] => {
     .slice(0, 8);
 };
 
-const renderContent = (content: string) => {
+const renderContent = (content: string, onSetReferenceCards?: (cards: Array<{ label: string; url: string }>) => void) => {
   const lines = content.split('\n');
   const html: string[] = [];
   let inUl = false;
@@ -140,6 +140,7 @@ const renderContent = (content: string) => {
   const headingIdCounts: Record<string, number> = {};
   let inReferencesSection = false;
   let inReferenceCards = false;
+  const collectedReferences: Array<{ label: string; url: string }> = [];
 
   const escapeHtml = (value: string) =>
     value
@@ -184,7 +185,7 @@ const renderContent = (content: string) => {
 
   const inline = (line: string) =>
     line
-      .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="w-full rounded-lg my-6 border border-gray-200 dark:border-gray-700" />')
+      .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<div class="cursor-zoom-in inline-block w-full" data-image="$2" data-alt="$1"><img src="$2" alt="$1" class="w-full rounded-lg my-6 border border-gray-200 dark:border-gray-700 hover:opacity-90 transition-opacity" /></div>')
       .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-purple-700 dark:text-purple-300 underline decoration-purple-300 dark:decoration-purple-700 hover:text-purple-900 dark:hover:text-purple-200" target="_blank" rel="noopener noreferrer">$1</a>')
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
       .replace(/`([^`]+)`/g, '<code class="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">$1</code>');
@@ -263,17 +264,8 @@ const renderContent = (content: string) => {
       const linkMatch = line.slice(2).trim().match(/^\[([^\]]+)\]\(([^)]+)\)$/);
       if (inReferencesSection && linkMatch) {
         closeLists();
-        if (!inReferenceCards) {
-          html.push('<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 my-5">');
-          inReferenceCards = true;
-        }
         const [, label, url] = linkMatch;
-        const isInternal = url.startsWith('/');
-        html.push(
-          `<a href="${url}" class="block rounded-xl border border-purple-200/70 dark:border-purple-800/60 bg-purple-50/70 dark:bg-purple-900/20 px-4 py-3 no-underline hover:border-purple-400 dark:hover:border-purple-500 hover:bg-purple-100/70 dark:hover:bg-purple-900/30 transition-colors" ${
-            isInternal ? '' : 'target="_blank" rel="noopener noreferrer"'
-          }><span class="text-sm font-semibold text-purple-800 dark:text-purple-200">${label}</span><span class="block text-xs text-gray-500 dark:text-gray-400 mt-1">${isInternal ? 'Read related blog' : 'Open external reference'}</span></a>`
-        );
+        collectedReferences.push({ label, url });
         continue;
       }
 
@@ -313,6 +305,11 @@ const renderContent = (content: string) => {
   closeCodeBlock();
   closeDiagramBlock();
   closeLists();
+
+  if (onSetReferenceCards && collectedReferences.length > 0) {
+    onSetReferenceCards(collectedReferences);
+  }
+
   return html.join('');
 };
 
@@ -334,6 +331,9 @@ const countWords = (markdown: string) =>
 
 export default function Blog({ slug }: BlogProps = {}) {
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
+  const [expandedImage, setExpandedImage] = useState<string | null>(null);
+  const [referenceCarouselPos, setReferenceCarouselPos] = useState(0);
+  const [referenceCards, setReferenceCards] = useState<Array<{ label: string; url: string }>>([]);
 
   // Per-post SEO when an article is selected; site-level SEO otherwise.
   const seoOptions = useMemo(() => {
@@ -567,9 +567,63 @@ export default function Blog({ slug }: BlogProps = {}) {
 
             </header>
 
-            <div className="prose prose-neutral dark:prose-invert max-w-none prose-p:leading-7 md:prose-p:leading-8 prose-p:text-[1rem] md:prose-p:text-[1.12rem] prose-headings:tracking-tight prose-h2:text-[1.55rem] md:prose-h2:text-[1.75rem] prose-h2:mt-12 md:prose-h2:mt-14 prose-h2:mb-4 md:prose-h2:mb-5 prose-h3:text-[1.22rem] md:prose-h3:text-[1.35rem] prose-h3:mt-8 md:prose-h3:mt-10 prose-h3:mb-2 md:prose-h3:mb-3 prose-pre:rounded-xl prose-pre:border prose-pre:border-gray-200 dark:prose-pre:border-gray-700 prose-li:my-1 prose-ul:my-5 md:prose-ul:my-6 prose-ol:my-5 md:prose-ol:my-6">
-              <div dangerouslySetInnerHTML={{ __html: renderContent(selectedPost.content) }} />
+            <div className="prose prose-neutral dark:prose-invert max-w-none prose-p:leading-7 md:prose-p:leading-8 prose-p:text-[1rem] md:prose-p:text-[1.12rem] prose-headings:tracking-tight prose-h2:text-[1.55rem] md:prose-h2:text-[1.75rem] prose-h2:mt-12 md:prose-h2:mt-14 prose-h2:mb-4 md:prose-h2:mb-5 prose-h3:text-[1.22rem] md:prose-h3:text-[1.35rem] prose-h3:mt-8 md:prose-h3:mt-10 prose-h3:mb-2 md:prose-h3:mb-3 prose-pre:rounded-xl prose-pre:border prose-pre:border-gray-200 dark:prose-pre:border-gray-700 prose-li:my-1 prose-ul:my-5 md:prose-ul:my-6 prose-ol:my-5 md:prose-ol:my-6"
+              onClick={(e) => {
+                const target = (e.target as HTMLElement).closest('[data-image]');
+                if (target) {
+                  const src = target.getAttribute('data-image');
+                  if (src) setExpandedImage(src);
+                }
+              }}>
+              <div dangerouslySetInnerHTML={{ __html: renderContent(selectedPost.content, setReferenceCards) }} />
             </div>
+
+            {referenceCards.length > 0 && (
+              <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">References & Further Reading</h3>
+                <div className="relative">
+                  <div className="flex items-center gap-4">
+                    <button
+                      onClick={() => setReferenceCarouselPos(Math.max(0, referenceCarouselPos - 1))}
+                      disabled={referenceCarouselPos === 0}
+                      className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                      aria-label="Previous references"
+                    >
+                      <ChevronLeft className="h-5 w-5" />
+                    </button>
+
+                    <div className="flex-1 overflow-hidden">
+                      <div className="flex gap-3 transition-transform duration-300" style={{ transform: `translateX(-${referenceCarouselPos * 312}px)` }}>
+                        {referenceCards.map((card, idx) => {
+                          const isInternal = card.url.startsWith('/');
+                          return (
+                            <a
+                              key={idx}
+                              href={card.url}
+                              target={isInternal ? undefined : '_blank'}
+                              rel={isInternal ? undefined : 'noopener noreferrer'}
+                              className="flex-shrink-0 w-full sm:w-1/2 md:w-[300px] rounded-xl border border-purple-200/70 dark:border-purple-800/60 bg-purple-50/70 dark:bg-purple-900/20 px-4 py-3 no-underline hover:border-purple-400 dark:hover:border-purple-500 hover:bg-purple-100/70 dark:hover:bg-purple-900/30 transition-colors"
+                            >
+                              <span className="text-sm font-semibold text-purple-800 dark:text-purple-200 block">{card.label}</span>
+                              <span className="block text-xs text-gray-500 dark:text-gray-400 mt-1">{isInternal ? 'Read related blog' : 'Open external reference'}</span>
+                            </a>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={() => setReferenceCarouselPos(Math.min(Math.max(0, referenceCards.length - 2), referenceCarouselPos + 1))}
+                      disabled={referenceCarouselPos >= referenceCards.length - 2}
+                      className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                      aria-label="Next references"
+                    >
+                      <ChevronRight className="h-5 w-5" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
 
             <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
               <div className="flex items-center justify-between flex-wrap gap-4">
@@ -666,6 +720,28 @@ export default function Blog({ slug }: BlogProps = {}) {
             )}
             </div>
           </div>
+
+          {/* Image Modal */}
+          {expandedImage && (
+            <div
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
+              onClick={() => setExpandedImage(null)}
+            >
+              <button
+                onClick={() => setExpandedImage(null)}
+                className="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+                aria-label="Close image"
+              >
+                <X className="h-6 w-6" />
+              </button>
+              <img
+                src={expandedImage}
+                alt="Expanded view"
+                className="max-w-4xl max-h-[80vh] rounded-lg"
+                onClick={(e) => e.stopPropagation()}
+              />
+            </div>
+          )}
         </article>
       </Layout>
     );
