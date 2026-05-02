@@ -18,99 +18,99 @@
   <rect width="1200" height="700" fill="#0f172a"/>
 
   <!-- Title -->
-  <text x="600" y="40" font-family="Inter, sans-serif" font-size="32" font-weight="700" fill="#ffffff" text-anchor="middle">Temporal Retrieval: Weighting Signals Over Time</text>
+  <text x="600" y="40" font-family="Inter, sans-serif" font-size="48" font-weight="700" fill="#ffffff" text-anchor="middle">Temporal Retrieval: Weighting Signals Over Time</text>
 
   <!-- Signal 1: Recency -->
   <g>
     <rect x="80" y="100" width="330" height="200" rx="8" fill="#1e3a3a" stroke="#06b6d4" stroke-width="2"/>
-    <text x="245" y="135" font-family="Inter, sans-serif" font-size="18" font-weight="700" fill="#06b6d4" text-anchor="middle">Recency</text>
+    <text x="245" y="135" font-family="Inter, sans-serif" font-size="27" font-weight="700" fill="#06b6d4" text-anchor="middle">Recency</text>
 
-    <text x="100" y="165" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#cffafe">How fresh is this?</text>
-    <text x="100" y="185" font-family="Inter, sans-serif" font-size="11" fill="#a5f3fc">• Said 1 day ago: 95% weight</text>
-    <text x="100" y="202" font-family="Inter, sans-serif" font-size="11" fill="#a5f3fc">• Said 1 month ago: 60% weight</text>
-    <text x="100" y="219" font-family="Inter, sans-serif" font-size="11" fill="#a5f3fc">• Said 6 months ago: 20% weight</text>
-    <text x="100" y="236" font-family="Inter, sans-serif" font-size="11" fill="#a5f3fc">• Said 1 year ago: 5% weight</text>
-    <text x="100" y="260" font-family="Inter, sans-serif" font-size="10" fill="#67e8f9" font-style="italic">Decay function: exponential</text>
+    <text x="100" y="165" font-family="Inter, sans-serif" font-size="18" font-weight="600" fill="#cffafe">How fresh is this?</text>
+    <text x="100" y="185" font-family="Inter, sans-serif" font-size="16" fill="#a5f3fc">• Said 1 day ago: 95% weight</text>
+    <text x="100" y="202" font-family="Inter, sans-serif" font-size="16" fill="#a5f3fc">• Said 1 month ago: 60% weight</text>
+    <text x="100" y="219" font-family="Inter, sans-serif" font-size="16" fill="#a5f3fc">• Said 6 months ago: 20% weight</text>
+    <text x="100" y="236" font-family="Inter, sans-serif" font-size="16" fill="#a5f3fc">• Said 1 year ago: 5% weight</text>
+    <text x="100" y="260" font-family="Inter, sans-serif" font-size="15" fill="#67e8f9" font-style="italic">Decay function: exponential</text>
   </g>
 
   <!-- Signal 2: Stability -->
   <g>
     <rect x="435" y="100" width="330" height="200" rx="8" fill="#2d1b4e" stroke="#a855f7" stroke-width="2"/>
-    <text x="600" y="135" font-family="Inter, sans-serif" font-size="18" font-weight="700" fill="#a855f7" text-anchor="middle">Stability</text>
+    <text x="600" y="135" font-family="Inter, sans-serif" font-size="27" font-weight="700" fill="#a855f7" text-anchor="middle">Stability</text>
 
-    <text x="455" y="165" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#f3e8ff">How consistent?</text>
-    <text x="455" y="185" font-family="Inter, sans-serif" font-size="11" fill="#e9d5ff">• Mentioned once: 40% weight</text>
-    <text x="455" y="202" font-family="Inter, sans-serif" font-size="11" fill="#e9d5ff">• Mentioned 5x: 70% weight</text>
-    <text x="455" y="219" font-family="Inter, sans-serif" font-size="11" fill="#e9d5ff">• Mentioned 20x: 95% weight</text>
-    <text x="455" y="236" font-family="Inter, sans-serif" font-size="11" fill="#e9d5ff">• Mentioned 100x: 99% weight</text>
-    <text x="455" y="260" font-family="Inter, sans-serif" font-size="10" fill="#c4b5fd" font-style="italic">Frequency: log scale</text>
+    <text x="455" y="165" font-family="Inter, sans-serif" font-size="18" font-weight="600" fill="#f3e8ff">How consistent?</text>
+    <text x="455" y="185" font-family="Inter, sans-serif" font-size="16" fill="#e9d5ff">• Mentioned once: 40% weight</text>
+    <text x="455" y="202" font-family="Inter, sans-serif" font-size="16" fill="#e9d5ff">• Mentioned 5x: 70% weight</text>
+    <text x="455" y="219" font-family="Inter, sans-serif" font-size="16" fill="#e9d5ff">• Mentioned 20x: 95% weight</text>
+    <text x="455" y="236" font-family="Inter, sans-serif" font-size="16" fill="#e9d5ff">• Mentioned 100x: 99% weight</text>
+    <text x="455" y="260" font-family="Inter, sans-serif" font-size="15" fill="#c4b5fd" font-style="italic">Frequency: log scale</text>
   </g>
 
   <!-- Signal 3: Trajectory Alignment -->
   <g>
     <rect x="790" y="100" width="330" height="200" rx="8" fill="#3d2817" stroke="#f59e0b" stroke-width="2"/>
-    <text x="955" y="135" font-family="Inter, sans-serif" font-size="18" font-weight="700" fill="#f59e0b" text-anchor="middle">Trajectory</text>
+    <text x="955" y="135" font-family="Inter, sans-serif" font-size="27" font-weight="700" fill="#f59e0b" text-anchor="middle">Trajectory</text>
 
-    <text x="810" y="165" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#fef3c7">Direction aligned?</text>
-    <text x="810" y="185" font-family="Inter, sans-serif" font-size="11" fill="#fcd34d">• Aligns with goal: 95% boost</text>
-    <text x="810" y="202" font-family="Inter, sans-serif" font-size="11" fill="#fcd34d">• Neutral/unrelated: 0% boost</text>
-    <text x="810" y="219" font-family="Inter, sans-serif" font-size="11" fill="#fcd34d">• Contradicts path: -80% weight</text>
-    <text x="810" y="236" font-family="Inter, sans-serif" font-size="11" fill="#fcd34d">• Enabling next step: 200% boost</text>
-    <text x="810" y="260" font-family="Inter, sans-serif" font-size="10" fill="#fbbf24" font-style="italic">Multiplicative factor</text>
+    <text x="810" y="165" font-family="Inter, sans-serif" font-size="18" font-weight="600" fill="#fef3c7">Direction aligned?</text>
+    <text x="810" y="185" font-family="Inter, sans-serif" font-size="16" fill="#fcd34d">• Aligns with goal: 95% boost</text>
+    <text x="810" y="202" font-family="Inter, sans-serif" font-size="16" fill="#fcd34d">• Neutral/unrelated: 0% boost</text>
+    <text x="810" y="219" font-family="Inter, sans-serif" font-size="16" fill="#fcd34d">• Contradicts path: -80% weight</text>
+    <text x="810" y="236" font-family="Inter, sans-serif" font-size="16" fill="#fcd34d">• Enabling next step: 200% boost</text>
+    <text x="810" y="260" font-family="Inter, sans-serif" font-size="15" fill="#fbbf24" font-style="italic">Multiplicative factor</text>
   </g>
 
   <!-- Example: Combining Signals -->
   <rect x="80" y="340" width="1040" height="320" rx="8" fill="#1e293b" stroke="#475569" stroke-width="2"/>
 
-  <text x="600" y="375" font-family="Inter, sans-serif" font-size="18" font-weight="700" fill="#e2e8f0" text-anchor="middle">Example: Resolving Conflicting Signals</text>
+  <text x="600" y="375" font-family="Inter, sans-serif" font-size="27" font-weight="700" fill="#e2e8f0" text-anchor="middle">Example: Resolving Conflicting Signals</text>
 
   <!-- Old Signal (Python) -->
   <g>
     <rect x="100" y="400" width="440" height="240" rx="6" fill="#0f172a" stroke="#64748b" stroke-width="1"/>
 
-    <text x="320" y="430" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#94a3b8">OLD: "I use Python"</text>
-    <text x="120" y="460" font-family="Inter, sans-serif" font-size="11" fill="#cbd5e1">Stated: 18 months ago</text>
-    <text x="120" y="480" font-family="Inter, sans-serif" font-size="11" fill="#cbd5e1">Frequency: 20 mentions</text>
-    <text x="120" y="500" font-family="Inter, sans-serif" font-size="11" fill="#cbd5e1">Trajectory: Outdated (switched)</text>
+    <text x="320" y="430" font-family="Inter, sans-serif" font-size="21" font-weight="700" fill="#94a3b8">OLD: "I use Python"</text>
+    <text x="120" y="460" font-family="Inter, sans-serif" font-size="16" fill="#cbd5e1">Stated: 18 months ago</text>
+    <text x="120" y="480" font-family="Inter, sans-serif" font-size="16" fill="#cbd5e1">Frequency: 20 mentions</text>
+    <text x="120" y="500" font-family="Inter, sans-serif" font-size="16" fill="#cbd5e1">Trajectory: Outdated (switched)</text>
 
-    <text x="120" y="540" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#64748b">Signal Scores:</text>
+    <text x="120" y="540" font-family="Inter, sans-serif" font-size="15" font-weight="600" fill="#64748b">Signal Scores:</text>
     <rect x="120" y="550" width="400" height="6" rx="3" fill="#334155"/>
     <rect x="120" y="550" width="48" height="6" rx="3" fill="#06b6d4"/>
-    <text x="125" y="565" font-family="Inter, sans-serif" font-size="9" fill="#94a3b8">Recency: 12%</text>
+    <text x="125" y="565" font-family="Inter, sans-serif" font-size="14" fill="#94a3b8">Recency: 12%</text>
 
     <rect x="120" y="575" width="400" height="6" rx="3" fill="#334155"/>
     <rect x="120" y="575" width="380" height="6" rx="3" fill="#a855f7"/>
-    <text x="125" y="590" font-family="Inter, sans-serif" font-size="9" fill="#94a3b8">Stability: 95%</text>
+    <text x="125" y="590" font-family="Inter, sans-serif" font-size="14" fill="#94a3b8">Stability: 95%</text>
 
     <rect x="120" y="605" width="400" height="6" rx="3" fill="#334155"/>
     <rect x="120" y="605" width="40" height="6" rx="3" fill="#f59e0b"/>
-    <text x="125" y="620" font-family="Inter, sans-serif" font-size="9" fill="#94a3b8">Trajectory: 5% (-80% penalty)</text>
+    <text x="125" y="620" font-family="Inter, sans-serif" font-size="14" fill="#94a3b8">Trajectory: 5% (-80% penalty)</text>
   </g>
 
   <!-- New Signal (Rust) -->
   <g>
     <rect x="560" y="400" width="440" height="240" rx="6" fill="#0f172a" stroke="#64748b" stroke-width="1"/>
 
-    <text x="780" y="430" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="#94a3b8">NEW: "I switched to Rust"</text>
-    <text x="580" y="460" font-family="Inter, sans-serif" font-size="11" fill="#cbd5e1">Stated: 3 days ago</text>
-    <text x="580" y="480" font-family="Inter, sans-serif" font-size="11" fill="#cbd5e1">Frequency: 2 mentions</text>
-    <text x="580" y="500" font-family="Inter, sans-serif" font-size="11" fill="#cbd5e1">Trajectory: Perfect alignment</text>
+    <text x="780" y="430" font-family="Inter, sans-serif" font-size="21" font-weight="700" fill="#94a3b8">NEW: "I switched to Rust"</text>
+    <text x="580" y="460" font-family="Inter, sans-serif" font-size="16" fill="#cbd5e1">Stated: 3 days ago</text>
+    <text x="580" y="480" font-family="Inter, sans-serif" font-size="16" fill="#cbd5e1">Frequency: 2 mentions</text>
+    <text x="580" y="500" font-family="Inter, sans-serif" font-size="16" fill="#cbd5e1">Trajectory: Perfect alignment</text>
 
-    <text x="580" y="540" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#64748b">Signal Scores:</text>
+    <text x="580" y="540" font-family="Inter, sans-serif" font-size="15" font-weight="600" fill="#64748b">Signal Scores:</text>
     <rect x="580" y="550" width="400" height="6" rx="3" fill="#334155"/>
     <rect x="580" y="550" width="380" height="6" rx="3" fill="#06b6d4"/>
-    <text x="585" y="565" font-family="Inter, sans-serif" font-size="9" fill="#94a3b8">Recency: 95%</text>
+    <text x="585" y="565" font-family="Inter, sans-serif" font-size="14" fill="#94a3b8">Recency: 95%</text>
 
     <rect x="580" y="575" width="400" height="6" rx="3" fill="#334155"/>
     <rect x="580" y="575" width="80" height="6" rx="3" fill="#a855f7"/>
-    <text x="585" y="590" font-family="Inter, sans-serif" font-size="9" fill="#94a3b8">Stability: 20%</text>
+    <text x="585" y="590" font-family="Inter, sans-serif" font-size="14" fill="#94a3b8">Stability: 20%</text>
 
     <rect x="580" y="605" width="400" height="6" rx="3" fill="#334155"/>
     <rect x="580" y="605" width="380" height="6" rx="3" fill="#f59e0b"/>
-    <text x="585" y="620" font-family="Inter, sans-serif" font-size="9" fill="#94a3b8">Trajectory: 95% (+200% boost)</text>
+    <text x="585" y="620" font-family="Inter, sans-serif" font-size="14" fill="#94a3b8">Trajectory: 95% (+200% boost)</text>
   </g>
 
   <!-- Resolution -->
   <rect x="80" y="670" width="1040" height="20" rx="4" fill="#10b981" opacity="0.3"/>
-  <text x="600" y="685" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#6ee7b7" text-anchor="middle">Resolution: Rust is primary (recent + aligned trajectory). Python is secondary (stable history).</text>
+  <text x="600" y="685" font-family="Inter, sans-serif" font-size="18" font-weight="700" fill="#6ee7b7" text-anchor="middle">Resolution: Rust is primary (recent + aligned trajectory). Python is secondary (stable history).</text>
 </svg>
