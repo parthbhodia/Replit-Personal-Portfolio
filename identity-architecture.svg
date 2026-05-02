@@ -22,36 +22,36 @@
   <rect width="1000" height="700" fill="#0f172a"/>
 
   <!-- Title -->
-  <text x="500" y="40" font-family="Inter, sans-serif" font-size="32" font-weight="700" fill="#ffffff" text-anchor="middle">Three-Layer Identity Architecture</text>
+  <text x="500" y="40" font-family="Inter, sans-serif" font-size="48" font-weight="700" fill="#ffffff" text-anchor="middle">Three-Layer Identity Architecture</text>
 
   <!-- Layer 1: Stable Identity Core -->
   <rect x="100" y="120" width="800" height="120" rx="8" fill="url(#grad1)" opacity="0.9"/>
-  <text x="500" y="155" font-family="Inter, sans-serif" font-size="20" font-weight="700" fill="#ffffff" text-anchor="middle">Layer 1: Stable Identity Core</text>
-  <text x="500" y="185" font-family="Inter, sans-serif" font-size="14" fill="#e0e7ff" text-anchor="middle">Durable facts · Long-term goals · Core values · Fundamental constraints</text>
-  <text x="500" y="210" font-family="Inter, sans-serif" font-size="12" fill="#c7d2fe" text-anchor="middle">Example: "I'm a software engineer" · "I learn best from examples" · "Goal: build AI products"</text>
+  <text x="500" y="155" font-family="Inter, sans-serif" font-size="28" font-weight="700" fill="#ffffff" text-anchor="middle">Layer 1: Stable Identity Core</text>
+  <text x="500" y="185" font-family="Inter, sans-serif" font-size="18" fill="#e0e7ff" text-anchor="middle">Durable facts · Long-term goals · Core values · Fundamental constraints</text>
+  <text x="500" y="210" font-family="Inter, sans-serif" font-size="16" fill="#c7d2fe" text-anchor="middle">Example: "I'm a software engineer" · "I learn best from examples" · "Goal: build AI products"</text>
 
   <!-- Layer 2: Trajectory Layer -->
   <rect x="100" y="270" width="800" height="120" rx="8" fill="url(#grad2)" opacity="0.9"/>
-  <text x="500" y="305" font-family="Inter, sans-serif" font-size="20" font-weight="700" fill="#ffffff" text-anchor="middle">Layer 2: Trajectory Layer</text>
-  <text x="500" y="335" font-family="Inter, sans-serif" font-size="14" fill="#f3e8ff" text-anchor="middle">Momentum · Skill progression · Goal shifts · Detected changes · Direction inference</text>
-  <text x="500" y="360" font-family="Inter, sans-serif" font-size="12" fill="#e9d5ff" text-anchor="middle">Example: "Recently shifted focus from ML research to production ML" · "Just completed 50 coding problems"</text>
+  <text x="500" y="305" font-family="Inter, sans-serif" font-size="28" font-weight="700" fill="#ffffff" text-anchor="middle">Layer 2: Trajectory Layer</text>
+  <text x="500" y="335" font-family="Inter, sans-serif" font-size="18" fill="#f3e8ff" text-anchor="middle">Momentum · Skill progression · Goal shifts · Detected changes · Direction inference</text>
+  <text x="500" y="360" font-family="Inter, sans-serif" font-size="16" fill="#e9d5ff" text-anchor="middle">Example: "Recently shifted focus from ML research to production ML" · "Just completed 50 coding problems"</text>
 
   <!-- Layer 3: Session Context -->
   <rect x="100" y="420" width="800" height="120" rx="8" fill="url(#grad3)" opacity="0.9"/>
-  <text x="500" y="455" font-family="Inter, sans-serif" font-size="20" font-weight="700" fill="#ffffff" text-anchor="middle">Layer 3: Session Context</text>
-  <text x="500" y="485" font-family="Inter, sans-serif" font-size="14" fill="#ccfbf1" text-anchor="middle">Current goal · Immediate constraints · Session state · Ephemeral data</text>
-  <text x="500" y="510" font-family="Inter, sans-serif" font-size="12" fill="#a7f3d0" text-anchor="middle">Example: "Working on debugging a deployment issue" · "Has 30 minutes" · "Frustrated, needs encouragement"</text>
+  <text x="500" y="455" font-family="Inter, sans-serif" font-size="28" font-weight="700" fill="#ffffff" text-anchor="middle">Layer 3: Session Context</text>
+  <text x="500" y="485" font-family="Inter, sans-serif" font-size="18" fill="#ccfbf1" text-anchor="middle">Current goal · Immediate constraints · Session state · Ephemeral data</text>
+  <text x="500" y="510" font-family="Inter, sans-serif" font-size="16" fill="#a7f3d0" text-anchor="middle">Example: "Working on debugging a deployment issue" · "Has 30 minutes" · "Frustrated, needs encouragement"</text>
 
   <!-- Synthesis Arrow -->
   <g>
     <path d="M 500 540 L 500 580" stroke="#10b981" stroke-width="3" fill="none" marker-end="url(#arrowgreen)"/>
-    <text x="520" y="565" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#10b981">Synthesis</text>
+    <text x="520" y="565" font-family="Inter, sans-serif" font-size="18" font-weight="600" fill="#10b981">Synthesis</text>
   </g>
 
   <!-- Output -->
   <rect x="100" y="580" width="800" height="70" rx="8" fill="url(#grad4)" opacity="0.9"/>
-  <text x="500" y="608" font-family="Inter, sans-serif" font-size="16" font-weight="700" fill="#ffffff" text-anchor="middle">Relevant Context Slice → Model Input</text>
-  <text x="500" y="633" font-family="Inter, sans-serif" font-size="12" fill="#fed7aa" text-anchor="middle">Only relevant aspects of identity included in the prompt for this specific moment</text>
+  <text x="500" y="608" font-family="Inter, sans-serif" font-size="22" font-weight="700" fill="#ffffff" text-anchor="middle">Relevant Context Slice → Model Input</text>
+  <text x="500" y="633" font-family="Inter, sans-serif" font-size="16" fill="#fed7aa" text-anchor="middle">Only relevant aspects of identity included in the prompt for this specific moment</text>
 
   <!-- Arrow marker definition -->
   <defs>
