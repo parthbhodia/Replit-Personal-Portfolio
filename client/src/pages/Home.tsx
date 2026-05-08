@@ -172,10 +172,10 @@ export default function Home() {
       description: 'Chrome extension that helps you stay focused with a playful cat lockscreen. Tracks active-tab time across MV3 service-worker cycles using chrome.storage.session, pauses any visible playing videos during breaks (resuming them after), and supports Esc-to-emergency-shoo + popup dismissal. Features a centered, oversized digital-calendar timer overlay.',
       tags: ['Chrome Extension', 'Manifest V3', 'JavaScript', 'Service Worker', 'Productivity'],
       category: 'Personal',
-      liveUrl: 'https://chromewebstore.google.com/detail/claude-code-lockscreen',
+      liveUrl: 'https://chromewebstore.google.com/detail/cat-break-%E2%80%93-website-time/lnmigkmapjkmfpnjlhnmdkihpnlihagh?pli=1',
       codeUrl: '#',
       image: 'https://images.unsplash.com/photo-1574144611937-0df059b5ef3e?w=800&h=500&fit=crop',
-      stats: { value: 'Coming Soon', label: 'in approval' },
+      stats: { value: 'Live', label: 'on Chrome Web Store' },
       hideCode: true,
       featured: true
     }
