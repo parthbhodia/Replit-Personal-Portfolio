@@ -1,5 +1,6 @@
-import dotenv from 'dotenv';
-dotenv.config();
+// Load env before any other import evaluates (ESM imports run before module body),
+// so modules like ./supabase see process.env at import time.
+import 'dotenv/config';
 
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";

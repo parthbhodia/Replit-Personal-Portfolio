@@ -6,10 +6,15 @@ import {
 import { fromZodError } from "zod-validation-error";
 
 // Supabase configuration
-const SUPABASE_URL = process.env.SUPABASE_URL || 'https://tphxfdxopxrohdjiugal.supabase.co';
-const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRwaHhmZHhvcHhyb2hkaml1Z2FsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA1NzI5ODgsImV4cCI6MjA2NjE0ODk4OH0.09vyrEzymys5q4tONt5I3iy7jtI-gvP3fmrFhaFW12Y';
+const SUPABASE_URL = process.env.SUPABASE_URL;
+// Server runs trusted: prefer the secret/service key (bypasses RLS) and fall back to anon.
+const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
 
-export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+if (!SUPABASE_URL || !SUPABASE_KEY) {
+  console.warn('SUPABASE_URL and a Supabase key (SUPABASE_SERVICE_ROLE_KEY or SUPABASE_ANON_KEY) are required for Supabase integration');
+}
+
+export const supabase = createClient(SUPABASE_URL ?? '', SUPABASE_KEY ?? '');
 
 // SendGrid configuration
 if (!process.env.SENDGRID_API_KEY) {
@@ -142,29 +147,46 @@ export class SupabaseService {
     }
   }
 
+  async getAllBlogStats(): Promise<{ blog_post_id: string; views: number; hearts: number }[]> {
+    try {
+      const { data, error } = await supabase
+        .from('blog_stats')
+        .select('blog_post_id, views, hearts');
+
+      if (error) throw error;
+      return data || [];
+    } catch (error) {
+      console.error('Error fetching all blog stats:', error);
+      return [];
+    }
+  }
+
   async incrementViews(blogPostId: string): Promise<void> {
     try {
       const stats = await this.getBlogStats(blogPostId);
       
       if (stats && stats.id > 0) {
-        await supabase
+        const { error } = await supabase
           .from('blog_stats')
-          .update({ 
+          .update({
             views: stats.views + 1,
             updated_at: new Date().toISOString()
           })
           .eq('blog_post_id', blogPostId);
+        if (error) throw error;
       } else {
-        await supabase
+        const { error } = await supabase
           .from('blog_stats')
           .insert({
             blog_post_id: blogPostId,
             views: 1,
             hearts: 0
           });
+        if (error) throw error;
       }
     } catch (error) {
       console.error('Error incrementing views:', error);
+      throw error;
     }
   }
 

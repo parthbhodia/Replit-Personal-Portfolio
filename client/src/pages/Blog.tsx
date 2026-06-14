@@ -37,22 +37,6 @@ interface TocItem {
 
 const blogPosts = blogPostsData as BlogPost[];
 
-const getStoredViewCounts = (): Record<string, number> => {
-  if (typeof window === 'undefined') return {};
-  const raw = localStorage.getItem('blog-views');
-  if (!raw) return {};
-  try {
-    return JSON.parse(raw) as Record<string, number>;
-  } catch {
-    return {};
-  }
-};
-
-const saveStoredViewCounts = (counts: Record<string, number>) => {
-  if (typeof window === 'undefined') return;
-  localStorage.setItem('blog-views', JSON.stringify(counts));
-};
-
 const formatCount = (count: number) => {
   if (count >= 1000000) return `${(count / 1000000).toFixed(1)}M`;
   if (count >= 1000) return `${(count / 1000).toFixed(1)}K`;
@@ -185,8 +169,15 @@ const renderContent = (content: string) => {
   const inline = (line: string) =>
     line
       .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="w-full rounded-lg my-6 border border-gray-200 dark:border-gray-700 hover:opacity-90 transition-opacity cursor-pointer" data-expandable="true" />')
-      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-purple-700 dark:text-purple-300 underline decoration-purple-300 dark:decoration-purple-700 hover:text-purple-900 dark:hover:text-purple-200" target="_blank" rel="noopener noreferrer">$1</a>')
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_m, text: string, href: string) => {
+        // Amazon affiliate links must be marked sponsored + nofollow (Associates policy + FTC)
+        const isAffiliate = /amazon\.[a-z.]+|amzn\.to|amzn\.in/i.test(href) || /[?&]tag=/.test(href);
+        const rel = isAffiliate ? 'sponsored nofollow noopener noreferrer' : 'noopener noreferrer';
+        return `<a href="${href}" class="text-purple-700 dark:text-purple-300 underline decoration-purple-300 dark:decoration-purple-700 hover:text-purple-900 dark:hover:text-purple-200" target="_blank" rel="${rel}">${text}</a>`;
+      })
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      // Italic: runs after bold, so no ** remain to confuse the match
+      .replace(/\*([^*\n]+)\*/g, '<em>$1</em>')
       .replace(/`([^`]+)`/g, '<code class="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">$1</code>');
 
   for (const rawLine of lines) {
@@ -267,12 +258,23 @@ const renderContent = (content: string) => {
           html.push('<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 my-5">');
           inReferenceCards = true;
         }
-        const [, label, url] = linkMatch;
+        const [, rawLabel, url] = linkMatch;
         const isInternal = url.startsWith('/');
+        const isAffiliate = /amazon\.[a-z.]+|amzn\.to|amzn\.in/i.test(url) || /[?&]tag=/.test(url);
+        const rel = isAffiliate ? 'sponsored nofollow noopener noreferrer' : 'noopener noreferrer';
+        // Reference cards bypass inline(), so apply bold/italic formatting on the label here
+        const label = rawLabel
+          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+          .replace(/\*([^*\n]+)\*/g, '<em>$1</em>');
+        const sublabel = isAffiliate
+          ? 'Amazon affiliate link'
+          : isInternal
+            ? 'Read related blog'
+            : 'Open external reference';
         html.push(
           `<a href="${url}" class="block rounded-xl border border-purple-200/70 dark:border-purple-800/60 bg-purple-50/70 dark:bg-purple-900/20 px-4 py-3 no-underline hover:border-purple-400 dark:hover:border-purple-500 hover:bg-purple-100/70 dark:hover:bg-purple-900/30 transition-colors" ${
-            isInternal ? '' : 'target="_blank" rel="noopener noreferrer"'
-          }><span class="text-sm font-semibold text-purple-800 dark:text-purple-200">${label}</span><span class="block text-xs text-gray-500 dark:text-gray-400 mt-1">${isInternal ? 'Read related blog' : 'Open external reference'}</span></a>`
+            isInternal ? '' : `target="_blank" rel="${rel}"`
+          }><span class="text-sm font-semibold text-purple-800 dark:text-purple-200">${label}</span><span class="block text-xs text-gray-500 dark:text-gray-400 mt-1">${sublabel}</span></a>`
         );
         continue;
       }
@@ -373,7 +375,21 @@ export default function Blog({ slug }: BlogProps = {}) {
 
   useSEO(seoOptions);
 
+  // Real view counts keyed by blog post id, sourced from Supabase via /api/blog/stats
   const [viewCounts, setViewCounts] = useState<Record<string, number>>({});
+
+  const fetchViewStats = async () => {
+    try {
+      const res = await fetch('/api/blog/stats');
+      if (!res.ok) return;
+      const rows = (await res.json()) as { blog_post_id: string; views: number }[];
+      const map: Record<string, number> = {};
+      for (const row of rows) map[row.blog_post_id] = row.views ?? 0;
+      setViewCounts(map);
+    } catch {
+      // Network/Supabase unavailable: fall back to showing 0 rather than fake numbers
+    }
+  };
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedTag, setSelectedTag] = useState('all');
   const [activeSectionId, setActiveSectionId] = useState<string | null>(null);
@@ -413,7 +429,7 @@ export default function Blog({ slug }: BlogProps = {}) {
   }, [slug]);
 
   useEffect(() => {
-    setViewCounts(getStoredViewCounts());
+    fetchViewStats();
   }, []);
 
   useEffect(() => {
@@ -425,15 +441,25 @@ export default function Blog({ slug }: BlogProps = {}) {
     setSelectedPost(post);
   }, [currentId, sortedPosts]);
 
+  // Record a real view once per browser session per post, then refresh counts
   useEffect(() => {
     if (!selectedPost) return;
-    const existing = getStoredViewCounts();
-    const next = { ...existing, [selectedPost.slug]: (existing[selectedPost.slug] ?? selectedPost.views ?? 0) + 1 };
-    saveStoredViewCounts(next);
-    setViewCounts(next);
-  }, [selectedPost?.slug]);
+    const postId = selectedPost.id;
+    const viewKey = `viewed-${postId}`;
+    if (sessionStorage.getItem(viewKey)) return;
+    sessionStorage.setItem(viewKey, '1');
+    // Optimistic bump so the number reflects this view immediately
+    setViewCounts((prev) => ({ ...prev, [postId]: (prev[postId] ?? 0) + 1 }));
+    fetch(`/api/blog/${postId}/view`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: '{}',
+    })
+      .then(() => fetchViewStats())
+      .catch(() => {});
+  }, [selectedPost?.id]);
 
-  const getPostViews = (post: BlogPost) => viewCounts[post.slug] ?? post.views ?? 0;
+  const getPostViews = (post: BlogPost) => viewCounts[post.id] ?? 0;
   const tableOfContents = selectedPost ? getTableOfContents(selectedPost.content) : [];
 
   const scrollToHeading = (id: string) => {

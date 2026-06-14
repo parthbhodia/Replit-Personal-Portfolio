@@ -252,6 +252,17 @@ Make each response unique and engaging!`,
     }
   });
 
+  // Bulk stats for all posts (used by the blog list + detail view counts)
+  app.get("/api/blog/stats", async (_req, res) => {
+    try {
+      const stats = await supabaseService.getAllBlogStats();
+      return res.status(200).json(stats);
+    } catch (error) {
+      console.error("Get all blog stats error:", error);
+      return res.status(500).json({ message: "Failed to get blog stats" });
+    }
+  });
+
   // Blog stats endpoints
   app.get("/api/blog/:blogPostId/stats", async (req, res) => {
     try {

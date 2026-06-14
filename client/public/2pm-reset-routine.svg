@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" role="img" aria-label="The 10-Minute 2 PM Reset Routine">
+  <defs>
+    <linearGradient id="r1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" style="stop-color:#b45309;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#92400e;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="r2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" style="stop-color:#7c3aed;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6d28d9;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="r3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" style="stop-color:#0d9488;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0f766e;stop-opacity:1" />
+    </linearGradient>
+    <marker id="arrowr" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+      <polygon points="0,0 10,5 0,10" fill="#94a3b8"/>
+    </marker>
+  </defs>
+
+  <rect width="1000" height="560" fill="#0f172a"/>
+  <text x="500" y="48" font-family="Inter, sans-serif" font-size="40" font-weight="700" fill="#ffffff" text-anchor="middle">The 10-Minute 2 PM Reset</text>
+
+  <!-- Trigger -->
+  <rect x="370" y="90" width="260" height="70" rx="8" fill="url(#r1)" opacity="0.95"/>
+  <text x="500" y="125" font-family="Inter, sans-serif" font-size="24" font-weight="700" fill="#ffffff" text-anchor="middle">2 PM slump hits</text>
+  <text x="500" y="150" font-family="Inter, sans-serif" font-size="15" fill="#fde68a" text-anchor="middle">Signal to switch modes, not push harder</text>
+
+  <path d="M 500 160 L 500 195" stroke="#94a3b8" stroke-width="3" fill="none" marker-end="url(#arrowr)"/>
+
+  <!-- Four steps row -->
+  <rect x="60" y="200" width="200" height="120" rx="8" fill="url(#r2)" opacity="0.92"/>
+  <text x="160" y="238" font-family="Inter, sans-serif" font-size="20" font-weight="700" fill="#ffffff" text-anchor="middle">1. Step away</text>
+  <text x="160" y="266" font-family="Inter, sans-serif" font-size="15" fill="#f3e8ff" text-anchor="middle">10 min off the screen,</text>
+  <text x="160" y="286" font-family="Inter, sans-serif" font-size="15" fill="#f3e8ff" text-anchor="middle">ideally outside</text>
+
+  <rect x="290" y="200" width="200" height="120" rx="8" fill="url(#r2)" opacity="0.92"/>
+  <text x="390" y="238" font-family="Inter, sans-serif" font-size="20" font-weight="700" fill="#ffffff" text-anchor="middle">2. Natural light</text>
+  <text x="390" y="266" font-family="Inter, sans-serif" font-size="15" fill="#f3e8ff" text-anchor="middle">Fastest non-caffeine</text>
+  <text x="390" y="286" font-family="Inter, sans-serif" font-size="15" fill="#f3e8ff" text-anchor="middle">alertness signal</text>
+
+  <rect x="520" y="200" width="200" height="120" rx="8" fill="url(#r2)" opacity="0.92"/>
+  <text x="620" y="238" font-family="Inter, sans-serif" font-size="20" font-weight="700" fill="#ffffff" text-anchor="middle">3. Hydrate</text>
+  <text x="620" y="266" font-family="Inter, sans-serif" font-size="15" fill="#f3e8ff" text-anchor="middle">Water before coffee;</text>
+  <text x="620" y="286" font-family="Inter, sans-serif" font-size="15" fill="#f3e8ff" text-anchor="middle">thirst mimics fatigue</text>
+
+  <rect x="750" y="200" width="200" height="120" rx="8" fill="url(#r2)" opacity="0.92"/>
+  <text x="850" y="238" font-family="Inter, sans-serif" font-size="20" font-weight="700" fill="#ffffff" text-anchor="middle">4. One priority</text>
+  <text x="850" y="266" font-family="Inter, sans-serif" font-size="15" fill="#f3e8ff" text-anchor="middle">Pick a single task</text>
+  <text x="850" y="286" font-family="Inter, sans-serif" font-size="15" fill="#f3e8ff" text-anchor="middle">for the next 45-60 min</text>
+
+  <path d="M 500 320 L 500 360" stroke="#94a3b8" stroke-width="3" fill="none" marker-end="url(#arrowr)"/>
+
+  <!-- Activation -->
+  <rect x="290" y="365" width="420" height="80" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  <text x="500" y="398" font-family="Inter, sans-serif" font-size="20" font-weight="700" fill="#e2e8f0" text-anchor="middle">Lower the activation energy</text>
+  <text x="500" y="425" font-family="Inter, sans-serif" font-size="15" fill="#94a3b8" text-anchor="middle">Open the doc · write three bullets · run one command</text>
+
+  <path d="M 500 445 L 500 480" stroke="#94a3b8" stroke-width="3" fill="none" marker-end="url(#arrowr)"/>
+
+  <!-- Output -->
+  <rect x="320" y="485" width="360" height="60" rx="8" fill="url(#r3)" opacity="0.95"/>
+  <text x="500" y="522" font-family="Inter, sans-serif" font-size="22" font-weight="700" fill="#ffffff" text-anchor="middle">Momentum returns, ~5 min in</text>
+</svg>
