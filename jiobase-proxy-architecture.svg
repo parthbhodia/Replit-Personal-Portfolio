@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 540" role="img" aria-label="Jiobase Cloudflare Reverse Proxy Architecture">
+  <defs>
+    <linearGradient id="jb1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" style="stop-color:#1e40af;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e3a8a;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="jb2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" style="stop-color:#ea580c;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#c2410c;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="jb3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" style="stop-color:#0d9488;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0f766e;stop-opacity:1" />
+    </linearGradient>
+    <marker id="arrowf" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <polygon points="0,0 10,5 0,10" fill="#10b981"/>
+    </marker>
+    <marker id="arrowb" markerWidth="10" markerHeight="10" refX="1" refY="5" orient="auto">
+      <polygon points="10,0 0,5 10,10" fill="#38bdf8"/>
+    </marker>
+  </defs>
+
+  <rect width="1000" height="540" fill="#0f172a"/>
+  <text x="500" y="48" font-family="Inter, sans-serif" font-size="38" font-weight="700" fill="#ffffff" text-anchor="middle">Jiobase: Routing Around an ISP Block</text>
+
+  <!-- App -->
+  <rect x="60" y="180" width="220" height="120" rx="8" fill="url(#jb1)" opacity="0.95"/>
+  <text x="170" y="228" font-family="Inter, sans-serif" font-size="24" font-weight="700" fill="#ffffff" text-anchor="middle">Your App</text>
+  <text x="170" y="258" font-family="Inter, sans-serif" font-size="15" fill="#c7d2fe" text-anchor="middle">Swap the Supabase</text>
+  <text x="170" y="278" font-family="Inter, sans-serif" font-size="15" fill="#c7d2fe" text-anchor="middle">base URL, redeploy</text>
+
+  <!-- Proxy -->
+  <rect x="390" y="160" width="220" height="160" rx="8" fill="url(#jb2)" opacity="0.95"/>
+  <text x="500" y="205" font-family="Inter, sans-serif" font-size="22" font-weight="700" fill="#ffffff" text-anchor="middle">Jiobase Proxy</text>
+  <text x="500" y="233" font-family="Inter, sans-serif" font-size="15" fill="#fed7aa" text-anchor="middle">Cloudflare edge</text>
+  <text x="500" y="256" font-family="Inter, sans-serif" font-size="15" fill="#fed7aa" text-anchor="middle">Not blocked by ISPs</text>
+  <text x="500" y="279" font-family="Inter, sans-serif" font-size="15" fill="#fed7aa" text-anchor="middle">DDoS protection</text>
+  <text x="500" y="302" font-family="Inter, sans-serif" font-size="15" fill="#fed7aa" text-anchor="middle">Forwards each request</text>
+
+  <!-- Supabase -->
+  <rect x="720" y="180" width="220" height="120" rx="8" fill="url(#jb3)" opacity="0.95"/>
+  <text x="830" y="228" font-family="Inter, sans-serif" font-size="22" font-weight="700" fill="#ffffff" text-anchor="middle">Supabase</text>
+  <text x="830" y="258" font-family="Inter, sans-serif" font-size="15" fill="#a7f3d0" text-anchor="middle">your-project</text>
+  <text x="830" y="278" font-family="Inter, sans-serif" font-size="15" fill="#a7f3d0" text-anchor="middle">.supabase.co</text>
+
+  <!-- Forward arrows -->
+  <path d="M 280 215 L 388 215" stroke="#10b981" stroke-width="3" fill="none" marker-end="url(#arrowf)"/>
+  <path d="M 610 215 L 718 215" stroke="#10b981" stroke-width="3" fill="none" marker-end="url(#arrowf)"/>
+  <text x="334" y="205" font-family="Inter, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">request</text>
+  <text x="664" y="205" font-family="Inter, sans-serif" font-size="13" fill="#10b981" text-anchor="middle">forward</text>
+
+  <!-- Return arrows -->
+  <path d="M 718 265 L 610 265" stroke="#38bdf8" stroke-width="3" fill="none" marker-end="url(#arrowb)"/>
+  <path d="M 388 265 L 280 265" stroke="#38bdf8" stroke-width="3" fill="none" marker-end="url(#arrowb)"/>
+  <text x="664" y="285" font-family="Inter, sans-serif" font-size="13" fill="#38bdf8" text-anchor="middle">response</text>
+  <text x="334" y="285" font-family="Inter, sans-serif" font-size="13" fill="#38bdf8" text-anchor="middle">response</text>
+
+  <!-- Caption -->
+  <rect x="120" y="400" width="760" height="70" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+  <text x="500" y="432" font-family="Inter, sans-serif" font-size="17" font-weight="600" fill="#e2e8f0" text-anchor="middle">A one-line change: traffic reaches a non-blocked endpoint,</text>
+  <text x="500" y="456" font-family="Inter, sans-serif" font-size="17" font-weight="600" fill="#e2e8f0" text-anchor="middle">the proxy relays it to Supabase, responses return the same way.</text>
+</svg>

@@ -22,7 +22,7 @@
   <rect width="1400" height="800" fill="#0f172a"/>
 
   <!-- Title -->
-  <text x="700" y="40" font-family="Inter, sans-serif" font-size="48" font-weight="700" fill="#ffffff" text-anchor="middle">Identity Failure Modes: Detection & Recovery</text>
+  <text x="700" y="40" font-family="Inter, sans-serif" font-size="48" font-weight="700" fill="#ffffff" text-anchor="middle">Identity Failure Modes: Detection &amp; Recovery</text>
 
   <!-- Failure 1: Forgetting -->
   <g>
@@ -86,12 +86,12 @@
     <text x="760" y="252" font-family="Inter, sans-serif" font-size="15" fill="#fce7f3">beginner explanations</text>
 
     <text x="760" y="280" font-family="Inter, sans-serif" font-size="16" font-weight="600" fill="#f0abfc">Root Cause:</text>
-    <text x="760" y="297" font-family="Internet, sans-serif" font-size="15" fill="#fce7f3">No trajectory layer</text>
-    <text x="760" y="312" font-family="Internet, sans-serif" font-size="15" fill="#fce7f3">Initial state frozen</text>
+    <text x="760" y="297" font-family="Inter, sans-serif" font-size="15" fill="#fce7f3">No trajectory layer</text>
+    <text x="760" y="312" font-family="Inter, sans-serif" font-size="15" fill="#fce7f3">Initial state frozen</text>
 
     <text x="760" y="340" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#86efac">Fix:</text>
-    <text x="760" y="357" font-family="Internet, sans-serif" font-size="14" fill="#bbf7d0">Track progression &</text>
-    <text x="760" y="370" font-family="Internet, sans-serif" font-size="14" fill="#bbf7d0">update difficulty level</text>
+    <text x="760" y="357" font-family="Inter, sans-serif" font-size="14" fill="#bbf7d0">Track progression &amp;</text>
+    <text x="760" y="370" font-family="Inter, sans-serif" font-size="14" fill="#bbf7d0">update difficulty level</text>
   </g>
 
   <!-- Failure 4: Context Bloat -->
@@ -110,18 +110,18 @@
     <text x="1105" y="252" font-family="Inter, sans-serif" font-size="15" fill="#cffafe">drowns in noise</text>
 
     <text x="1105" y="280" font-family="Inter, sans-serif" font-size="16" font-weight="600" fill="#a5f3fc">Root Cause:</text>
-    <text x="1105" y="297" font-family="Internet, sans-serif" font-size="15" fill="#cffafe">No compression</text>
-    <text x="1105" y="312" font-family="Internet, sans-serif" font-size="15" fill="#cffafe">Everything stored raw</text>
+    <text x="1105" y="297" font-family="Inter, sans-serif" font-size="15" fill="#cffafe">No compression</text>
+    <text x="1105" y="312" font-family="Inter, sans-serif" font-size="15" fill="#cffafe">Everything stored raw</text>
 
     <text x="1105" y="340" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#86efac">Fix:</text>
-    <text x="1105" y="357" font-family="Internet, sans-serif" font-size="14" fill="#bbf7d0">Summarize & compress</text>
-    <text x="1105" y="370" font-family="Internet, sans-serif" font-size="14" fill="#bbf7d0">Extract signal</text>
+    <text x="1105" y="357" font-family="Inter, sans-serif" font-size="14" fill="#bbf7d0">Summarize &amp; compress</text>
+    <text x="1105" y="370" font-family="Inter, sans-serif" font-size="14" fill="#bbf7d0">Extract signal</text>
   </g>
 
   <!-- Recovery framework at bottom -->
   <rect x="50" y="430" width="1345" height="330" rx="8" fill="#1e293b" stroke="#475569" stroke-width="2"/>
 
-  <text x="700" y="465" font-family="Inter, sans-serif" font-size="27" font-weight="700" fill="#e2e8f0" text-anchor="middle">Recovery Framework: Detecting & Fixing Failures</text>
+  <text x="700" y="465" font-family="Inter, sans-serif" font-size="27" font-weight="700" fill="#e2e8f0" text-anchor="middle">Recovery Framework: Detecting &amp; Fixing Failures</text>
 
   <!-- Timeline showing detection and recovery -->
   <line x1="100" y1="520" x2="1350" y2="520" stroke="#64748b" stroke-width="2"/>
@@ -159,20 +159,20 @@
     <text x="1100" y="555" font-family="Inter, sans-serif" font-size="20" font-weight="600" fill="#86efac" text-anchor="middle">Fix Applied</text>
     <text x="1100" y="575" font-family="Inter, sans-serif" font-size="16" fill="#a7f3d0" text-anchor="middle">Add layer,</text>
     <text x="1100" y="590" font-family="Inter, sans-serif" font-size="16" fill="#a7f3d0" text-anchor="middle">adjust weighting,</text>
-    <text x="1100" y="605" font-family="Internet, sans-serif" font-size="16" fill="#a7f3d0" text-anchor="middle">enable control</text>
+    <text x="1100" y="605" font-family="Inter, sans-serif" font-size="16" fill="#a7f3d0" text-anchor="middle">enable control</text>
   </g>
 
   <!-- Stage 5: Validation -->
   <g>
     <circle cx="1300" cy="520" r="8" fill="#ec4899"/>
     <text x="1300" y="555" font-family="Inter, sans-serif" font-size="20" font-weight="600" fill="#f472b6" text-anchor="middle">Retest</text>
-    <text x="1300" y="575" font-family="Internet, sans-serif" font-size="16" fill="#fbcfe8" text-anchor="middle">Verify recovery</text>
-    <text x="1300" y="590" font-family="Internet, sans-serif" font-size="16" fill="#fbcfe8" text-anchor="middle">speed and</text>
-    <text x="1300" y="605" font-family="Internet, sans-serif" font-size="16" fill="#fbcfe8" text-anchor="middle">quality</text>
+    <text x="1300" y="575" font-family="Inter, sans-serif" font-size="16" fill="#fbcfe8" text-anchor="middle">Verify recovery</text>
+    <text x="1300" y="590" font-family="Inter, sans-serif" font-size="16" fill="#fbcfe8" text-anchor="middle">speed and</text>
+    <text x="1300" y="605" font-family="Inter, sans-serif" font-size="16" fill="#fbcfe8" text-anchor="middle">quality</text>
   </g>
 
   <!-- Key metric -->
   <rect x="100" y="650" width="1250" height="70" rx="6" fill="#0f172a" stroke="#06b6d4" stroke-width="2"/>
   <text x="700" y="680" font-family="Inter, sans-serif" font-size="18" font-weight="700" fill="#06b6d4" text-anchor="middle">Key Metric: Recovery Speed</text>
-  <text x="700" y="705" font-family="Internet, sans-serif" font-size="16" fill="#a5f3fc" text-anchor="middle">After user correction, how quickly does the error influence the system less? Good systems show 50% decay per week.</text>
+  <text x="700" y="705" font-family="Inter, sans-serif" font-size="16" fill="#a5f3fc" text-anchor="middle">After user correction, how quickly does the error influence the system less? Good systems show 50% decay per week.</text>
 </svg>
